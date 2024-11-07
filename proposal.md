@@ -155,13 +155,120 @@ src
 ```
 
 ## Class Details
-### data.UserRepository.java (inteface)
+### data.DataException
+- `public DataException(String, Throwable)` -- constructor, Throwable arg is root cause exception
+### data.UserRepository.java (interface)
 Contract for UserJdbcTemplateRepository
+- `User getUserByUsername(String)` -- finds user by username, passes to UserService for authentication
 - User add(User)
 - boolean update(User)
 - boolean delete(int)
 ### data.UserJdbcTemplateRepository.java
-### data.WorkoutRepository.java (inteface)
-### data.WorkoutLogRepository.java (inteface)
-### data.GoalRepository.java (inteface)
-### data.RoutineRepository.java (inteface)
+- private final JdbcTemplate
+- public User add(User)
+- public boolean update(User)
+- public boolean delete(User)
+- public User findById(int)
+- private String serialize(User user) -- converts object to SQL string
+- private User deserialize(String line) -- converts SQL row to object
+### data.WorkoutRepository.java (interface)
+Contract for WorkoutJdbcTemplateRepository
+ - `List<Workout> findAll()` -- returns list of all workouts
+ - `List<Workout> findByMuscleGroup(String muscleGroup)` -- returns list of workouts affecting muscles in the specified muscle group
+ - `List<Workout> findByDescContent(String searchTerm)` -- returns list of workouts with descriptions containing the specified search term
+### data.WorkoutJdbcTemplateRepository.java
+ - `List<Workout> findAll()`
+ - `List<Workout> findByMuscleGroup(String muscleGroup)`
+ - `List<Workout> findByDescContent(String searchTerm)`
+ - private String serialize(Workout workout) -- converts object to SQL string
+ - private Workout deserialize(String line) -- converts SQL row to object
+### data.WorkoutLogRepository.java (interface)
+Contract for WorkoutLogJdbcTemplateRepository
+ - `List<WorkoutLog> findByUser(int userId)` -- returns list of workouts created by the specified (current) user
+ - `WorkoutLog add(WorkoutLog log)` -- adds workout log to repository, returns log with attached id
+ - `boolean update(WorkoutLog log)` -- updates workout log to repository, returns success status
+ - `boolean delete(int logId)` -- deletes workout log from repository, returns success status
+### data.WorkoutLogJdbcTemplateRepository.java
+ - `List<WorkoutLog> findByUser(int userId)` 
+ - `WorkoutLog add(WorkoutLog log)`
+ - `boolean update(WorkoutLog log)`
+ - `boolean delete(int logId)`
+ - private String serialize(WorkoutLog log) -- converts object to SQL string
+ - private WorkoutLog deserialize(String line) -- converts SQL row to object
+### data.GoalRepository.java (interface)
+Contract for GoalJdbcTemplateRepository
+ - `List<Goal> findByUser(int userId)` -- returns list of goals created by the specified (current) user
+ - `Goal add(Goal goal)` -- adds goal to repository, returns goal with attached id
+ - `boolean update(Goal goal)` -- updates goal to repository, returns success status
+ - `boolean delete(Goal goal)` -- deletes goal from repository, returns success status
+### data.GoalJdbcTemplateRepository.java
+ - `List<Goal> findByUser(int userId)`
+ - `Goal add(Goal goal)`
+ - `boolean update(Goal goal)`
+ - `boolean delete(Goal goal)`
+ - private String serialize(Goal goal) -- converts object to SQL string
+ - private Goal deserialize(String line) -- converts SQL row to object
+### data.RoutineRepository.java (interface)
+Contract for RoutineJdbcTemplateRepository
+ - `List<Routine> findAll()` -- returns list of all routines
+ - `List<Routine> findByTrainer(int trainerId)` -- returns list of all routines created by a specific trainer
+ - `List<Routine> findByDifficulty(String difficulty)` -- returns list of all routines with specified difficulty
+ - `List<Routine> findByDescContent(String searchTerm)` -- returns list of all routines with descriptions containing the specified search term
+### data.RoutineJdbcTemplateRepository.java
+- `List<Routine> findAll()`
+ - `List<Routine> findByTrainer(int trainerId)`
+ - `List<Routine> findByDifficulty(String difficulty)`
+ - `List<Routine> findByDescContent(String searchTerm)`
+ - private String serialize(Routine routine) -- converts object to SQL string
+ - private Routine deserialize(String line) -- converts SQL row to object
+
+### domain.UserService.java
+### domain.WorkoutService.java
+### domain.WorkoutLogService.java
+### domain.GoalService.java
+### domain.RoutineService.java
+
+### models.Result.java
+- private final ArrayList<String> messages
+- private ResultType type
+- private T payload
+- Getters for type, messages, and payload
+- Setter for payload and type
+- public boolean isSuccess()
+- public void addMessage(String, ResultType)
+### models.User.java
+- private int user_id
+- private String username
+- private String email
+- private String password
+- Full Getters and Setters
+### models.Workout.java
+- private int workout_id
+- private String workout_name
+- private String workout_description
+- private int workout_duration
+- private String muscle
+- Full Getters and Setters
+### models.WorkoutLog.java
+- private int log_id
+- private int user_id
+- private int goal_id -- optional
+- private Datetime finished
+- Full Getters and Setters
+### models.Goal.java
+- private int goal_id
+- private String goal_name
+- private String goal_description
+- private boolean complete
+- private int user_id
+- Full Getters and Setters
+### models.Routine.java
+- private int routine_id
+- private String routine_name
+- private String routine_description
+- private int routine_duration
+- private String difficulty
+- private int routine_author_id -- Alias for a trainer's user_id
+- Full Getters and Setters
+### models.ResultType.java
+- Enum with three values: SUCCESS, INVALID, and NOT_FOUND
