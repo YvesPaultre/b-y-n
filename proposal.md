@@ -114,6 +114,9 @@ src
 │               │       GoalController.java                         -- goal controller
 │               │       RoutineController.java                      -- routine controller
 │               ├───data
+│               ├───────mappers
+│               │       │       WorkoutMapper                       -- maps workout obtained from database
+│               │       │       WorkoutLogMapper                    -- maps Workout Log obtained from database
 │               │       DataException.java                          -- data layer custom exception
 │               │       UserRepository.java                         -- user repository interface
 │               │       UserJdbcTemplateRepository.java             -- concrete user repository
@@ -180,19 +183,18 @@ Contract for WorkoutJdbcTemplateRepository
  - `List<Workout> findAll()`
  - `List<Workout> findByMuscleGroup(String muscleGroup)`
  - `List<Workout> findByDescContent(String searchTerm)`
- - private String serialize(Workout workout) -- converts object to SQL string
  - private Workout deserialize(String line) -- converts SQL row to object
 ### data.WorkoutLogRepository.java (interface)
 Contract for WorkoutLogJdbcTemplateRepository
  - `List<WorkoutLog> findByUser(int userId)` -- returns list of workouts created by the specified (current) user
  - `WorkoutLog add(WorkoutLog log)` -- adds workout log to repository, returns log with attached id
  - `boolean update(WorkoutLog log)` -- updates workout log to repository, returns success status
- - `boolean delete(int logId)` -- deletes workout log from repository, returns success status
+ - `int delete(int logId)` -- deletes workout log from repository, returns success status (-1 not allowed, 0 not found, 1 success)
 ### data.WorkoutLogJdbcTemplateRepository.java
  - `List<WorkoutLog> findByUser(int userId)` 
  - `WorkoutLog add(WorkoutLog log)`
  - `boolean update(WorkoutLog log)`
- - `boolean delete(int logId)`
+ - `int delete(int logId)`
  - private String serialize(WorkoutLog log) -- converts object to SQL string
  - private WorkoutLog deserialize(String line) -- converts SQL row to object
 ### data.GoalRepository.java (interface)
@@ -200,12 +202,12 @@ Contract for GoalJdbcTemplateRepository
  - `List<Goal> findByUser(int userId)` -- returns list of goals created by the specified (current) user
  - `Goal add(Goal goal)` -- adds goal to repository, returns goal with attached id
  - `boolean update(Goal goal)` -- updates goal to repository, returns success status
- - `boolean delete(Goal goal)` -- deletes goal from repository, returns success status
+ - `boolean delete(int goalId)` -- deletes goal from repository, returns success status
 ### data.GoalJdbcTemplateRepository.java
  - `List<Goal> findByUser(int userId)`
  - `Goal add(Goal goal)`
  - `boolean update(Goal goal)`
- - `boolean delete(Goal goal)`
+ - `boolean delete(int goalId)`
  - private String serialize(Goal goal) -- converts object to SQL string
  - private Goal deserialize(String line) -- converts SQL row to object
 ### data.RoutineRepository.java (interface)
@@ -214,8 +216,12 @@ Contract for RoutineJdbcTemplateRepository
  - `List<Routine> findByTrainer(int trainerId)` -- returns list of all routines created by a specific trainer
  - `List<Routine> findByDifficulty(String difficulty)` -- returns list of all routines with specified difficulty
  - `List<Routine> findByDescContent(String searchTerm)` -- returns list of all routines with descriptions containing the specified search term
+ - `Routine findById(int routineId)` -- returns specific routine
+ - `Routine add(Routine routine)` -- adds routine to repository
+ - `boolean update(Routine routine)` -- updates routine in repository, returns success status
+ - `boolean delete(Routine routine)` -- deletes routine from repository, returns success status
 ### data.RoutineJdbcTemplateRepository.java
-- `List<Routine> findAll()`
+ - `List<Routine> findAll()`
  - `List<Routine> findByTrainer(int trainerId)`
  - `List<Routine> findByDifficulty(String difficulty)`
  - `List<Routine> findByDescContent(String searchTerm)`
@@ -223,13 +229,42 @@ Contract for RoutineJdbcTemplateRepository
  - private Routine deserialize(String line) -- converts SQL row to object
 
 ### domain.UserService.java
+Implements UserDetailsService for security authentication
+ - private final UserRepository repository
+ - public UserService() -- constructor, instantiates repository and, if no admin user is found, creates one and logs to console
+ - public UserDetails loadUserByUsername(String username) -- @Override, throws UsernameNotFoundException
+ - public User add(User user)
+ - private void validate(User user)
+ - private void ensureAdmin() -- run once on instantiation to ensure an admin user exists; creates one if not
 ### domain.WorkoutService.java
+ - private WorkoutRepository repository
+ - `public Result<List<Workout>> findAll()`
+ - `public Result<List<Workout>> findByMuscleGroup(String muscleGroup)`
+ - `public Result<List<Workout>> findByDescContent(String searchTerm)`
 ### domain.WorkoutLogService.java
+ - private WorkoutLogRepository repository
+ - `public Result<List<WorkoutLog>> findByUser(int userId)`
+ - `public Result<WorkoutLog> add(WorkoutLog log)`
+ - `public Result<WorkoutLog> update(WorkoutLog log)`
+ - `public Result<WorkoutLog> delete(int logId)`
 ### domain.GoalService.java
+ - private GoalRepository repository
+ - `public Result<List<Goal>> findByUser(int userId)`
+ - `public Result<Goal> add(Goal goal)`
+ - `public Result<Goal> update(Goal goal)`
+ - `public Result<Goal> delete(int goalId)`
 ### domain.RoutineService.java
+ - private RoutineRepository repository
+ - `public Result<List<Routine>> findAll()`
+ - `public Result<List<Routine>> findByTrainer(int trainerId)`
+ - `public Result<List<Routine>> findByDifficulty(String difficulty)`
+ - `public Result<List<Routine>> findByDescContent(String searchTerm)`
+ - `public Result<Routine> findById(int routineId)`
+ - `public Result<Routine> update(Routine routine)`
+ - `public Result<Routine> delete(int routineId)`
 
 ### models.Result.java
-- private final ArrayList<String> messages
+- `private final ArrayList<String> messages`
 - private ResultType type
 - private T payload
 - Getters for type, messages, and payload
@@ -241,6 +276,7 @@ Contract for RoutineJdbcTemplateRepository
 - private String username
 - private String email
 - private String password
+- private boolean isAdmin
 - Full Getters and Setters
 ### models.Workout.java
 - private int workout_id
@@ -272,3 +308,35 @@ Contract for RoutineJdbcTemplateRepository
 - Full Getters and Setters
 ### models.ResultType.java
 - Enum with three values: SUCCESS, INVALID, and NOT_FOUND
+
+## Steps
+1. Create Maven Project
+2. Add jUnit 5, Jupiter as Maven dependency and refresh 
+3. Create packages
+4. Create Models
+5. Create MySQL production database
+6. Create MySQL test database
+    1. Populate test values
+    2. Create testing schema
+7. Create Data Layer
+    1. Interfaces
+    2. Repositories
+8. Test Data Layer
+9. Create Domain Layer
+    1. Services
+10. Test Domain Layer using mocked repositories
+11. Create Controllers
+12. Configure Database Security features
+13. Create React UI
+    1. Run npx create-react-app to create client directory
+    2. Import Bootstrap
+    2. Create components
+14. Host database on online service, such as AWS
+    1. Create AWS account
+    2. Research DB hosting on AWS
+    3. Configure hosted production database
+    4. Populate online database
+15. Host front-end on online service, such as AWS
+    1. Research application hosting on AWS
+    2. Configure hosted application
+    3. Connect application to database
