@@ -122,6 +122,9 @@ src
 │               │       RoutineJdbcTemplateRepository.java          -- concrete routine repository
 │               ├───domain
 │               │       UserService                                 -- user validation/rules. implements UserDetailsService
+│               │       WorkoutService.java       
+│               │       GoalService.java
+│               │       RoutineService.java
 │               └───models
 │                       User.java                                   -- base user model
 │                       Workout.java                                -- base workout model
@@ -135,9 +138,11 @@ src
         └───learn
             └───solar
                 ├───data
-                │       PanelFileRepositoryTest.java    -- PanelFileRepository tests
-                │       PanelRepositoryTestDouble.java  -- helps tests the service, implements PanelRepository
-                │
+                │        UserFileRepositoryTest.java     -- UserFileRepository tests
+                │        WorkoutRepositoryTest.java      -- WorkoutRepository Tests
+                │        WorkoutLogRepositoryTest.java   -- WorkoutLogRepository Tests
+                │        GoalRepositoryTest.java         -- GoalRepository Tests
+                │        RoutineRepositoryTest.java      -- RoutineRepository Tests
                 └───domain
                         PanelServiceTest.java           -- PanelService tests
 ```
