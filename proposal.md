@@ -106,8 +106,13 @@ src
 │               │   App.java                                        -- app entry point
 │               │
 │               ├───controllers
-│               │
-│               │
+│               │       ExceptionHandler.java                       -- global exception handler
+│               │       ResponseBuilder.java                        -- streamlined response builder
+│               │       AuthController.java                         -- user authentication handler
+│               │       WorkoutController.java                      -- workout controller
+│               │       WorkoutLogController.java                   -- workout log controller
+│               │       GoalController.java                         -- goal controller
+│               │       RoutineController.java                      -- routine controller
 │               ├───data
 │               │       DataException.java                          -- data layer custom exception
 │               │       UserRepository.java                         -- user repository interface
@@ -121,11 +126,13 @@ src
 │               │       RoutineRepository.java                      -- routine repository interface
 │               │       RoutineJdbcTemplateRepository.java          -- concrete routine repository
 │               ├───domain
-│               │       UserService                                 -- user validation/rules. implements UserDetailsService
-│               │       WorkoutService.java       
-│               │       GoalService.java
-│               │       RoutineService.java
+│               │       UserService.java                            -- user validation/rules. implements UserDetailsService
+│               │       WorkoutService.java                         -- workout validation/rules
+│               │       WorkoutLogService.java                      -- workout log validation/rules
+│               │       GoalService.java                            -- goal validation/rules
+│               │       RoutineService.java                         -- routine validaiton/rules
 │               └───models
+│                       Result.java                                 -- custom result model
 │                       User.java                                   -- base user model
 │                       Workout.java                                -- base workout model
 │                       WorkoutLog.java                             -- base workout log model
@@ -138,11 +145,23 @@ src
         └───learn
             └───solar
                 ├───data
-                │        UserFileRepositoryTest.java     -- UserFileRepository tests
-                │        WorkoutRepositoryTest.java      -- WorkoutRepository Tests
-                │        WorkoutLogRepositoryTest.java   -- WorkoutLogRepository Tests
-                │        GoalRepositoryTest.java         -- GoalRepository Tests
-                │        RoutineRepositoryTest.java      -- RoutineRepository Tests
+                │       UserFileRepositoryTest.java     -- UserFileRepository tests
+                │       WorkoutRepositoryTest.java      -- WorkoutRepository Tests
+                │       WorkoutLogRepositoryTest.java   -- WorkoutLogRepository Tests
+                │       GoalRepositoryTest.java         -- GoalRepository Tests
+                │       RoutineRepositoryTest.java      -- RoutineRepository Tests
                 └───domain
                         PanelServiceTest.java           -- PanelService tests
 ```
+
+## Class Details
+### data.UserRepository.java (inteface)
+Contract for UserJdbcTemplateRepository
+- User add(User)
+- boolean update(User)
+- boolean delete(int)
+### data.UserJdbcTemplateRepository.java
+### data.WorkoutRepository.java (inteface)
+### data.WorkoutLogRepository.java (inteface)
+### data.GoalRepository.java (inteface)
+### data.RoutineRepository.java (inteface)
