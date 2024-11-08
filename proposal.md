@@ -340,3 +340,9 @@ Implements UserDetailsService for security authentication
     1. Research application hosting on AWS
     2. Configure hosted application
     3. Connect application to database
+
+## Database Schema
+![database](BYN_Fitness.png)
+
+## Wireframe Diagrams
+![wireframes](BYN_Wireframes_11-8.png)
