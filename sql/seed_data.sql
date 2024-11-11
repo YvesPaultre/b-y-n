@@ -1,4 +1,4 @@
-use byn_fitness_production;
+use byn_fitness_test;
 
 insert into muscle_group(mg_id, mg_name) values
 	(1, 'upper back'), 
