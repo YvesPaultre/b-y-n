@@ -154,7 +154,8 @@ begin
     alter table log auto_increment = 1;
 	delete from goal;
     alter table goal auto_increment = 1;
-	   
+	
+    set SQL_SAFE_UPDATES = 1;
 
 	insert into routine(routine_id, routine_name, routine_description, routine_duration, difficulty,routine_author_id) values
 		(1, 'Upper Body','General Workout for your arms and shoulders',60,'Easy',5),								-- 1
