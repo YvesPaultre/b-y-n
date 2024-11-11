@@ -1,5 +1,6 @@
 use byn_fitness_test;
 
+
 insert into muscle_group(mg_id, mg_name) values
 	(1, 'upper back'), 
     (2, 'lower back'), 
@@ -11,15 +12,15 @@ insert into muscle_group(mg_id, mg_name) values
     (8, 'buttock');	
 
 insert into muscle(muscle_id, muscle_name, mg_id ) values 
-		(1, 'bicep',3),			-- 1
+		(1, 'bicep',3),				-- 1
         (2, 'tricep',3),			-- 2
         (3, 'deltoid',7),			-- 3
         (4, 'pectoral',6),			-- 4
         (5, 'calf',5),				-- 5
         (6, 'glutes',8),			-- 6
-        (7, 'trapezius',1),		-- 7
+        (7, 'trapezius',1),			-- 7
         (8, 'rhomboid',1),			-- 8
-        (9, 'abdominal',4);		-- 9
+        (9, 'abdominal',4);			-- 9
         
 insert into workout(workout_id, workout_name, workout_description, workout_duration, muscle_id) values
 	(1, 'bicep curl','Hold dumbells in both hands while standing. Bring one of the dumbells to your shoulder, and then slowly back down. Repeat for the other dumbell. Keep your back straight to focus the effort on your biceps',10,1),
