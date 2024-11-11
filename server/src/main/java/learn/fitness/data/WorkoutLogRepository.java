@@ -11,5 +11,5 @@ public interface WorkoutLogRepository {
 
     boolean update(WorkoutLog log);
 
-    int delete(int logId);
+    boolean delete(int logId);
 }

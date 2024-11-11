@@ -16,13 +16,12 @@ public class WorkoutLogMapper implements RowMapper<WorkoutLog> {
 
         int goalId = rs.getInt("goal_id");
         if(goalId != 0){
-            // TODO: implement when Goal model is complete
+            GoalMapper goalMapper = new GoalMapper();
+            log.setGoal(goalMapper.mapRow(rs, rowNum));
         }
 
-        int workoutId = rs.getInt("workout_id");
         WorkoutMapper workoutMapper = new WorkoutMapper();
         log.setWorkout(workoutMapper.mapRow(rs, rowNum));
-
 
         return log;
     }
