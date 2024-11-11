@@ -310,33 +310,72 @@ Implements UserDetailsService for security authentication
 - Enum with three values: SUCCESS, INVALID, and NOT_FOUND
 
 ## Steps
-1. Create Maven Project
-2. Add jUnit 5, Jupiter as Maven dependency and refresh 
-3. Create packages
-4. Create Models
-5. Create MySQL production database
-6. Create MySQL test database
-    1. Populate test values
-    2. Create testing schema
-7. Create Data Layer
-    1. Interfaces
+1. `Create Maven Project (<1h)`
+    1. Add jUnit 5, Jupiter as Maven dependency and refresh 
+2. `Create packages and empty classes (<1h)`
+3. Create Models
+    1. `Result (<1h)`
+    2. `ResultType (<1h)`
+    3. User (2h)
+    4. Workout (1h)
+    5. WorkoutLog (1h)
+    6. Goal (1h)
+    7. Routine (1h)
+4. Create MySQL production database (1h)
+5. Create MySQL test database (2h)
+    1. Populate test values (1h)
+6. Create Data Layer 
+    1. Interfaces (2h)
     2. Repositories
-8. Test Data Layer
-9. Create Domain Layer
-    1. Services
-10. Test Domain Layer using mocked repositories
-11. Create Controllers
-12. Configure Database Security features
-13. Create React UI
-    1. Run npx create-react-app to create client directory
-    2. Import Bootstrap
-    2. Create components
-14. Host database on online service, such as AWS
-    1. Create AWS account
-    2. Research DB hosting on AWS
-    3. Configure hosted production database
-    4. Populate online database
-15. Host front-end on online service, such as AWS
-    1. Research application hosting on AWS
-    2. Configure hosted application
-    3. Connect application to database
+        1. User repository (3h)
+        2. Workout repository (2h)
+        3. WorkoutLog repository (2h)
+        4. Goal repository (1h)
+        5. Routine repository (2h)
+7. Test Data Layer
+    1. User repository (3h)
+    2. Workout repository (2h)
+    3. WorkoutLog repository (2h)
+    4. Goal repository (1h)
+    5. Routine repository (2h)
+8. Create Domain Layer
+    1. User service (4h)
+    2. Workout service (2h)
+    3. WorkoutLog service (2h)
+    4. Goal service (1h)
+    5. Routine service (2h)
+9. Test Domain Layer using mocked repositories
+    1. User service (4h)
+    2. Workout service (2h)
+    3. WorkoutLog service (2h)
+    4. Goal service (1h)
+    5. Routine service (2h)
+10. Create Controllers
+    1. Exception handler (1h)
+    2. Response builder (1h)
+    3. Authorization controller (3h)
+    4. Workout controller (2h)
+    5. WorkoutLog controller (2h)
+    6. Goal controller (2h)
+    7. Routine controller (2h)
+11. Configure Database Security features (2h)
+12. Create React UI
+    1. `Run npx create-react-app to create client directory (<1h)`
+    2. `Import Bootstrap (<1h)`
+    2. Create components (3h)
+13. Host database on online service, such as AWS
+    1. `Create AWS account (<1h)`
+    2. Research DB hosting on AWS (unknown)
+    3. Configure hosted production database (unknown)
+    4. Populate online database (unknown)
+14. Host front-end on online service, such as AWS
+    1. Research application hosting on AWS (unknown)
+    2. Configure hosted application (unknown)
+    3. Connect application to database (unknown)
+
+
+## Database Schema
+![database](BYN_Fitness.png)
+
+## Wireframe Diagrams
+![wireframes](BYN_Wireframes_11-8.png)
