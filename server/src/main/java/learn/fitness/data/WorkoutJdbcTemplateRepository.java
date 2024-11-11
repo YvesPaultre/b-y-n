@@ -3,9 +3,11 @@ package learn.fitness.data;
 import learn.fitness.data.mappers.WorkoutMapper;
 import learn.fitness.models.Workout;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class WorkoutJdbcTemplateRepository implements WorkoutRepository{
 
     private final JdbcTemplate jdbcTemplate;
