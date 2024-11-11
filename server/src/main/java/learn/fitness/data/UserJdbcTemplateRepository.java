@@ -1,5 +1,6 @@
 package learn.fitness.data;
 
+import learn.fitness.data.mappers.UserMapper;
 import learn.fitness.models.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,13 +18,17 @@ public class UserJdbcTemplateRepository implements UserRepository{
         final String sql = "select user_id, username, hashed_pw, email, isAdmin "+
                 "from user "+
                 "where username = ?;";
-//        User user = jdbcTemplate.query(sql, )
+        User user = jdbcTemplate.query(sql, new UserMapper(), username).stream()
+                .findFirst().orElse(null);
 
-        return null;
+        return user;
     }
 
     @Override
     public User add(User user) {
+        final String sql = "insert into user(user_id, username, hashed_pw, email, isAdmin) values "+
+                " (?,?,?,?,?);";
+
         return null;
     }
 
