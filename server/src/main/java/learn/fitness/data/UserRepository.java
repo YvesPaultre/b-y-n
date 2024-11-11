@@ -9,6 +9,7 @@ public interface UserRepository {
     User add(User user);
     boolean update(User user);
 
-    @Transactional
-    boolean delete(int user_id);
+    // Stretch Goal
+//    @Transactional
+//    boolean delete(int user_id);
 }
