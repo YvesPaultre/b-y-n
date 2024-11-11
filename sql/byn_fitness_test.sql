@@ -97,6 +97,27 @@ CREATE TABLE `routine_workout` (
 );
 
 -- Initial seed data (not dependent on state)
+insert into muscle_group(mg_id, mg_name) values
+	(1, 'upper back'), 
+	(2, 'lower back'), 
+	(3, 'arm'),
+	(4, 'core'),
+	(5, 'leg'),	
+	(6, 'chest'),
+	(7, 'shoulder'),
+	(8, 'buttock');	
+    
+insert into muscle(muscle_id, muscle_name, mg_id ) values 
+	(1, 'bicep',3),				-- 1
+	(2, 'tricep',3),			-- 2
+	(3, 'deltoid',7),			-- 3
+	(4, 'pectoral',6),			-- 4
+	(5, 'calf',5),				-- 5
+	(6, 'glutes',8),			-- 6
+	(7, 'trapezius',1),			-- 7
+	(8, 'rhomboid',1),			-- 8
+	(9, 'abdominal',4);			-- 9
+
 insert into workout(workout_id, workout_name, workout_description, workout_duration, muscle_id) values
 		(1, 'bicep curl','Hold dumbells in both hands while standing. Bring one of the dumbells to your shoulder, and then slowly back down. Repeat for the other dumbell. Keep your back straight to focus the effort on your biceps',10,1),
 		(2, 'tricep dip','Firmly grasp the handles on the dip machine and raise your body up to the starting position. Slowly lower your body downwards. You should lower yourself down so that your arms are in a 90 degree position. Slowly raise your body back up to the starting position.',10,2),
@@ -108,26 +129,6 @@ insert into workout(workout_id, workout_name, workout_description, workout_durat
 		(8, 'side lying reverse dumbbell fly','Lying on your side with your elbow fixed and body still, raise the dumbbell from floor until vertical. Lower back down in a reverse motion while inhaling. Repeat on the opposite side.',5,8),
 		(9, 'leg lifts','Lie faceup on the floor with your legs together. Using only your core, lift your feet a few inches off the ground. Slowly, move your legs apart and back together. Hold your feet in the air for a few moments, and then slowly bring back them back down',2,9);
 
-insert into muscle_group(mg_id, mg_name) values
-	(1, 'upper back'), 
-	(2, 'lower back'), 
-	(3, 'arm'),
-	(4, 'core'),
-	(5, 'leg'),	
-	(6, 'chest'),
-	(7, 'shoulder'),
-	(8, 'buttock');	
-
-insert into muscle(muscle_id, muscle_name, mg_id ) values 
-	(1, 'bicep',3),				-- 1
-	(2, 'tricep',3),			-- 2
-	(3, 'deltoid',7),			-- 3
-	(4, 'pectoral',6),			-- 4
-	(5, 'calf',5),				-- 5
-	(6, 'glutes',8),			-- 6
-	(7, 'trapezius',1),			-- 7
-	(8, 'rhomboid',1),			-- 8
-	(9, 'abdominal',4);			-- 9
 
 insert into user(user_id, username, hashed_pw, email, isAdmin) values
 	(1, 'testMctestface','$2y$10$zz4DMA.lu.Cm3ppl39VriO3Xzao37w7wVeuH8JbLJ2gU0QIu4Bxoe','test@example.com',false), -- password
@@ -180,5 +181,5 @@ begin
 		(3,2,'2024-10-31 11:05:15',null,8),
 		(4,3,'2024-11-01 09:54:22',null,7);
         
-end
+end //
 delimiter ;

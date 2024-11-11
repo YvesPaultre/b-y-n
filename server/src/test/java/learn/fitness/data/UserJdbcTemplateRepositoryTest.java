@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class UserJdbcTemplateRepositoryTest {
 
-    final static int NEXT_USER_ID = 6;
+    final static int NEXT_USER_ID = 7;
 
     @Autowired
     UserJdbcTemplateRepository repository;
