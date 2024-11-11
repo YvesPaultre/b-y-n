@@ -22,7 +22,6 @@ public class Routine {
 
     // getters and setters
 
-
     public int getRoutine_id() {
         return routine_id;
     }
