@@ -6,15 +6,17 @@ public class WorkoutLog {
 
     private int id;
     private int userId;
-    private int goalId;
+    private Goal goal;
+    private Workout workout;
     private LocalDateTime timeFinished;
 
     public WorkoutLog(){}
 
-    public WorkoutLog(int id, int userId, int goalId, LocalDateTime timeFinished){
+    public WorkoutLog(int id, int userId, Goal goal, Workout workout, LocalDateTime timeFinished){
         this.id = id;
         this.userId = userId;
-        this.goalId = goalId;
+        this.goal = goal;
+        this.workout = workout;
         this.timeFinished = timeFinished;
     }
 
@@ -34,12 +36,20 @@ public class WorkoutLog {
         this.userId = userId;
     }
 
-    public int getGoalId() {
-        return goalId;
+    public Goal getGoal() {
+        return goal;
     }
 
-    public void setGoalId(int goalId) {
-        this.goalId = goalId;
+    public void setGoal(Goal goal) {
+        this.goal = goal;
+    }
+
+    public Workout getWorkout() {
+        return workout;
+    }
+
+    public void setWorkout(Workout workout) {
+        this.workout = workout;
     }
 
     public LocalDateTime getTimeFinished() {
