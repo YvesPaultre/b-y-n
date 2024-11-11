@@ -5,11 +5,13 @@ import learn.fitness.models.WorkoutLog;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.util.List;
 
+@Repository
 public class WorkoutLogJdbcTemplateRepository implements WorkoutLogRepository{
     private final JdbcTemplate jdbcTemplate;
 
