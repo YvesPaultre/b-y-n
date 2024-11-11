@@ -32,14 +32,14 @@ public class WorkoutJdbcTemplateRepository implements WorkoutRepository{
                 + "left join muscle_group mg on m.mg_id = mg.mg_id "
                 + "where mg_name = ?;";
 
-        List<Workout> workouts = jdbcTemplate.query(sql, new WorkoutMapper(), muscleGroup);
-
-        return workouts.isEmpty() ? workouts : null;
+        return jdbcTemplate.query(sql, new WorkoutMapper(), muscleGroup);
     }
 
     @Override
     public List<Workout> findByDescContent(String searchTerm) {
-        return findAll().stream().filter(workout -> workout.getDescription().contains(searchTerm)).toList();
+        return findAll().stream().filter(
+                workout -> workout.getDescription().toLowerCase().contains(searchTerm.toLowerCase())
+        ).toList();
     }
 
     @Override
