@@ -7,7 +7,9 @@ import ErrorPage from './components/ErrorPage';
 import Root from './components/Root';
 import Workouts from './components/Workouts'
 import Routines from './components/Routines'
-
+import Login from './components/Login';
+import Register from './components/Register'
+import Dashboard from './components/Dashboard'
 
 import reportWebVitals from './reportWebVitals';
 import {
@@ -27,6 +29,9 @@ const router = createBrowserRouter(
       <Route path="/home" element={<Home />} />
       <Route path="/workouts" element={<Workouts />}/>
       <Route path="/routines" element={<Routines />}/>
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </ Route>
 
   )

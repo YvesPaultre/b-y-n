@@ -11,15 +11,20 @@ const NavBar = () => {
     // TODO: Dynamically Render Signup or Log out
     const currentUser = useContext(UserContext)
 
-    const signUpOrIn = <>
+    const loggedOut = <>
         <Nav.Link href="/login">
             <h4 className='navLink'>Log In</h4></Nav.Link>
         <Nav.Link href="/register">
             <h4 className='navLink'>Sign Up</h4></Nav.Link>
     </>
 
-    const logout = <Nav.Link href="/logout">
-        <h4 className='navLink'>Log Out</h4></Nav.Link>
+    const loggIn = <>
+        <Nav.Link href="/dashboard">
+            <h4 className='navLink'>Dashboard</h4></Nav.Link>
+
+        <Nav.Link href="/logout">
+            <h4 className='navLink'>Log Out</h4></Nav.Link>
+    </>
 
     return (
         <Container id="narbar-container">
@@ -50,7 +55,7 @@ const NavBar = () => {
                                     <h4 className='navLink'>Workouts</h4></Nav.Link>
                                 <Nav.Link href="/routines">
                                     <h4 className='navLink'>Routines</h4></Nav.Link>
-                                {currentUser ? logout : signUpOrIn}
+                                {currentUser ? loggIn : loggedOut}
                             </Nav>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>
