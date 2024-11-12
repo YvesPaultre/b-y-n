@@ -97,7 +97,6 @@ CREATE TABLE `routine_workout` (
 );
 
 -- Initial seed data (not dependent on state)
-
 insert into muscle_group(mg_id, mg_name) values
 	(1, 'upper back'), 
 	(2, 'lower back'), 
@@ -107,7 +106,7 @@ insert into muscle_group(mg_id, mg_name) values
 	(6, 'chest'),
 	(7, 'shoulder'),
 	(8, 'buttock');	
-
+    
 insert into muscle(muscle_id, muscle_name, mg_id ) values 
 	(1, 'bicep',3),				-- 1
 	(2, 'tricep',3),			-- 2
@@ -129,6 +128,7 @@ insert into workout(workout_id, workout_name, workout_description, workout_durat
 		(7, "farmer's carry",'Hold a weight in each hand at your sides. Stand upright. Take even, measured steps, controlling the weight and maintaining your posture for either a set time or distance.',6,7),
 		(8, 'side lying reverse dumbbell fly','Lying on your side with your elbow fixed and body still, raise the dumbbell from floor until vertical. Lower back down in a reverse motion while inhaling. Repeat on the opposite side.',5,8),
 		(9, 'leg lifts','Lie faceup on the floor with your legs together. Using only your core, lift your feet a few inches off the ground. Slowly, move your legs apart and back together. Hold your feet in the air for a few moments, and then slowly bring back them back down',2,9);
+
 
 insert into user(user_id, username, hashed_pw, email, isAdmin) values
 	(1, 'testMctestface','$2y$10$zz4DMA.lu.Cm3ppl39VriO3Xzao37w7wVeuH8JbLJ2gU0QIu4Bxoe','test@example.com',false), -- password
