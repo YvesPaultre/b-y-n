@@ -7,6 +7,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 
@@ -19,6 +20,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
     }
 
     @Override
+    @Transactional
     public AppUser getUserByUsername(String username) {
         final String sql = "select user_id, username, hashed_pw, email, isAdmin "+
                 "from user "+

@@ -2,9 +2,6 @@ package learn.fitness.security;
 
 import learn.fitness.data.UserRepository;
 import learn.fitness.models.AppUser;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +17,8 @@ public class UserService implements UserDetailsService {
     private final UserRepository repository;
     private final PasswordEncoder encoder;
 
-    public UserService(UserRepository repository, PasswordEncoder encoder){
+    public UserService(UserRepository repository,
+                          PasswordEncoder encoder) {
         this.repository = repository;
         this.encoder = encoder;
         ensureAdmin();
@@ -29,73 +26,75 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Used for authentication
         AppUser appUser = repository.getUserByUsername(username);
 
-        if(appUser == null){
-            throw new UsernameNotFoundException(username + " not found.");
-        }
-
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-
-        if(appUser.isAdmin()){
-            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        }
-
-        return new User(appUser.getUsername(), appUser.getPassword(), authorities);
-    }
-
-    public AppUser getUserData(User user){
-        // Used by other services to get database data linked to current user
-        AppUser appUser = repository.getUserByUsername(user.getUsername());
-
-        if(appUser == null){
-            throw new UsernameNotFoundException(user.getUsername() + " not found.");
+        if (appUser == null || !appUser.isEnabled()) {
+            throw new UsernameNotFoundException(username + " not found");
         }
 
         return appUser;
     }
 
-    public AppUser add(AppUser user){
-        validate(user);
-        user.setPassword(encoder.encode(user.getPassword()));
-        return repository.add(user);
+    public AppUser create(String username, String password) {
+        validate(username);
+        validatePassword(password);
+
+        password = encoder.encode(password);
+
+        AppUser appUser = new AppUser(0, username, password, false, List.of("User"));
+
+        return repository.add(appUser);
     }
 
-    private void ensureAdmin(){
-        AppUser appUser = repository.getUserByUsername("admin");
+    private void validate(String username) {
+        if (username == null || username.isBlank()) {
+            throw new ValidationException("username is required");
+        }
 
-        if(appUser == null){
+        if (username.length() > 50) {
+            throw new ValidationException("username must be less than 50 characters");
+        }
+    }
+
+    private void validatePassword(String password) {
+        if (password == null || password.length() < 8) {
+            throw new ValidationException("password must be at least 8 characters");
+        }
+
+        int digits = 0;
+        int letters = 0;
+        int others = 0;
+        for (char c : password.toCharArray()) {
+            if (Character.isDigit(c)) {
+                digits++;
+            } else if (Character.isLetter(c)) {
+                letters++;
+            } else {
+                others++;
+            }
+        }
+
+        if (digits == 0 || letters == 0 || others == 0) {
+            throw new ValidationException("password must contain a digit, a letter, and a non-digit/non-letter");
+        }
+    }
+
+    private void ensureAdmin() {
+
+        AppUser user = repository.getUserByUsername("admin");
+
+        if (user == null) {
+
             String randomPassword = UUID.randomUUID().toString();
 
-            appUser = new AppUser();
-            appUser.setUsername("admin");
-            appUser.setPassword(randomPassword);
-            appUser.setAdmin(true);
+            user = new AppUser(0, "admin", randomPassword, false, List.of("USER", "ADMIN"));
 
             try {
-                repository.add(appUser);
+                repository.add(user);
                 System.out.printf("%n%nRandom admin password: %s%n%n", randomPassword);
             } catch (ValidationException ex) {
                 ex.printStackTrace();
             }
         }
     }
-
-    private void validate(AppUser user){
-
-        if (user == null) {
-            throw new ValidationException("user cannot be null");
-        }
-
-        if (user.getUsername() == null || user.getUsername().isBlank()) {
-            throw new ValidationException("username is required");
-        }
-
-        if (user.getUsername().length() > 50) {
-            throw new ValidationException("username must be less than 50 characters");
-        }
-    }
-
 }
