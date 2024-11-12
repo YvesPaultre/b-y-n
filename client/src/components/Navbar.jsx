@@ -7,25 +7,29 @@ import { useContext } from "react";
 import UserContext from '../context/UserContext'
 
 
-const NavBar = ()=>{
+const NavBar = () => {
     // TODO: Dynamically Render Signup or Log out
     const currentUser = useContext(UserContext)
 
-    const signUp = <Nav.Link href="/register">
-        <h4 className='navLink'>Sign Up</h4></Nav.Link>
+    const signUpOrIn = <>
+        <Nav.Link href="/login">
+            <h4 className='navLink'>Log In</h4></Nav.Link>
+        <Nav.Link href="/register">
+            <h4 className='navLink'>Sign Up</h4></Nav.Link>
+    </>
 
     const logout = <Nav.Link href="/logout">
         <h4 className='navLink'>Log Out</h4></Nav.Link>
 
-    return(
+    return (
         <Container id="narbar-container">
             <Navbar expand='sm' className="mb-3">
                 <Container className="navBar">
                     <Navbar.Brand href='/'>
-                    <h3 className="brand">BYN Fitness</h3>
+                        <h3 className="brand">BYN Fitness</h3>
                     </Navbar.Brand>
-                    <Navbar.Toggle 
-                        aria-controls={`offcanvasNavbar-expand-'sm'`} 
+                    <Navbar.Toggle
+                        aria-controls={`offcanvasNavbar-expand-'sm'`}
                         className="navBar-toggle" />
                     <Navbar.Offcanvas
                         id={`offcanvasNavbar-expand-'sm'`}
@@ -46,7 +50,7 @@ const NavBar = ()=>{
                                     <h4 className='navLink'>Workouts</h4></Nav.Link>
                                 <Nav.Link href="/routines">
                                     <h4 className='navLink'>Routines</h4></Nav.Link>
-                                {currentUser ? logout : signUp }
+                                {currentUser ? logout : signUpOrIn}
                             </Nav>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>
