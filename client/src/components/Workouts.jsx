@@ -8,13 +8,17 @@ const Workouts = () => {
     const [search, setSearch] = useState()
     const [filter, setFilter] = useState()
     const [workouts, setWorkouts] = useState()
-    
+
     // TODO: configure api path to GET muscle groups, and dynamically create options
     // const [muscleGroups, setMuscleGroups] = useState()
 
-    useEffect(()=>{
+    useEffect(() => {
+        getAllWorkouts()
+    }, [])
+
+    const getAllWorkouts = ()=>{
         fetch("http://localhost:8080/api/workout")
-            .then.then(response => {
+            .then(response => {
                 if (response.status === 200) {
                     return response.json();
                 } else {
@@ -23,7 +27,8 @@ const Workouts = () => {
             })
             .then(data => setWorkouts(data))
             .catch(console.log)
-    })
+    }
+
 
     const handleChange = (event) => {
         setSearch(event.target.value)
@@ -33,9 +38,33 @@ const Workouts = () => {
         setFilter(event.target.value)
     }
 
+    const searchForWorkouts = () => {
+        fetch(`http://localhost:8080/api/workout/${search}`)
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .then(data => setWorkouts(data))
+            .catch(console.log)
+    }
+
+    const filterWorkouts = ()=>{
+        // setWorkouts(workouts.filter(workout=>workout.))        
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault()
         console.log(search, filter)
+        if (search) {
+            searchForWorkouts().then(filterWorkouts())
+        } else{
+            getAllWorkouts().then(filterWorkouts())
+        }
+
+
     }
 
 
