@@ -9,12 +9,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class UserService implements UserDetailsService {
     private final UserRepository repository;
     private final PasswordEncoder encoder;
@@ -27,6 +29,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // Used for authentication
         AppUser appUser = repository.getUserByUsername(username);
 
         if(appUser == null){
@@ -41,6 +44,17 @@ public class UserService implements UserDetailsService {
         }
 
         return new User(appUser.getUsername(), appUser.getPassword(), authorities);
+    }
+
+    public AppUser getUserData(User user){
+        // Used by other services to get database data linked to current user
+        AppUser appUser = repository.getUserByUsername(user.getUsername());
+
+        if(appUser == null){
+            throw new UsernameNotFoundException(user.getUsername() + " not found.");
+        }
+
+        return appUser;
     }
 
     public AppUser add(AppUser user){
