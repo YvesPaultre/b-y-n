@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.List;
 
 @Repository
@@ -22,9 +23,11 @@ public class WorkoutLogJdbcTemplateRepository implements WorkoutLogRepository{
         final String sql = "select l.log_id as log_id, l.user_id as user_id, l.finished as finished, "
                 + "l.goal_id as goal_id, l.workout_id as workout_id, "
                 + "g.goal_name as goal_name, g.description as description, g.complete as complete, "
-                + "w.workout_name as workout_name, w.workout_description as workout_description, w.workout_duration as workout_duration "
+                + "w.workout_name as workout_name, w.workout_description as workout_description, w.workout_duration as workout_duration, "
+                + "m.muscle_name "
                 + "from log l left join goal g on l.goal_id = g.goal_id "
                 + "left join workout w on l.workout_id = w.workout_id "
+                + "left join muscle m on w.muscle_id = m.muscle_id "
                 + "where l.user_id = ?;";
 
         return jdbcTemplate.query(sql, new WorkoutLogMapper(), userId); // Internally uses GoalMapper and WorkoutMapper
@@ -32,6 +35,8 @@ public class WorkoutLogJdbcTemplateRepository implements WorkoutLogRepository{
 
     @Override
     public WorkoutLog add(WorkoutLog log) {
+        if(log == null || log.getId() > 0 || log.getTimeFinished() == null) return null;
+
         final String sql = "insert into log(user_id, finished, goal_id, workout_id) values (?,?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -39,7 +44,11 @@ public class WorkoutLogJdbcTemplateRepository implements WorkoutLogRepository{
             PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, log.getUserId());
             ps.setTimestamp(2, Timestamp.valueOf(log.getTimeFinished()));
-            ps.setInt(3, log.getGoal().getGoal_id());
+
+            if(log.getGoal() == null){
+                ps.setNull(3, Types.INTEGER);
+            } else ps.setInt(3, log.getGoal().getGoal_id());
+
             ps.setInt(4, log.getWorkout().getId());
 
             return ps;
@@ -53,6 +62,8 @@ public class WorkoutLogJdbcTemplateRepository implements WorkoutLogRepository{
 
     @Override
     public boolean update(WorkoutLog log) {
+        if(log == null || log.getId() <= 0) return false;
+
         final String sql = "update log set "
                 + "user_id = ?, "
                 + "finished = ?, "
@@ -60,13 +71,21 @@ public class WorkoutLogJdbcTemplateRepository implements WorkoutLogRepository{
                 + "workout_id = ? "
                 + "where log_id = ?";
 
-        return jdbcTemplate.update(sql,
-                log.getUserId(),
-                Timestamp.valueOf(log.getTimeFinished()),
-                log.getGoal().getGoal_id(),
-                log.getWorkout().getId(),
-                log.getId()
-        ) > 0;
+        int rowsAffected = jdbcTemplate.update(con -> {
+            PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.NO_GENERATED_KEYS);
+            ps.setInt(1, log.getUserId());
+            ps.setTimestamp(2, Timestamp.valueOf(log.getTimeFinished()));
+
+            if(log.getGoal() == null){
+                ps.setNull(3, Types.INTEGER);
+            } else ps.setInt(3, log.getGoal().getGoal_id());
+
+            ps.setInt(4, log.getWorkout().getId());
+            ps.setInt(5, log.getId());
+            return ps;
+        });
+
+        return rowsAffected > 0;
     }
 
     @Override
