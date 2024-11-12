@@ -7,7 +7,8 @@ CREATE TABLE `user` (
   `username` varchar(50) NOT NULL,
   `hashed_pw` varchar(250) NOT NULL,
   `email` varchar(250) NOT NULL,
-  `isAdmin` boolean NOT NULL
+  `isAdmin` boolean NOT NULL,
+  `disabled` boolean NOT NULL
 );
 
 CREATE TABLE `muscle_group` (
