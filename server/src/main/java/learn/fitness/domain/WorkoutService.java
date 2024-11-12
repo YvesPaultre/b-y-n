@@ -1,8 +1,5 @@
 package learn.fitness.domain;
 
-
-public class WorkoutService {
-
 import learn.fitness.data.WorkoutRepository;
 import learn.fitness.models.Workout;
 import org.springframework.stereotype.Service;

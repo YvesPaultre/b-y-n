@@ -46,14 +46,16 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
         return jdbcTemplate.query(sql, new RoutineMapper(), difficulty);
     }
 
-    // ***** Check *****
     @Override
     public List<Routine> findByDescContent(String searchTerm) {
         final String sql = "select routine_id, routine_name, routine_description, routine_duration, difficulty, routine_author_id "
                 + "from routine "
-                + "where routine_description = ?;";
+                + "where routine_description like ?;";
 
-        return jdbcTemplate.query(sql, new RoutineMapper(), searchTerm);
+        // Add wildcards to the search term for pattern matching
+        String searchPattern = "%" + searchTerm + "%";
+
+        return jdbcTemplate.query(sql, new RoutineMapper(), searchPattern);
     }
 
     @Override
@@ -69,6 +71,8 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
 
     @Override
     public Routine add(Routine routine) {
+        if(routine == null) return  null;
+
         final String sql = "insert into routine (routine_name, routine_description, routine_duration, difficulty, routine_author_id)"
                 + "values (?, ?, ?, ?, ?);";
 
@@ -93,12 +97,13 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
 
     @Override
     public boolean update(Routine routine) {
+        if(routine == null) return false;
         final String sql = "update routine set "
                 + "routine_name = ?, "
                 + "routine_description = ?, "
                 + "routine_duration = ?, "
                 + "difficulty = ?, "
-                + "routine_author_id = ?, "
+                + "routine_author_id = ? "
                 + "where routine_id = ?;";
 
         return jdbcTemplate.update(sql,
@@ -112,7 +117,6 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
 
     @Override
     public boolean delete(Routine routine) {
-        jdbcTemplate.update("delete from routine where routine_id = ?;", routine.getRoutine_id());
         return jdbcTemplate.update("delete from routine where routine_id = ?;", routine.getRoutine_id()) > 0;
     }
 
