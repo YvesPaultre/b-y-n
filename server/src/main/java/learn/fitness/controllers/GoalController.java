@@ -13,5 +13,5 @@ public class GoalController {
 
     private final GoalService service;
 
-    public  GoalController(GoalService service) {this.service = service; }
+    public GoalController(GoalService service) {this.service = service; }
 }

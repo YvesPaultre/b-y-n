@@ -3,9 +3,11 @@ package learn.fitness.domain;
 import learn.fitness.data.RoutineRepository;
 import learn.fitness.models.Goal;
 import learn.fitness.models.Routine;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RoutineService {
 
     private final RoutineRepository repository;
@@ -87,11 +89,6 @@ public class RoutineService {
             return result;
         }
 
-        // ----------------------------------------------
-
-        int authorId = routine.getRoutine_author_id();
-        // TODO: check if authorId exists - use a different repo methods
-        
         return result;
     }
 }

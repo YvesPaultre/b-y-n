@@ -75,14 +75,6 @@ public class GoalService {
             result.addMessage("Description is required", ResultType.INVALID);
         }
 
-        // ----------------------------------------------
-
-        // TODO: add more validations for goals
-        // can there be duplicate names/descriptions for the same user?
-
-        int userId = goal.getUser_id();
-        // TODO: check to see if userId exists - use a different repo methods
-
         return result;
     }
 }

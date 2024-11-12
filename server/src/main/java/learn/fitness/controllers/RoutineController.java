@@ -12,5 +12,5 @@ public class RoutineController {
 
     private final RoutineService service;
 
-    public  RoutineController(RoutineService service) {this.service = service; }
+    public RoutineController(RoutineService service) {this.service = service; }
 }

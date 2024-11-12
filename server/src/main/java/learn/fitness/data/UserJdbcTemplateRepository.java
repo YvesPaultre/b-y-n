@@ -33,31 +33,25 @@ public class UserJdbcTemplateRepository implements UserRepository{
     public AppUser add(AppUser appUser) {
         final String sql = "insert into user(user_id, username, hashed_pw, email, isAdmin) values "+
                 " (?,?,?,?,?);";
-    public User add(User user) {
-        final String sql = "insert into user(username, hashed_pw, email, isAdmin) values "+
-                " (?,?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(con->{
             PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setString(1,user.getUsername());
-            ps.setString(2,user.getPassword());
-            ps.setString(3,user.getEmail());
-            ps.setBoolean(4,user.isAdmin());
+            ps.setString(1,appUser.getUsername());
+            ps.setString(2,appUser.getPassword());
+            ps.setString(3,appUser.getEmail());
+            ps.setBoolean(4,appUser.isAdmin());
             return ps;
         }, keyHolder);
 
         if (rowsAffected <= 0){ return null; }
 
-        user.setUser_id(keyHolder.getKey().intValue());
-        return user;
+        appUser.setUser_id(keyHolder.getKey().intValue());
+        return appUser;
     }
 
     @Override
     public boolean update(AppUser appUser) {
-        return false;
-    }
-    public boolean update(User user) {
         final String sql = "update user set "+
                 "username = ?, "+
                 "hashed_pw = ?, "+
@@ -66,11 +60,11 @@ public class UserJdbcTemplateRepository implements UserRepository{
                 "where user_id = ?;";
 
         return jdbcTemplate.update(sql,
-                user.getUsername(),
-                user.getPassword(),
-                user.getEmail(),
-                user.isAdmin(),
-                user.getUser_id()) > 0;
+                appUser.getUsername(),
+                appUser.getPassword(),
+                appUser.getEmail(),
+                appUser.isAdmin(),
+                appUser.getUser_id()) > 0;
     }
 
     // Stretch Goal
