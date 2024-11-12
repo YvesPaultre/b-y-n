@@ -1,13 +1,13 @@
 package learn.fitness.data;
 
-import learn.fitness.models.User;
+import learn.fitness.models.AppUser;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface UserRepository {
 
-    User getUserByUsername(String username);
-    User add(User user);
-    boolean update(User user);
+    AppUser getUserByUsername(String username);
+    AppUser add(AppUser appUser);
+    boolean update(AppUser appUser);
 
     @Transactional
     boolean delete(int user_id);
