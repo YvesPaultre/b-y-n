@@ -7,22 +7,30 @@ const Workouts = () => {
     // TODO: move searchbar into its own component to reuse with Routines
     const [search, setSearch] = useState()
     const [filter, setFilter] = useState()
+    const [workouts, setWorkouts] = useState()
     
     // TODO: configure api path to GET muscle groups, and dynamically create options
     // const [muscleGroups, setMuscleGroups] = useState()
 
-    // useEffect(()=>{
-    //     fetch()
-    // })
+    useEffect(()=>{
+        fetch("http://localhost:8080/api/workout")
+            .then.then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .then(data => setWorkouts(data))
+            .catch(console.log)
+    })
 
     const handleChange = (event) => {
         setSearch(event.target.value)
-        // console.log(search)
     }
 
     const handleFilterChange = (event) => {
         setFilter(event.target.value)
-        // console.log(search)
     }
 
     const handleSubmit = (event) => {
@@ -59,11 +67,12 @@ const Workouts = () => {
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </Button>
                         </Form>
-
                     </Container>
                 </Col>
             </Row>
+            <Row>
 
+            </Row>
         </Container>
     )
 }
