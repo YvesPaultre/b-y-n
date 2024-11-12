@@ -27,7 +27,7 @@ public class WorkoutController {
         }
     }
 
-    @GetMapping("/{workoutId")
+    @GetMapping("/{workoutId}")
     public ResponseEntity<Workout> findById(@PathVariable int workoutId) {
         Workout workout = service.findById(workoutId);
 

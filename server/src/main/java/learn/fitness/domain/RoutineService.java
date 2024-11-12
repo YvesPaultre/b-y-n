@@ -54,6 +54,22 @@ public class RoutineService {
         return result;
     }
 
+    public Result<Routine> add(Routine routine) {
+        Result<Routine> result = validate(routine);
+        if(!result.isSuccess()) {
+            return result;
+        }
+
+        if(routine.getRoutine_id() != 0) {
+            result.addMessage("routineId cannot be set for `add` operation", ResultType.INVALID);
+            return result;
+        }
+
+        routine = repository.add(routine);
+        result.setPayload(routine);
+        return result;
+    }
+
     public boolean delete(Routine routine) {
         return repository.delete(routine);
     }
