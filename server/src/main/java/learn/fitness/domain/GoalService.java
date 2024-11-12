@@ -2,9 +2,11 @@ package learn.fitness.domain;
 
 import learn.fitness.data.GoalRepository;
 import learn.fitness.models.Goal;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class GoalService {
 
     private final GoalRepository repository;

@@ -22,7 +22,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
     @Override
     @Transactional
     public AppUser getUserByUsername(String username) {
-        final String sql = "select user_id, username, hashed_pw, email, isAdmin "+
+        final String sql = "select user_id, username, hashed_pw, email, isAdmin, disabled "+
                 "from user "+
                 "where username = ?;";
         AppUser appUser = jdbcTemplate.query(sql, new UserMapper(), username).stream()
@@ -33,7 +33,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
 
     @Override
     public AppUser add(AppUser appUser) {
-        final String sql = "insert into user(user_id, username, hashed_pw, email, isAdmin) values "+
+        final String sql = "insert into user(username, hashed_pw, email, isAdmin, disabled) values "+
                 " (?,?,?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -43,6 +43,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
             ps.setString(2,appUser.getPassword());
             ps.setString(3,appUser.getEmail());
             ps.setBoolean(4,appUser.isAdmin());
+            ps.setBoolean(5,!appUser.isEnabled());
             return ps;
         }, keyHolder);
 
