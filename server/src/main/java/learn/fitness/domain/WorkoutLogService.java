@@ -63,7 +63,12 @@ public class WorkoutLogService {
         return result;
     }
 
-    public boolean delete(int logId){
+    public boolean delete(int logId, int userId){
+        if(repository.findByUser(userId).stream().noneMatch(l -> l.getId() == logId)){
+            // If log is not found by user, user cannot access log
+            return false;
+        }
+
         return repository.delete(logId);
     }
 
