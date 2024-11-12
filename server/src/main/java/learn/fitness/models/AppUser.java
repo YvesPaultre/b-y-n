@@ -1,6 +1,6 @@
 package learn.fitness.models;
 
-public class User {
+public class AppUser {
     private int user_id;
     private String username;
     private String email;
