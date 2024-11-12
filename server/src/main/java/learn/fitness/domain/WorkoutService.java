@@ -1,8 +1,8 @@
 package learn.fitness.domain;
 
-<<<<<<< HEAD
+
 public class WorkoutService {
-=======
+
 import learn.fitness.data.WorkoutRepository;
 import learn.fitness.models.Workout;
 import org.springframework.stereotype.Service;
@@ -30,5 +30,4 @@ public class WorkoutService {
     public Workout findById(int id){
         return repository.findById(id);
     }
->>>>>>> f7a2550dd2914b97ba474e0fb6aabf5cdcd4deb5
 }
