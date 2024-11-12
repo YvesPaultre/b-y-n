@@ -5,11 +5,13 @@ import learn.fitness.models.Goal;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 
+@Repository
 public class GoalJdbcTemplateRepository implements GoalRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -29,6 +31,8 @@ public class GoalJdbcTemplateRepository implements GoalRepository {
 
     @Override
     public Goal add(Goal goal) {
+        if(goal == null) return null;
+
         final String sql = "insert into goal (goal_name, description, complete, user_id)"
                 + "values (?, ?, ?, ?);";
 
@@ -52,6 +56,8 @@ public class GoalJdbcTemplateRepository implements GoalRepository {
 
     @Override
     public boolean update(Goal goal) {
+        if(goal == null) return false;
+
        final String sql = "update goal set "
                + "goal_name = ?, "
                + "description = ?, "
@@ -69,7 +75,6 @@ public class GoalJdbcTemplateRepository implements GoalRepository {
 
     @Override
     public boolean delete(int goalId) {
-        jdbcTemplate.update("delete from goal where goal_id = ?;", goalId);
         return jdbcTemplate.update("delete from goal where goal_id = ?;", goalId) > 0;
     }
 
