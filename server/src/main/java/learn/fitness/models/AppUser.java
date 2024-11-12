@@ -15,6 +15,8 @@ public class AppUser extends User {
     private static final String AUTHORITY_PREFIX = "ROLE_";
 
     private int appUserId;
+    private String email;
+    private boolean isAdmin;
 
     public AppUser(int appUserId, String username, String password,
                    boolean disabled, List<String> roles) {
@@ -52,5 +54,19 @@ public class AppUser extends User {
         return authorities.stream()
                 .map(a -> a.getAuthority().substring(AUTHORITY_PREFIX.length()))
                 .collect(Collectors.toList());
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email){ this.email = email; }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }
