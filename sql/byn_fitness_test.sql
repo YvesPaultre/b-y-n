@@ -129,7 +129,6 @@ insert into workout(workout_id, workout_name, workout_description, workout_durat
 		(8, 'side lying reverse dumbbell fly','Lying on your side with your elbow fixed and body still, raise the dumbbell from floor until vertical. Lower back down in a reverse motion while inhaling. Repeat on the opposite side.',5,8),
 		(9, 'leg lifts','Lie faceup on the floor with your legs together. Using only your core, lift your feet a few inches off the ground. Slowly, move your legs apart and back together. Hold your feet in the air for a few moments, and then slowly bring back them back down',2,9);
 
-
 insert into user(user_id, username, hashed_pw, email, isAdmin) values
 	(1, 'testMctestface','$2y$10$zz4DMA.lu.Cm3ppl39VriO3Xzao37w7wVeuH8JbLJ2gU0QIu4Bxoe','test@example.com',false), -- password
 	(2, 'novicegymrat90','$2y$10$XQRDrU4yN0hX6vgTFo5Mluto6brBE0ZSB1WmA6vNeJmeePvZIQYPS','spamgoeshere@gmail.com',false), -- easy2hack
