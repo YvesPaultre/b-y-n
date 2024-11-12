@@ -4,6 +4,7 @@ import learn.fitness.data.mappers.UserMapper;
 import learn.fitness.models.AppUser;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UserJdbcTemplateRepository implements UserRepository{
@@ -14,6 +15,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
     }
 
     @Override
+    @Transactional
     public AppUser getUserByUsername(String username) {
         final String sql = "select user_id, username, hashed_pw, email, isAdmin "+
                 "from user "+

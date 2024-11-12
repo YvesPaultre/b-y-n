@@ -5,16 +5,22 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserMapper implements RowMapper<AppUser> {
-    @Override
-    public AppUser mapRow(ResultSet rs, int rowNum) throws SQLException {
-        AppUser appUser = new AppUser();
-        appUser.setUser_id(rs.getInt("user_id"));
-        appUser.setUsername(rs.getString("username"));
-        appUser.setAdmin(rs.getBoolean("isAdmin"));
-        appUser.setEmail(rs.getString("email"));
-        appUser.setPassword(rs.getString("hashed_pw"));
+import org.springframework.jdbc.core.RowMapper;
 
-        return appUser;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+public class UserMapper implements RowMapper<AppUser> {
+
+
+    @Override
+    public AppUser mapRow(ResultSet rs, int i) throws SQLException {
+        return new AppUser(
+                rs.getInt("user_id"),
+                rs.getString("username"),
+                rs.getString("hashed_pw"),
+                rs.getBoolean("disabled"),
+                rs.getBoolean("isAdmin") ? List.of("USER", "ADMIN") : List.of("USER"));
     }
 }

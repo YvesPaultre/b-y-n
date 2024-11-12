@@ -1,49 +1,56 @@
 package learn.fitness.models;
 
-public class AppUser {
-    private int user_id;
-    private String username;
-    private String email;
-    private String password;
-    private boolean isAdmin;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.util.Assert;
 
-    public int getUser_id() {
-        return user_id;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class AppUser extends User {
+
+    private static final String AUTHORITY_PREFIX = "ROLE_";
+
+    private int appUserId;
+
+    public AppUser(int appUserId, String username, String password,
+                   boolean disabled, List<String> roles) {
+        super(username, password, !disabled,
+                true, true, true,
+                convertRolesToAuthorities(roles));
+        this.appUserId = appUserId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    private List<String> roles = new ArrayList<>();
+
+    public int getAppUserId() {
+        return appUserId;
     }
 
-    public String getUsername() {
-        return username;
+    public void setAppUserId(int appUserId) {
+        this.appUserId = appUserId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+
+    public static List<GrantedAuthority> convertRolesToAuthorities(List<String> roles) {
+        List<GrantedAuthority> authorities = new ArrayList<>(roles.size());
+        for (String role : roles) {
+            Assert.isTrue(!role.startsWith(AUTHORITY_PREFIX),
+                    () ->
+                            String.
+                                    format("%s cannot start with %s (it is automatically added)",
+                                            role, AUTHORITY_PREFIX));
+            authorities.add(new SimpleGrantedAuthority(AUTHORITY_PREFIX + role));
+        }
+        return authorities;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public static List<String> convertAuthoritiesToRoles(Collection<GrantedAuthority> authorities) {
+        return authorities.stream()
+                .map(a -> a.getAuthority().substring(AUTHORITY_PREFIX.length()))
+                .collect(Collectors.toList());
     }
 }
