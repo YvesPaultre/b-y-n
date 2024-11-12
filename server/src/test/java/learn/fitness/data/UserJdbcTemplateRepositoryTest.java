@@ -1,14 +1,18 @@
 package learn.fitness.data;
 
-import learn.fitness.models.User;
+import learn.fitness.models.AppUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+//@AutoConfigureMockMvc
 class UserJdbcTemplateRepositoryTest {
 
     final static int NEXT_USER_ID = 7;
@@ -25,34 +29,36 @@ class UserJdbcTemplateRepositoryTest {
 
     @Test
     void getUserByUsername() {
-        User user = repository.getUserByUsername("testMctestface");
-        assertEquals(1, user.getUser_id());
+        AppUser user = repository.getUserByUsername("testMctestface");
+        assertEquals(1, user.getAppUserId());
         assertEquals("testMctestface", user.getUsername());
     }
 
     @Test
     void add() {
-        User user = makeUser();
-        User actual = repository.add(user);
+        AppUser user = makeUser();
+        AppUser actual = repository.add(user);
         assertNotNull(actual);
-        assertEquals(NEXT_USER_ID, actual.getUser_id());
+        assertEquals(NEXT_USER_ID, actual.getAppUserId());
     }
 
     @Test
     void update() {
-        User user = makeUser();
-        user.setUser_id(3);
+        AppUser user = makeUser();
+        user.setAppUserId(3);
         assertTrue(repository.update(user));
 
-        user.setUser_id(100);
+        user.setAppUserId(100);
         assertFalse(repository.update(user));
     }
 
-    private User makeUser(){
-        User user = new User();
-        user.setPassword("gobbledegook");
+    private AppUser makeUser(){
+        AppUser user = new AppUser(0,
+                "test",
+                "gobbledegook",
+                false,
+                List.of("USER"));
         user.setAdmin(false);
-        user.setUsername("test");
         user.setEmail("test@test.com");
         return user;
     }

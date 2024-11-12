@@ -88,6 +88,7 @@ public class UserService implements UserDetailsService {
             String randomPassword = UUID.randomUUID().toString();
 
             user = new AppUser(0, "admin", randomPassword, false, List.of("USER", "ADMIN"));
+            user.setEmail("test@example.com");
 
             try {
                 repository.add(user);
