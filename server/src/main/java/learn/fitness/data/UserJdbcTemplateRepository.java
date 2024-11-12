@@ -48,7 +48,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
 
         if (rowsAffected <= 0){ return null; }
 
-        appUser.setUser_id(keyHolder.getKey().intValue());
+        appUser.setAppUserId(keyHolder.getKey().intValue());
         return appUser;
     }
 
@@ -66,7 +66,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
                 appUser.getPassword(),
                 appUser.getEmail(),
                 appUser.isAdmin(),
-                appUser.getUser_id()) > 0;
+                appUser.getAppUserId()) > 0;
     }
 
     // Stretch Goal
