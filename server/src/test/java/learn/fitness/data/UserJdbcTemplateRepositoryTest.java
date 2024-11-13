@@ -4,13 +4,15 @@ import learn.fitness.models.AppUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest
+//@AutoConfigureMockMvc
 class UserJdbcTemplateRepositoryTest {
 
     final static int NEXT_USER_ID = 7;
@@ -52,6 +54,12 @@ class UserJdbcTemplateRepositoryTest {
 
     private AppUser makeUser(){
         AppUser user = new AppUser(0, "test", "gobbledegook", false, List.of("USER"));
+    private AppUser makeUser(){
+        AppUser user = new AppUser(0,
+                "test",
+                "gobbledegook",
+                false,
+                List.of("USER"));
         user.setAdmin(false);
         user.setEmail("test@test.com");
         return user;
