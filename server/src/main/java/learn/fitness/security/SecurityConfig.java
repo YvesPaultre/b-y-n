@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/user/authenticate").permitAll()
                 .antMatchers("/api/user/register").permitAll()
                 .antMatchers("/api/workout").permitAll()
+                .antMatchers("/api/routine").permitAll()
                 // require authentication for any request...
                 .anyRequest().authenticated()
                 .and()

@@ -37,9 +37,9 @@ public class WorkoutJdbcTemplateRepository implements WorkoutRepository{
     }
 
     @Override
-    public List<Workout> findByDescContent(String searchTerm) {
+    public List<Workout> findByName(String searchTerm) {
         return findAll().stream().filter(
-                workout -> workout.getDescription().toLowerCase().contains(searchTerm.toLowerCase())
+                workout -> workout.getName().toLowerCase().contains(searchTerm.toLowerCase())
         ).toList();
     }
 

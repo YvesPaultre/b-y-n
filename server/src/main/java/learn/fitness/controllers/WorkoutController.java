@@ -48,9 +48,9 @@ public class WorkoutController {
     }
 
     @GetMapping("/{searchTerm}")
-    public ResponseEntity<?> findByDescContent(@PathVariable String searchTerm) {
+    public ResponseEntity<?> findByName(@PathVariable String searchTerm) {
         try {
-            List<Workout> all = service.findByDescContent(searchTerm);
+            List<Workout> all = service.findByName(searchTerm);
             return new ResponseEntity<>(all, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

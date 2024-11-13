@@ -10,7 +10,7 @@ public interface WorkoutRepository {
 
     List<Workout> findByMuscleGroup(String muscleGroup);
 
-    List<Workout> findByDescContent(String searchTerm);
+    List<Workout> findByName(String searchTerm);
 
     Workout findById(int id);
 }
