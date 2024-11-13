@@ -18,6 +18,7 @@ public class RoutineMapper implements RowMapper<Routine> {
         routine.setDifficulty(resultSet.getString("difficulty"));
         routine.setRoutine_author_id(resultSet.getInt("routine_author_id"));
         routine.setRoutine_author_name(resultSet.getString("routine_author_name"));
+        routine.setWorkouts(resultSet.getString("workouts"));
         return routine;
     }
 }
