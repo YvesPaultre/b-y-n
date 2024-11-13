@@ -7,6 +7,8 @@ const Goals = (user) => {
         setCompletedFilter(!compltedFilter)
     }
 
+    console.log(user)
+
     
     return (
         <>
