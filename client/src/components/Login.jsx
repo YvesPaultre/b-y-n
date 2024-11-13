@@ -22,6 +22,7 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(credentials)
 
     const init = {
       method: "POST",
@@ -50,6 +51,7 @@ const Login = () => {
   };
 
   const handleChange = (event) => {
+    console.log(event.target.name, event.target.value)
     const newCredentials = { ...credentials };
     newCredentials[event.target.name] = event.target.value;
     setCredentials(newCredentials);
@@ -77,7 +79,7 @@ const Login = () => {
           onChange={handleChange}
         >
           <Form.Label>Username</Form.Label>
-          <Form.Control type="text" />
+          <Form.Control type="text" name="username"/>
         </Form.Group>
         <Form.Group
           className="mb-3"
@@ -85,7 +87,7 @@ const Login = () => {
           onChange={handleChange}
         >
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" />
+          <Form.Control type="password" name='password'/>
         </Form.Group>
         <Button variant="primary" type="submit">
           Log In
