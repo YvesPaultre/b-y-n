@@ -20,8 +20,8 @@ public class WorkoutService {
         return repository.findByMuscleGroup(muscleGroup);
     }
 
-    public List<Workout> findByDescContent(String searchTerm){
-        return repository.findByDescContent(searchTerm);
+    public List<Workout> findByName(String searchTerm){
+        return repository.findByName(searchTerm);
     }
 
     public Workout findById(int id){

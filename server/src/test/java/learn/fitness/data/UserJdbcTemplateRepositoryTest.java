@@ -53,11 +53,7 @@ class UserJdbcTemplateRepositoryTest {
     }
 
     private AppUser makeUser(){
-        AppUser user = new AppUser(0,
-                "test",
-                "gobbledegook",
-                false,
-                List.of("USER"));
+        AppUser user = new AppUser(0, "test", "gobbledegook", false, List.of("USER"));
         user.setAdmin(false);
         user.setEmail("test@test.com");
         return user;
