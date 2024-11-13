@@ -27,7 +27,7 @@ public class WorkoutController {
         }
     }
 
-    @GetMapping("/{workoutId}")
+    @GetMapping("/id/{workoutId}")
     public ResponseEntity<Workout> findById(@PathVariable int workoutId) {
         Workout workout = service.findById(workoutId);
 
@@ -37,7 +37,7 @@ public class WorkoutController {
         return ResponseEntity.ok(workout);
     }
 
-    @GetMapping("/{muscleGroup}")
+    @GetMapping("/mg/{muscleGroup}")
     public ResponseEntity<?> findByMuscleGroup(@PathVariable String muscleGroup) {
         try {
             List<Workout> all = service.findByMuscleGroup(muscleGroup);
@@ -47,7 +47,7 @@ public class WorkoutController {
         }
     }
 
-    @GetMapping("/{searchTerm}")
+    @GetMapping("/search/{searchTerm}")
     public ResponseEntity<?> findByName(@PathVariable String searchTerm) {
         try {
             List<Workout> all = service.findByName(searchTerm);

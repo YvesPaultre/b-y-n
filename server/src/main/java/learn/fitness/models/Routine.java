@@ -7,6 +7,7 @@ public class Routine {
     private int routine_duration;
     private String difficulty;
     private int routine_author_id; // Alias for a trainer's user_id
+    private String routine_author_name;
 
     // constructors
     public Routine(int routine_id, String routine_name, String routine_description, int routine_duration, String difficulty, int routine_author_id) {
@@ -69,4 +70,10 @@ public class Routine {
     public void setRoutine_author_id(int routine_author_id) {
         this.routine_author_id = routine_author_id;
     }
+
+    public String getRoutine_author_name() {
+        return routine_author_name;
+    }
+
+    public void setRoutine_author_name(String routine_author_name) { this.routine_author_name = routine_author_name; }
 }

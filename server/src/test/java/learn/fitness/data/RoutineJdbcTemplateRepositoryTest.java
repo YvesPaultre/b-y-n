@@ -100,12 +100,11 @@ class RoutineJdbcTemplateRepositoryTest {
     @Test
     void shouldNotDelete() {
         Routine emptyRoutine = new Routine();
-        assertFalse(repository.delete(emptyRoutine));
+        assertFalse(repository.delete(999));
     }
     @Test
     void shouldDelete() {
-        Routine routine = repository.findById(5);
-        assertTrue(repository.delete(routine));
+        assertTrue(repository.delete(5));
     }
 
     private Routine makeRoutine() {
@@ -115,6 +114,7 @@ class RoutineJdbcTemplateRepositoryTest {
         routine.setRoutine_duration(30);
         routine.setDifficulty("Medium");
         routine.setRoutine_author_id(6);
+        routine.setRoutine_author_name("GovernatorSchwarzenegger");
         return routine;
     }
 }

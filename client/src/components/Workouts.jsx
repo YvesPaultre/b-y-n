@@ -6,12 +6,12 @@ import Workout from "./Workout"
 
 const exampleWorkouts = [
     {
-        "workout_id":1,
-        "workout_name":"test",
-        "workout_description":"testing",
-        "workout_duration":10,
-        "muscle_name":"bicep",
-        "muscle_group":"arm"
+        "workout_id": 1,
+        "workout_name": "test",
+        "workout_description": "testing",
+        "workout_duration": 10,
+        "muscle_name": "bicep",
+        "muscle_group": "arm"
     },
     {
         "workout_id": 2,
@@ -21,44 +21,66 @@ const exampleWorkouts = [
         "muscle_name": "calf",
         "muscle_group": "leg"
     }
-] 
+]
 
 const Workouts = () => {
     // TODO: move searchbar into its own component to reuse with Routines
     const [search, setSearch] = useState('')
-    const [filter, setFilter] = useState()
+    const [filter, setFilter] = useState('')
     const [workouts, setWorkouts] = useState([])
+    const [filteredWorkouts, setFilteredWorkouts] = useState([])
+    const [workoutCards, setWorkoutCards] = useState([])
 
     // TODO: configure api path to GET muscle groups, and dynamically create options
     // const [muscleGroups, setMuscleGroups] = useState()
-    let workoutCards
+    // let workoutCards
 
 
     useEffect(() => {
         getAllWorkouts()
-        makeCards()
+        // setWorkouts(exampleWorkouts)
     }, [])
 
-    useEffect(()=>{filterWorkouts(workouts)},[filter])
+    useEffect(() => { filterWorkouts() }, [filter])
 
     const getAllWorkouts = () => {
-        // fetch("http://localhost:8080/api/workout")
-        //     .then(response => {
-        //         if (response.status === 200) {
-        //             return response.json();
-        //         } else {
-        //             return Promise.reject(`Unexpected Status Code: ${response.status}`);
-        //         }
-        //     })
-        //     .then(data => setWorkouts(data))
-        //     .catch(console.log)
-        setWorkouts(exampleWorkouts)
-        makeCards()
+        fetch("http://localhost:8080/api/workout")
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .then(data => setWorkouts(data))
+            .catch(console.log)
+        // setWorkouts(exampleWorkouts)
+        makeCards(workouts)
     }
 
-    const makeCards = ()=>{
-        workoutCards = workouts.map((workout) => <Workout key={workout.workout_id} workout={workout} />)
-        // console.log(workoutCards)
+    const makeCards = (data) => {
+        // setWorkoutCards(data.map((workout) => <Workout key={workout.workout_id} workout={workout} />))
+        setWorkoutCards(data.map((workout) => {
+            return (
+                //TODO: update name to link to individual page
+                <Row key={workout.id}>
+                    <Col className="workout-name-col">
+                        <h4 className="workout-name">
+                            {workout.name}
+                        </h4>
+                    </Col>
+                    <Col className="workout-mg-col">
+                        <p className="workout-mg">{workout.muscleGroup}</p>
+                    </Col>
+                    <Col className="workout-muscle-col">
+                        <p className="workout-muscle">{workout.muscle}</p>
+                    </Col>
+                    <Col className="workout-duration-col">
+                        <p className="workout-duration">{workout.duration}</p>
+                    </Col>
+                </Row>
+            )
+        }))
     }
 
     const handleChange = (event) => {
@@ -74,25 +96,30 @@ const Workouts = () => {
 
 
     const searchForWorkouts = () => {
-        // fetch(`http://localhost:8080/api/workout/${search}`)
-        //     .then(response => {
-        //         if (response.status === 200) {
-        //             return response.json();
-        //         } else {
-        //             return Promise.reject(`Unexpected Status Code: ${response.status}`);
-        //         }
-        //     })
-        //     .then(data => setWorkouts(filterWorkouts(data)))
-        //     .catch(console.log)
-        filterWorkouts(exampleWorkouts)
+        fetch(`http://localhost:8080/api/workout/search/${search}`)
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .then(data => {
+                setWorkouts(data)
+                filterWorkouts()
+            }
+            )
+            .catch(console.log)
     }
 
-    const filterWorkouts = (data) => {
-        // console.log(data)
-        if(filter){
-            data = data.filter(workout => workout.mg_name == filter)
+    const filterWorkouts = () => {
+        if (filter != '') {
+            // setFilteredWorkouts(workouts.filter(workout => workout.muscleGroup === filter))
+            makeCards(workouts.filter(workout => workout.muscleGroup === filter))
         }
-        setWorkouts(data)        
+        else {
+            makeCards(workouts)
+        }
     }
 
     const handleSubmit = (event) => {
@@ -134,9 +161,11 @@ const Workouts = () => {
                 </Col>
             </Row>
             <Row>
-                {workoutCards}
+                { //TODO: Fix cards not rerendering when workouts is updated.
+                workoutCards}
             </Row>
-            <Button onClick={()=>console.log(workoutCards)}>Debugging</Button>
+            <Button onClick={() => console.log(workoutCards)}>Debugging</Button>
+            <Button onClick={() => console.log(workouts)}>Workouts</Button>
         </Container>
     )
 }
