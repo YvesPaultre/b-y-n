@@ -1,7 +1,10 @@
+import { useEffect } from "react"
 import { Container } from "react-bootstrap"
+import { useParams } from "react-router-dom"
 
-const Workout = (workout) => {
-    console.log(workout)
+const Workout = () => {
+    const {id} = useParams()
+    
     return (
         <Container>
             <p>

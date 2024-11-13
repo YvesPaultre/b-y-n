@@ -44,17 +44,17 @@ const Workouts = () => {
     useEffect(() => { filterWorkouts() }, [filter])
 
     const getAllWorkouts = () => {
-        // fetch("http://localhost:8080/api/workout")
-        //     .then(response => {
-        //         if (response.status === 200) {
-        //             return response.json();
-        //         } else {
-        //             return Promise.reject(`Unexpected Status Code: ${response.status}`);
-        //         }
-        //     })
-        //     .then(data => setWorkouts(data))
-        //     .catch(console.log)
-        setWorkouts(exampleWorkouts)
+        fetch("http://localhost:8080/api/workout")
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .then(data => setWorkouts(data))
+            .catch(console.log)
+        // setWorkouts(exampleWorkouts)
         makeCards(workouts)
     }
 
@@ -65,17 +65,17 @@ const Workouts = () => {
                 <Row key={workout.workout_id}>
                     <Col className="workout-name-col">
                         <h4 className="workout-name">
-                        {workout.workout_name}    
+                        {workout.name}    
                         </h4>
                     </Col>
                     <Col className="workout-mg-col">
-                        <p className="workout-mg">{workout.muscle_group}</p>
+                        <p className="workout-mg">{workout.muscleGroup}</p>
                     </Col>
                     <Col className="workout-muscle-col">
-                        <p className="workout-muscle">{workout.muscle_name}</p>
+                        <p className="workout-muscle">{workout.muscle}</p>
                     </Col>
                     <Col className="workout-duration-col">
-                        <p className="workout-duration">{workout.workout_duration}</p>
+                        <p className="workout-duration">{workout.duration}</p>
                     </Col>
                 </Row>
             )
@@ -95,22 +95,22 @@ const Workouts = () => {
 
 
     const searchForWorkouts = () => {
-        // fetch(`http://localhost:8080/api/workout/${search}`)
-        //     .then(response => {
-        //         if (response.status === 200) {
-        //             return response.json();
-        //         } else {
-        //             return Promise.reject(`Unexpected Status Code: ${response.status}`);
-        //         }
-        //     })
-        //     .then(data => setWorkouts(filterWorkouts(data)))
-        //     .catch(console.log)
+        fetch(`http://localhost:8080/api/workout/search/${search}`)
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .then(data => setWorkouts(filterWorkouts(data)))
+            .catch(console.log)
         filterWorkouts()
     }
 
     const filterWorkouts = () => {
         if (filter != '') {
-            setFilteredWorkouts(workouts.filter(workout => workout.muscle_group === filter))
+            setFilteredWorkouts(workouts.filter(workout => workout.muscleGroup === filter))
             makeCards(filteredWorkouts)
         }   
         else{
