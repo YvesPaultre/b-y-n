@@ -38,7 +38,7 @@ public class RoutineController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/{trainerId}")
+    @GetMapping("/trainer/{trainerId}")
     public ResponseEntity<?> findByTrainer(@PathVariable int trainerId) {
         try {
         List<Routine> all = service.findByTrainer(trainerId);
@@ -47,7 +47,7 @@ public class RoutineController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/{difficulty}")
+    @GetMapping("/diff/{difficulty}")
     public ResponseEntity<?> findByDifficulty(@PathVariable String difficulty) {
         try {
             List<Routine> all = service.findByDifficulty(difficulty);
@@ -56,7 +56,7 @@ public class RoutineController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/{searchTerm}")
+    @GetMapping("/search/{searchTerm}")
     public ResponseEntity<?> findByDescContent(@PathVariable String searchTerm) {
         try {
             List<Routine> all = service.findByDescContent(searchTerm);
@@ -65,7 +65,7 @@ public class RoutineController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/{routineId}")
+    @GetMapping("/routine/{routineId}")
     public ResponseEntity<Routine> findById(@PathVariable int routineId) {
         Routine routine = service.findById(routineId);
 
