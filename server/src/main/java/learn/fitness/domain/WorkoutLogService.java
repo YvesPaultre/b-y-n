@@ -29,7 +29,7 @@ public class WorkoutLogService {
     public Result<WorkoutLog> add(WorkoutLog log){
         Result<WorkoutLog> result = validate(log);
 
-        if(log.getId() > 0){
+        if(log != null && log.getId() > 0){
             result.addMessage("log id cannot be set for add operation", ResultType.INVALID);
         }
 
@@ -48,7 +48,7 @@ public class WorkoutLogService {
     public Result<WorkoutLog> update(WorkoutLog log){
         Result<WorkoutLog> result = validate(log);
 
-        if(log.getId() <= 0){
+        if(log != null && log.getId() <= 0){
             result.addMessage("log id must be set for update operation", ResultType.INVALID);
         }
 
@@ -63,7 +63,12 @@ public class WorkoutLogService {
         return result;
     }
 
-    public boolean delete(int logId){
+    public boolean delete(int logId, int userId){
+        if(repository.findByUser(userId).stream().noneMatch(l -> l.getId() == logId)){
+            // If log is not found by user, user cannot access log
+            return false;
+        }
+
         return repository.delete(logId);
     }
 
@@ -76,8 +81,8 @@ public class WorkoutLogService {
             return result;
         }
 
-        if(log.getGoal() == null || log.getWorkout() == null){
-            result.addMessage("log cannot be null", ResultType.INVALID);
+        if(log.getWorkout() == null){
+            result.addMessage("workout cannot be null", ResultType.INVALID);
             return result;
         }
 
@@ -100,10 +105,12 @@ public class WorkoutLogService {
             result.addMessage("workout does not exist", ResultType.INVALID);
         }
 
-        if(log.getGoal().getGoal_id() <=0 ||
-                goalRepository.findByUser(log.getUserId()).stream().noneMatch(g -> g.getGoal_id() == log.getGoal().getGoal_id())){
-            // We don't care if the goal exists if it belongs to another user
-            result.addMessage("goal does not exist", ResultType.INVALID);
+        if(log.getGoal() != null) { // Goal is allowed to be null, but must be valid if it exists
+            if (log.getGoal().getGoal_id() <= 0 ||
+                    goalRepository.findByUser(log.getUserId()).stream().noneMatch(g -> g.getGoal_id() == log.getGoal().getGoal_id())) {
+                // We don't care if the goal exists if it belongs to another user
+                result.addMessage("goal does not exist", ResultType.INVALID);
+            }
         }
     }
 }
