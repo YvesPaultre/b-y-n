@@ -39,15 +39,15 @@ class WorkoutJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldFind2Grasp(){
-        List<Workout> graspWorkouts = repository.findByDescContent("grasp");
+    void shouldFind2Press(){
+        List<Workout> graspWorkouts = repository.findByName("press");
         assertNotNull(graspWorkouts);
     }
 
     @Test
     void shouldFind0Blob(){
         // Should return empty, but not null
-        List<Workout> blobWorkouts = repository.findByDescContent("blob");
+        List<Workout> blobWorkouts = repository.findByName("blob");
         assertNotNull(blobWorkouts);
         assertTrue(blobWorkouts.isEmpty());
     }
