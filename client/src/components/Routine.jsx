@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { Container, Row, Col, ListGroup, ListGroupItem } from "react-bootstrap"
+import { Container, Row, Col, ListGroup, Nav } from "react-bootstrap"
 import { useParams } from "react-router-dom"
 
 const Routine = () => {
     const { id } = useParams()
     const [routine, setRoutine] = useState({})
+    const [workouts, setWorkouts] = useState([])
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/routine/id/${id}`)
@@ -12,13 +13,23 @@ const Routine = () => {
                 if (response.status === 200) { return response.json() }
                 else { return Promise.reject(`Unexpected Status Code: ${response.status}`) }
             })
-            .then(data => { setRoutine(data) })
+            .then(data => {
+                setRoutine(data)
+                let splitWorkouts = data.workouts.split(',')
+                setWorkouts(splitWorkouts.map((w) => {
+                    w = w.split(':')
+                    return {
+                        "workoutId": w[0],
+                        "workoutName": w[1]
+                    }
+                }))
+            })
             .catch(console.log)
     }, [])
 
-    let splitWorkouts = routine.workouts.split(',')
+    
 
-    console.log(routine)
+    // console.log(routine)
     return (
         <Container>
             <Row>
@@ -43,9 +54,11 @@ const Routine = () => {
                 <h5 className="routine-workouts">Workouts</h5>
                     <ListGroup>
                         {
-                           splitWorkouts.map(workout=> 
+                           workouts.map(workout=> 
                             <ListGroup.Item>
-                                {workout}
+                                <Nav.Link href={`/workouts/${workout.workoutId}`}>
+                                    {workout.workoutName}
+                                </Nav.Link>
                             </ListGroup.Item>
                             )
                         }

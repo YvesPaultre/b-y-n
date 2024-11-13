@@ -1,37 +1,11 @@
 import { useEffect, useState } from "react"
-import { Container, Row, Col, Form, Button } from "react-bootstrap"
+import { Container, Row, Col, Form, Button, Nav } from "react-bootstrap"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
-const exampleRoutines = [
-    {
-        "routine_id":1,
-        "routine_name":"testing",
-        "routine_description": "a run of the mill test",
-        "difficulty": "easy",
-        "routine_duration":60,
-        "routine_author": "testerino"
-    },
-    {
-        "routine_id": 2,
-        "routine_name": "test 2",
-        "routine_description": "a harder test",
-        "difficulty": "medium",
-        "routine_duration": 90,
-        "routine_author": "McTesterton"
-    },
-    {
-        "routine_id": 3,
-        "routine_name": "Third test",
-        "routine_description": "The hardest Test",
-        "difficulty": "hard",
-        "routine_duration": 300,
-        "routine_author": "Retset"
-    }
-]
-
 const Routines = () => {
     const [search, setSearch] = useState('')
+
     // TODO: set up UserController to get all trainers
     // const [trainerFilter, setTrainerFilter] = useState('') 
     const [diffFilter, setDiffFilter] = useState('')
@@ -39,14 +13,9 @@ const Routines = () => {
     const [filteredRoutines, setFilteredRoutines] = useState([])
     const [routineCards, setroutineCards] = useState([])
 
-    // TODO: configure api path to GET muscle groups, and dynamically create options
-    // const [muscleGroups, setMuscleGroups] = useState()
-    // let routineCards
-
 
     useEffect(() => {
         getAllRoutines()
-        // setRoutines(exampleRoutines)
     }, [])
 
     useEffect(() => { filterRoutines() }, [diffFilter])
@@ -62,19 +31,17 @@ const Routines = () => {
             })
             .then(data => setRoutines(data))
             .catch(console.log)
-        // setRoutines(exampleRoutines)
         makeCards(routines)
     }
 
     const makeCards = (data) => {
-        // setroutineCards(data.map((routine) => <routine key={routine.routine_id} routine={routine} />))
         setroutineCards(data.map((routine) => {
             return (
                 <Row key={routine.routine_id}>
                     <Col className="routine-name-col">
-                        <h4 className="routine-name">
+                        <Nav.Link className="routine-name" href={`routines/${routine.routine_id}`}>
                             {routine.routine_name}
-                        </h4>
+                        </Nav.Link>
                     </Col>
                     <Col className="routine-author-col">
                         <p className="routine-author">{routine.routine_author}</p>
@@ -163,7 +130,6 @@ const Routines = () => {
             <Row>
                 {routineCards}
             </Row>
-            {/* {/* <Button onClick={() => console.log(routineCards)}>Debugging</Button> */}
             <Button onClick={() => console.log(routines)}>routines</Button> 
         </Container>
     )

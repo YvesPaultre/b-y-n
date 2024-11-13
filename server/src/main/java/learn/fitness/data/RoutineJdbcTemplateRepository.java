@@ -68,7 +68,7 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
     public Routine findById(int routineId) {
         final String sql = "select r.routine_id, r.routine_name, r.routine_description, r.routine_duration, r.difficulty, r.routine_author_id, "
                 + "u.username as routine_author_name, "
-                + "group_concat( w.workout_name) as 'workouts' "
+                + "group_concat(concat( w.workout_id, ':', w.workout_name)) as 'workouts' "
                 + "from routine r "
                 + "left join user u on r.routine_author_id = u.user_id "
                 + "left join routine_workout rw on rw.routine_id = r.routine_id "
