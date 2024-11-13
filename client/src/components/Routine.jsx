@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Container, Row, Col } from "react-bootstrap"
+import { Container, Row, Col, ListGroup } from "react-bootstrap"
 import { useParams } from "react-router-dom"
 
 const Routine = () => {
@@ -20,23 +20,29 @@ const Routine = () => {
     return (
         <Container>
             <Row>
-                <h3 className="routine-name">{routine.name}</h3>
+                <h3 className="routine-name">{routine.routine_name}</h3>
             </Row>
-            <Row className="routine-mg-muscle-duration">
+            <Row className="routine-auth-diff-duration">
                 <Col>
-                    <Col>
-                        <h5 className="routine-mg">{routine.muscleGroup}</h5>
-                    </Col>
-                    <Col>
-                        <h5 className="routine-muscle">{routine.muscle}</h5>
-                    </Col>
+                    <h5 className="routine-auth">{routine.routine_author_name}</h5>
                 </Col>
                 <Col>
-                    <h5 className="routine-duration">{routine.duration}</h5>
+                    <h5 className="routine-diff">{routine.difficulty}</h5>
+                </Col>
+                <Col>
+                    <h5 className="routine-duration">{routine.routine_duration}</h5>
                 </Col>
             </Row>
-            <Row children='routine-description'>
-                <p>{routine.description}</p>
+            <Row children='routine-description-workouts'>
+                <Col>
+                <p>{routine.routine_description}</p>
+                </Col>
+                <Col>
+                <h5 className="routine-workouts">Workouts</h5>
+                    <ListGroup>
+                        
+                    </ListGroup>
+                </Col>
             </Row>
         </Container>
     )

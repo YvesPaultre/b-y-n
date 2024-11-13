@@ -1,4 +1,5 @@
-import { Container, Form, Button } from "react-bootstrap"
+import { Alert, Container, Form, Button, ListGroup, ListGroupItem } from "react-bootstrap"
+import { createContext, useState } from "react"
 
 const USER_DEFAULT = {
     username: '',
@@ -15,7 +16,7 @@ const Register = ()=>{
     const handleSubmit = (event)=>{
         event.preventDefault();
 
-        if(password !== passwordVerify){
+        if(credentials.password !== passwordVerify){
             setErrors(["Passwords do not match."]);
             return;
         }
@@ -37,7 +38,7 @@ const Register = ()=>{
             }
         }).then(data => {
             if(data.appUserId){
-                console.log(appUserId);
+                console.log(data.appUserId);
             } else {
                 setErrors(data);
             }
