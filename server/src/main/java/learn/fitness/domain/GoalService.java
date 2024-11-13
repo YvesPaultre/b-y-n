@@ -53,7 +53,11 @@ public class GoalService {
         return result;
     }
 
-    public boolean delete(int goalId) {
+    public boolean delete(int goalId, int userId) {
+        if(findByUser(userId).stream().noneMatch(g -> g.getGoal_id() == goalId)){
+            return false; // Goal does not exist or does not belong to user; treat as not found
+        }
+
         return repository.delete(goalId);
     }
 

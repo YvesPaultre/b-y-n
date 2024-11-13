@@ -100,12 +100,11 @@ class RoutineJdbcTemplateRepositoryTest {
     @Test
     void shouldNotDelete() {
         Routine emptyRoutine = new Routine();
-        assertFalse(repository.delete(emptyRoutine));
+        assertFalse(repository.delete(999));
     }
     @Test
     void shouldDelete() {
-        Routine routine = repository.findById(5);
-        assertTrue(repository.delete(routine));
+        assertTrue(repository.delete(5));
     }
 
     private Routine makeRoutine() {

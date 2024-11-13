@@ -12,5 +12,5 @@ public interface RoutineRepository {
     Routine findById(int routineId);
     Routine add(Routine routine);
     boolean update(Routine routine);
-    boolean delete(Routine routine);
+    boolean delete(int routineId);
 }

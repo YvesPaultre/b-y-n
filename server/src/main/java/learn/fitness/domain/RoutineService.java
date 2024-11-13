@@ -70,8 +70,8 @@ public class RoutineService {
         return result;
     }
 
-    public boolean delete(Routine routine) {
-        return repository.delete(routine);
+    public boolean delete(int routineId) {
+        return repository.delete(routineId);
     }
 
     private Result<Routine> validate(Routine routine) {

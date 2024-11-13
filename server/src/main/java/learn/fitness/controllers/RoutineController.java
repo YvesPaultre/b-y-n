@@ -2,9 +2,12 @@ package learn.fitness.controllers;
 
 import learn.fitness.domain.Result;
 import learn.fitness.domain.RoutineService;
+import learn.fitness.models.AppUser;
 import learn.fitness.models.Goal;
 import learn.fitness.models.Routine;
 import learn.fitness.models.Workout;
+import learn.fitness.security.JwtConverter;
+import learn.fitness.security.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +20,14 @@ import java.util.List;
 public class RoutineController {
 
     private final RoutineService service;
+    private final UserService userService;
+    private final JwtConverter converter;
 
-    public RoutineController(RoutineService service) {this.service = service; }
+    public RoutineController(RoutineService service, UserService userService, JwtConverter converter) {
+        this.service = service;
+        this.userService = userService;
+        this.converter = converter;
+    }
 
     @GetMapping
     public ResponseEntity<?> findAll() {
@@ -67,7 +76,17 @@ public class RoutineController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> add(@RequestBody Routine routine) {
+    public ResponseEntity<Object> add(@RequestBody Routine routine, @RequestBody String jwtToken) {
+        AppUser user = (AppUser) userService.loadUserByUsername(converter.getUserFromToken(jwtToken).getUsername());
+
+        if(!user.isAdmin()){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        if(routine.getRoutine_author_id() != user.getAppUserId()){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
         Result<Routine> result = service.add(routine);
         if(result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
@@ -76,7 +95,17 @@ public class RoutineController {
     }
 
     @PutMapping("/{routineId}")
-    public ResponseEntity<Object> update(@PathVariable int routineId, @RequestBody Routine routine) {
+    public ResponseEntity<Object> update(@PathVariable int routineId, @RequestBody Routine routine, @RequestBody String jwtToken) {
+        AppUser user = (AppUser) userService.loadUserByUsername(converter.getUserFromToken(jwtToken).getUsername());
+
+        if(!user.isAdmin()){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        if(routine.getRoutine_author_id() != user.getAppUserId()){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
         if(routineId != routine.getRoutine_id()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -89,9 +118,15 @@ public class RoutineController {
         return ErrorResponse.build(result);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestBody Routine routine) {
-        if(service.delete(routine)) {
+    @DeleteMapping("/{routineId}")
+    public ResponseEntity<Void> delete(@PathVariable int routineId, @RequestBody String jwtToken) {
+        AppUser user = (AppUser) userService.loadUserByUsername(converter.getUserFromToken(jwtToken).getUsername());
+
+        if(!user.isAdmin()){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        if(service.delete(routineId)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
