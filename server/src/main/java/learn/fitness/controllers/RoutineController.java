@@ -83,10 +83,6 @@ public class RoutineController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        if(routine.getRoutine_author_id() != user.getAppUserId()){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
         Result<Routine> result = service.add(routine);
         if(result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
@@ -100,10 +96,6 @@ public class RoutineController {
 
         if(!user.isAdmin()){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
-        if(routine.getRoutine_author_id() != user.getAppUserId()){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
         if(routineId != routine.getRoutine_id()) {

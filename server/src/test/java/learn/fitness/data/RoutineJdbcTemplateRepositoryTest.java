@@ -114,6 +114,7 @@ class RoutineJdbcTemplateRepositoryTest {
         routine.setRoutine_duration(30);
         routine.setDifficulty("Medium");
         routine.setRoutine_author_id(6);
+        routine.setRoutine_author_name("GovernatorSchwarzenegger");
         return routine;
     }
 }
