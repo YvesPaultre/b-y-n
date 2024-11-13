@@ -14,13 +14,13 @@ public class WorkoutJdbcTemplateRepository implements WorkoutRepository{
 
     public WorkoutJdbcTemplateRepository(JdbcTemplate jdbcTemplate){ this.jdbcTemplate = jdbcTemplate; }
 
-    //TODO: Add muscle_group name to select
     @Override
     public List<Workout> findAll() {
         final String sql = "select w.workout_id as workout_id, w.workout_name as workout_name, "
                 + "w.workout_description as workout_description, w.workout_duration as workout_duration, "
-                + "m.muscle_name as muscle_name "
-                + "from workout w left join muscle m on w.muscle_id = m.muscle_id;";
+                + "m.muscle_name as muscle_name, mg.mg_name as muscle_group "
+                + "from workout w left join muscle m on w.muscle_id = m.muscle_id "
+                + "left join muscle_group mg on m.mg_id = mg.mg_id;";
         return jdbcTemplate.query(sql, new WorkoutMapper());
     }
 
@@ -28,7 +28,7 @@ public class WorkoutJdbcTemplateRepository implements WorkoutRepository{
     public List<Workout> findByMuscleGroup(String muscleGroup) {
         final String sql = "select w.workout_id as workout_id, w.workout_name as workout_name, "
                 + "w.workout_description as workout_description, w.workout_duration as workout_duration, "
-                + "m.muscle_name as muscle_name "
+                + "m.muscle_name as muscle_name, mg.mg_name as muscle_group "
                 + "from workout w left join muscle m on w.muscle_id = m.muscle_id "
                 + "left join muscle_group mg on m.mg_id = mg.mg_id "
                 + "where mg_name = ?;";
