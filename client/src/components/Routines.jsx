@@ -1,6 +1,40 @@
+import { useEffect, useState } from "react"
+import { Container, Row, Col, Form, Button } from "react-bootstrap"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+
+const exampleRoutines = [
+    {
+        "routine_id":1,
+        "routine_name":"testing",
+        "routine_description": "a run of the mill test",
+        "difficulty": "easy",
+        "routine_duration":60,
+        "routine_author": "testerino"
+    },
+    {
+        "routine_id": 2,
+        "routine_name": "test 2",
+        "routine_description": "a harder test",
+        "difficulty": "medium",
+        "routine_duration": 90,
+        "routine_author": "McTesterton"
+    },
+    {
+        "routine_id": 3,
+        "routine_name": "Third test",
+        "routine_description": "The hardest Test",
+        "difficulty": "hard",
+        "routine_duration": 300,
+        "routine_author": "Retset"
+    }
+]
+
 const Routines = () => {
     const [search, setSearch] = useState('')
-    const [trainerFilter, setTrainerFilter] = useState('')
+    // TODO: set up UserController to get all trainers
+    // const [trainerFilter, setTrainerFilter] = useState('') 
+    const [diffFilter, setDiffFilter] = useState('')
     const [routines, setRoutines] = useState([])
     const [filteredRoutines, setFilteredRoutines] = useState([])
     const [routineCards, setroutineCards] = useState([])
@@ -15,7 +49,7 @@ const Routines = () => {
         // setRoutines(exampleRoutines)
     }, [])
 
-    useEffect(() => { filterRoutines() }, [filter])
+    useEffect(() => { filterRoutines() }, [diffFilter])
 
     const getAllRoutines = () => {
         // fetch("http://localhost:8080/api/routine")
@@ -42,11 +76,11 @@ const Routines = () => {
                             {routine.routine_name}
                         </h4>
                     </Col>
-                    <Col className="routine-mg-col">
-                        <p className="routine-mg">{routine.muscle_group}</p>
+                    <Col className="routine-author-col">
+                        <p className="routine-author">{routine.routine_author}</p>
                     </Col>
-                    <Col className="routine-muscle-col">
-                        <p className="routine-muscle">{routine.muscle_name}</p>
+                    <Col className="routine-diff-col">
+                        <p className="routine-diff">{routine.difficulty}</p>
                     </Col>
                     <Col className="routine-duration-col">
                         <p className="routine-duration">{routine.routine_duration}</p>
@@ -60,8 +94,8 @@ const Routines = () => {
         setSearch(event.target.value)
     }
 
-    const handleFilterChange = (event) => {
-        setFilter(event.target.value)
+    const handleDiffFilterChange = (event) => {
+        setDiffFilter(event.target.value)
     }
 
 
@@ -83,8 +117,10 @@ const Routines = () => {
     }
 
     const filterRoutines = () => {
-        if (filter != '') {
-            setFilteredRoutines(routines.filter(routine => routine.muscle_group === filter))
+        //TODO: refactor to filter by trainer name too
+
+        if (diffFilter != '') {
+            setFilteredRoutines(routines.filter(routine => routine.difficulty === diffFilter))
             makeCards(filteredRoutines)
         }
         else {
@@ -94,7 +130,7 @@ const Routines = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        console.log(search, filter)
+        console.log(search, diffFilter)
         searchForRoutines()
     }
 
@@ -110,18 +146,13 @@ const Routines = () => {
                         <Form onSubmit={handleSubmit}>
                             <Form.Group className="mb-3" controlId='routineName' onChange={handleChange}>
                                 <Form.Control type="text" placeholder="routine Name" />
-                                <Form.Text className="text-muted">Search by routine Name</Form.Text>
+                                <Form.Text className="text-muted">Search by Routine Name</Form.Text>
                             </Form.Group>
-                            <Form.Select aria-label="routine muscle group" onChange={handleFilterChange}>
-                                <option value="">Select Muscle Group</option>
-                                <option value="arm">Arms</option>
-                                <option value="buttock">Buttocks</option>
-                                <option value="chest">Chest</option>
-                                <option value="core">Core</option>
-                                <option value="leg">Legs</option>
-                                <option value="lower back">Lower Back</option>
-                                <option value="shoulder">Shoulders</option>
-                                <option value="upper back">Upper Back</option>
+                            <Form.Select aria-label="routine difficulty" onChange={handleDiffFilterChange}>
+                                <option value="">Select Difficulty</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
                             </Form.Select>
                             <Button variant="secondary" type="submit">
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -133,8 +164,8 @@ const Routines = () => {
             <Row>
                 {routineCards}
             </Row>
-            <Button onClick={() => console.log(routineCards)}>Debugging</Button>
-            <Button onClick={() => console.log(routines)}>routines</Button>
+            {/* <Button onClick={() => console.log(routineCards)}>Debugging</Button>
+            <Button onClick={() => console.log(routines)}>routines</Button> */}
         </Container>
     )
 }
