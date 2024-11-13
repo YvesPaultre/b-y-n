@@ -116,8 +116,8 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
     }
 
     @Override
-    public boolean delete(Routine routine) {
-        return jdbcTemplate.update("delete from routine where routine_id = ?;", routine.getRoutine_id()) > 0;
+    public boolean delete(int routineId) {
+        return jdbcTemplate.update("delete from routine where routine_id = ?;", routineId) > 0;
     }
 
     private String serialize(Routine routine) {
