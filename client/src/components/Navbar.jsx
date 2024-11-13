@@ -30,7 +30,7 @@ const NavBar = () => {
         <Container id="narbar-container">
             <Navbar expand='sm' className="mb-3">
                 <Container className="navBar">
-                    <Navbar.Brand href='/'>
+                    <Navbar.Brand href={currentUser ? '/dashboard': '/'}>
                         <h3 className="brand">BYN Fitness</h3>
                     </Navbar.Brand>
                     <Navbar.Toggle
