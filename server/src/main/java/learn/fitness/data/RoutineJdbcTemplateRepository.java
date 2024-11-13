@@ -49,6 +49,7 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
         return jdbcTemplate.query(sql, new RoutineMapper(), difficulty);
     }
 
+    //TODO: Need to find by routine name
     @Override
     public List<Routine> findByDescContent(String searchTerm) {
         final String sql = "select routine_id, routine_name, routine_description, routine_duration, difficulty, routine_author_id, "
@@ -62,12 +63,17 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
         return jdbcTemplate.query(sql, new RoutineMapper(), searchPattern);
     }
 
+    //TODO: get workouts for routine
     @Override
     public Routine findById(int routineId) {
-        final String sql = "select routine_id, routine_name, routine_description, routine_duration, difficulty, routine_author_id, "
-                + "u.username as routine_author_name "
-                + "from routine left join user u on routine.routine_author_id = u.user_id "
-                + "where routine_id = ?;";
+        final String sql = "select r.routine_id, r.routine_name, r.routine_description, r.routine_duration, r.difficulty, r.routine_author_id, "
+                + "u.username as routine_author_name, "
+                + "w.workout_name "
+                + "from routine r "
+                + "left join user u on r.routine_author_id = u.user_id "
+                + "left join routine_workout rw on rw.routine_id = r.routine_id "
+                + "left join workout w on rw.workout_id = w.workout_id "
+                + "where r.routine_id = ?;";
 
         return jdbcTemplate.query(sql, new RoutineMapper(), routineId)
                 .stream()

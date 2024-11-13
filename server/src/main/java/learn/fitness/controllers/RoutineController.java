@@ -56,6 +56,7 @@ public class RoutineController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    //TODO: Fix to search by Routine Name
     @GetMapping("/search/{searchTerm}")
     public ResponseEntity<?> findByDescContent(@PathVariable String searchTerm) {
         try {
@@ -65,7 +66,7 @@ public class RoutineController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/routine/{routineId}")
+    @GetMapping("/id/{routineId}")
     public ResponseEntity<Routine> findById(@PathVariable int routineId) {
         Routine routine = service.findById(routineId);
 

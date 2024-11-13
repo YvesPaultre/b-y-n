@@ -52,17 +52,17 @@ const Routines = () => {
     useEffect(() => { filterRoutines() }, [diffFilter])
 
     const getAllRoutines = () => {
-        // fetch("http://localhost:8080/api/routine")
-        //     .then(response => {
-        //         if (response.status === 200) {
-        //             return response.json();
-        //         } else {
-        //             return Promise.reject(`Unexpected Status Code: ${response.status}`);
-        //         }
-        //     })
-        //     .then(data => setRoutines(data))
-        //     .catch(console.log)
-        setRoutines(exampleRoutines)
+        fetch("http://localhost:8080/api/routine")
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .then(data => setRoutines(data))
+            .catch(console.log)
+        // setRoutines(exampleRoutines)
         makeCards(routines)
     }
 
@@ -98,30 +98,29 @@ const Routines = () => {
         setDiffFilter(event.target.value)
     }
 
-
-    // Where filter and search, get mg routines, then filter by name
-
-
     const searchForRoutines = () => {
-        // fetch(`http://localhost:8080/api/routine/${search}`)
-        //     .then(response => {
-        //         if (response.status === 200) {
-        //             return response.json();
-        //         } else {
-        //             return Promise.reject(`Unexpected Status Code: ${response.status}`);
-        //         }
-        //     })
-        //     .then(data => setRoutines(filterRoutines(data)))
-        //     .catch(console.log)
-        filterRoutines()
+        fetch(`http://localhost:8080/api/routine/search/${search}`)
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .then(data => {
+                setRoutines(data)
+                filterRoutines()
+            }
+        )
+            .catch(console.log)
     }
 
     const filterRoutines = () => {
         //TODO: refactor to filter by trainer name too
 
         if (diffFilter != '') {
-            setFilteredRoutines(routines.filter(routine => routine.difficulty === diffFilter))
-            makeCards(filteredRoutines)
+            // setFilteredRoutines(routines.filter(routine => routine.difficulty === diffFilter))
+            makeCards(routines.filter(routine => routine.difficulty === diffFilter))
         }
         else {
             makeCards(routines)
@@ -150,9 +149,9 @@ const Routines = () => {
                             </Form.Group>
                             <Form.Select aria-label="routine difficulty" onChange={handleDiffFilterChange}>
                                 <option value="">Select Difficulty</option>
-                                <option value="easy">Easy</option>
-                                <option value="medium">Medium</option>
-                                <option value="hard">Hard</option>
+                                <option value="Easy">Easy</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Hard">Hard</option>
                             </Form.Select>
                             <Button variant="secondary" type="submit">
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -164,8 +163,8 @@ const Routines = () => {
             <Row>
                 {routineCards}
             </Row>
-            {/* <Button onClick={() => console.log(routineCards)}>Debugging</Button>
-            <Button onClick={() => console.log(routines)}>routines</Button> */}
+            {/* {/* <Button onClick={() => console.log(routineCards)}>Debugging</Button> */}
+            <Button onClick={() => console.log(routines)}>routines</Button> 
         </Container>
     )
 }
