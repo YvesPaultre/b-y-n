@@ -15,7 +15,8 @@ public class WorkoutMapper implements RowMapper<Workout> {
                 rs.getString("workout_name"),
                 rs.getString("workout_description"),
                 rs.getInt("workout_duration"),
-                rs.getString("muscle_name")
+                rs.getString("muscle_name"),
+                rs.getString("muscle_group")
         );
     }
 }
