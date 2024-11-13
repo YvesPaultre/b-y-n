@@ -1,44 +1,20 @@
 import { useEffect, useState } from "react"
-import { Container, Row, Col, Form, Button } from "react-bootstrap"
+import { Container, Row, Col, Form, Button, Nav } from "react-bootstrap"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import Workout from "./Workout"
-
-const exampleWorkouts = [
-    {
-        "workout_id": 1,
-        "workout_name": "test",
-        "workout_description": "testing",
-        "workout_duration": 10,
-        "muscle_name": "bicep",
-        "muscle_group": "arm"
-    },
-    {
-        "workout_id": 2,
-        "workout_name": "test2",
-        "workout_description": "another testing",
-        "workout_duration": 20,
-        "muscle_name": "calf",
-        "muscle_group": "leg"
-    }
-]
 
 const Workouts = () => {
-    // TODO: move searchbar into its own component to reuse with Routines
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('')
     const [workouts, setWorkouts] = useState([])
-    const [filteredWorkouts, setFilteredWorkouts] = useState([])
-    const [workoutCards, setWorkoutCards] = useState([])
 
     // TODO: configure api path to GET muscle groups, and dynamically create options
     // const [muscleGroups, setMuscleGroups] = useState()
-    // let workoutCards
 
 
     useEffect(() => {
         getAllWorkouts()
-        // setWorkouts(exampleWorkouts)
+        // makeCards(workouts)
     }, [])
 
     useEffect(() => { filterWorkouts() }, [filter])
@@ -54,33 +30,36 @@ const Workouts = () => {
             })
             .then(data => setWorkouts(data))
             .catch(console.log)
-        // setWorkouts(exampleWorkouts)
-        makeCards(workouts)
+        // makeCards(workouts)
     }
 
-    const makeCards = (data) => {
-        // setWorkoutCards(data.map((workout) => <Workout key={workout.workout_id} workout={workout} />))
-        setWorkoutCards(data.map((workout) => {
-            return (
-                //TODO: update name to link to individual page
-                <Row key={workout.id}>
-                    <Col className="workout-name-col">
-                        <h4 className="workout-name">
-                            {workout.name}
-                        </h4>
-                    </Col>
-                    <Col className="workout-mg-col">
-                        <p className="workout-mg">{workout.muscleGroup}</p>
-                    </Col>
-                    <Col className="workout-muscle-col">
-                        <p className="workout-muscle">{workout.muscle}</p>
-                    </Col>
-                    <Col className="workout-duration-col">
-                        <p className="workout-duration">{workout.duration}</p>
-                    </Col>
-                </Row>
-            )
-        }))
+    const renderCards = ()=>{
+        if(workouts.length === 0){
+            return <h4>Loading...</h4>
+        } else{
+            return filterWorkouts().map((workout) => {
+                return (
+                    <Row key={workout.id}>
+                        <Col className="workout-name-col">
+                            <Nav.Link href={`/workouts/${workout.id}`}>
+                                <h4 className="workout-name">
+                                    {workout.name}
+                                </h4>
+                            </Nav.Link>
+                        </Col>
+                        <Col className="workout-mg-col">
+                            <p className="workout-mg">{workout.muscleGroup}</p>
+                        </Col>
+                        <Col className="workout-muscle-col">
+                            <p className="workout-muscle">{workout.muscle}</p>
+                        </Col>
+                        <Col className="workout-duration-col">
+                            <p className="workout-duration">{workout.duration}</p>
+                        </Col>
+                    </Row>
+                )
+            })
+        }
     }
 
     const handleChange = (event) => {
@@ -90,10 +69,6 @@ const Workouts = () => {
     const handleFilterChange = (event) => {
         setFilter(event.target.value)
     }
-
-
-    // Where filter and search, get mg workouts, then filter by name
-
 
     const searchForWorkouts = () => {
         fetch(`http://localhost:8080/api/workout/search/${search}`)
@@ -114,17 +89,16 @@ const Workouts = () => {
 
     const filterWorkouts = () => {
         if (filter != '') {
-            // setFilteredWorkouts(workouts.filter(workout => workout.muscleGroup === filter))
-            makeCards(workouts.filter(workout => workout.muscleGroup === filter))
+            return workouts.filter(workout => workout.muscleGroup === filter)
         }
         else {
-            makeCards(workouts)
+            return workouts
         }
     }
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        console.log(search, filter)
+        // console.log(search, filter)
         searchForWorkouts()
     }
 
@@ -162,10 +136,9 @@ const Workouts = () => {
             </Row>
             <Row>
                 { //TODO: Fix cards not rerendering when workouts is updated.
-                workoutCards}
+                renderCards()
+                }
             </Row>
-            <Button onClick={() => console.log(workoutCards)}>Debugging</Button>
-            <Button onClick={() => console.log(workouts)}>Workouts</Button>
         </Container>
     )
 }
