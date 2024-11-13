@@ -4,7 +4,9 @@ const Workout = (workout) => {
     console.log(workout)
     return (
         <Container>
-            {workout.workout_name}
+            <p>
+                {workout.workout_name}
+                </p>
         </Container>
     )
 }
