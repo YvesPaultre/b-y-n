@@ -22,16 +22,18 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
 
     @Override
     public List<Routine> findAll() {
-        final String sql = "select routine_id, routine_name, routine_description, routine_duration, difficulty, routine_author_id "
-                + "from routine;";
+        final String sql = "select routine_id, routine_name, routine_description, routine_duration, difficulty, routine_author_id, "
+                + "u.username as routine_author_name "
+                + "from routine left join user u on routine.routine_author_id = u.user_id;";
 
         return jdbcTemplate.query(sql, new RoutineMapper());
     }
 
     @Override
     public List<Routine> findByTrainer(int trainerId) {
-        final String sql = "select routine_id, routine_name, routine_description, routine_duration, difficulty, routine_author_id "
-                + "from routine "
+        final String sql = "select routine_id, routine_name, routine_description, routine_duration, difficulty, routine_author_id, "
+                + "u.username as routine_author_name "
+                + "from routine left join user u on routine.routine_author_id = u.user_id "
                 + "where routine_author_id = ?;";
 
         return jdbcTemplate.query(sql, new RoutineMapper(), trainerId);
@@ -39,8 +41,9 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
 
     @Override
     public List<Routine> findByDifficulty(String difficulty) {
-        final String sql = "select routine_id, routine_name, routine_description, routine_duration, difficulty, routine_author_id "
-                + "from routine "
+        final String sql = "select routine_id, routine_name, routine_description, routine_duration, difficulty, routine_author_id, "
+                + "u.username as routine_author_name "
+                + "from routine left join user u on routine.routine_author_id = u.user_id "
                 + "where difficulty = ?;";
 
         return jdbcTemplate.query(sql, new RoutineMapper(), difficulty);
@@ -48,8 +51,9 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
 
     @Override
     public List<Routine> findByDescContent(String searchTerm) {
-        final String sql = "select routine_id, routine_name, routine_description, routine_duration, difficulty, routine_author_id "
-                + "from routine "
+        final String sql = "select routine_id, routine_name, routine_description, routine_duration, difficulty, routine_author_id, "
+                + "u.username as routine_author_name "
+                + "from routine left join user u on routine.routine_author_id = u.user_id "
                 + "where routine_description like ?;";
 
         // Add wildcards to the search term for pattern matching
@@ -60,8 +64,9 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
 
     @Override
     public Routine findById(int routineId) {
-        final String sql = "select routine_id, routine_name, routine_description, routine_duration, difficulty, routine_author_id "
-                + "from routine "
+        final String sql = "select routine_id, routine_name, routine_description, routine_duration, difficulty, routine_author_id, "
+                + "u.username as routine_author_name "
+                + "from routine left join user u on routine.routine_author_id = u.user_id "
                 + "where routine_id = ?;";
 
         return jdbcTemplate.query(sql, new RoutineMapper(), routineId)
