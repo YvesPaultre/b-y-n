@@ -62,10 +62,11 @@ const Workouts = () => {
         // setWorkoutCards(data.map((workout) => <Workout key={workout.workout_id} workout={workout} />))
         setWorkoutCards(data.map((workout) => {
             return (
-                <Row key={workout.workout_id}>
+                //TODO: update name to link to individual page
+                <Row key={workout.id}>
                     <Col className="workout-name-col">
                         <h4 className="workout-name">
-                        {workout.name}    
+                            {workout.name}
                         </h4>
                     </Col>
                     <Col className="workout-mg-col">
@@ -103,17 +104,20 @@ const Workouts = () => {
                     return Promise.reject(`Unexpected Status Code: ${response.status}`);
                 }
             })
-            .then(data => setWorkouts(filterWorkouts(data)))
+            .then(data => {
+                setWorkouts(data)
+                filterWorkouts()
+            }
+            )
             .catch(console.log)
-        filterWorkouts()
     }
 
     const filterWorkouts = () => {
         if (filter != '') {
-            setFilteredWorkouts(workouts.filter(workout => workout.muscleGroup === filter))
-            makeCards(filteredWorkouts)
-        }   
-        else{
+            // setFilteredWorkouts(workouts.filter(workout => workout.muscleGroup === filter))
+            makeCards(workouts.filter(workout => workout.muscleGroup === filter))
+        }
+        else {
             makeCards(workouts)
         }
     }
@@ -157,7 +161,8 @@ const Workouts = () => {
                 </Col>
             </Row>
             <Row>
-                {workoutCards}
+                { //TODO: Fix cards not rerendering when workouts is updated.
+                workoutCards}
             </Row>
             <Button onClick={() => console.log(workoutCards)}>Debugging</Button>
             <Button onClick={() => console.log(workouts)}>Workouts</Button>
