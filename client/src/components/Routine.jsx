@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Container, Row, Col, ListGroup } from "react-bootstrap"
+import { Container, Row, Col, ListGroup, ListGroupItem } from "react-bootstrap"
 import { useParams } from "react-router-dom"
 
 const Routine = () => {
@@ -15,6 +15,8 @@ const Routine = () => {
             .then(data => { setRoutine(data) })
             .catch(console.log)
     }, [])
+
+    let splitWorkouts = routine.workouts.split(',')
 
     console.log(routine)
     return (
@@ -40,7 +42,13 @@ const Routine = () => {
                 <Col>
                 <h5 className="routine-workouts">Workouts</h5>
                     <ListGroup>
-                        
+                        {
+                           splitWorkouts.map(workout=> 
+                            <ListGroup.Item>
+                                {workout}
+                            </ListGroup.Item>
+                            )
+                        }
                     </ListGroup>
                 </Col>
             </Row>
