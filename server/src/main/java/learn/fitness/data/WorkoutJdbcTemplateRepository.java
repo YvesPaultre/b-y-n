@@ -14,6 +14,7 @@ public class WorkoutJdbcTemplateRepository implements WorkoutRepository{
 
     public WorkoutJdbcTemplateRepository(JdbcTemplate jdbcTemplate){ this.jdbcTemplate = jdbcTemplate; }
 
+    //TODO: Add muscle_group name to select
     @Override
     public List<Workout> findAll() {
         final String sql = "select w.workout_id as workout_id, w.workout_name as workout_name, "
