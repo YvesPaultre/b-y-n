@@ -9,9 +9,9 @@ const USER_DEFAULT = {
 
 const Login = ()=>{
     // TODO: Add Error Handling
-    const [loginData, setLoginData] = useState(USER_DEFAULT);
+    const [credentials, setCredentials] = useState(USER_DEFAULT);
     const [errors, setErrors] = useState([]);
-    const url = 'http://localhost:8080/api/user'
+    const url = 'http://localhost:8080/api/user/authenticate'
     
     const handleSubmit = (event)=>{
         event.preventDefault();
@@ -21,10 +21,10 @@ const Login = ()=>{
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(loginData)
+            body: JSON.stringify(credentials)
         }
 
-        fetch(`${url}/authenticate`, init)
+        fetch(url, init)
         .then(response => {
             if(response.status === 200 || response.status === 403){
                 return response.json();
@@ -37,13 +37,13 @@ const Login = ()=>{
             } else {
                 setErrors(data)
             }
-        })
+        }).catch(console.log);
     }
 
     const handleChange = (event) =>{
-        const newLoginData = {...loginData};
-        newLoginData[event.target.name] = event.target.value;
-        setLoginData(newLoginData);
+        const newCredentials = {...credentials};
+        newCredentials[event.target.name] = event.target.value;
+        setCredentials(newCredentials);
     }
 
     const renderErrors = (err) =>{
