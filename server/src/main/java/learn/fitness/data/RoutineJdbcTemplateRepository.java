@@ -63,7 +63,7 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
         return jdbcTemplate.query(sql, new RoutineMapper(), searchPattern);
     }
 
-    //TODO: get workouts for routine
+
     @Override
     public Routine findById(int routineId) {
         final String sql = "select r.routine_id, r.routine_name, r.routine_description, r.routine_duration, r.difficulty, r.routine_author_id, "

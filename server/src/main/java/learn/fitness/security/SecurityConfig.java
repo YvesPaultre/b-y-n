@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // TODO add antMatchers here to configure access to specific API endpoints
                 .antMatchers("/api/user/authenticate").permitAll()
                 .antMatchers("/api/user/register").permitAll()
+                .antMatchers("/api/user/username/*").permitAll()
                 .antMatchers("/api/workout").permitAll()
                 .antMatchers("/api/workout/id/*").permitAll()
                 .antMatchers("/api/workout/search/*").permitAll()

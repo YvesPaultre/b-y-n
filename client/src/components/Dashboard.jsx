@@ -9,25 +9,36 @@ const Dashboard = ()=>{
     const [logs,setLogs] = useState([])
     const [routines, setRoutines] = useState([])
 
-    const {user} = useContext(UserContext)
+    // const {user} = useContext(UserContext)
+    const user = jwtDecode(localStorage.getItem('user'))
     let isAdmin
 
     useEffect(()=>{
         // console.log(localStorage.getItem('user'))
         try{
-            console.log(jwtDecode(localStorage.getItem('user')))
-            // console.log(jwtDecode(user))
-
-            isAdmin = jwtDecode(localStorage.getItem('user')).authorities.includes("ADMIN")
-            console.log(isAdmin)
+         getRoutines()   
         }
         catch{
             console.log('User is null')
         }
     },[])
 
+    const getRoutines = () =>{
+        console.log(user.sub)
+        fetch(`http://localhost:8080/api/user/username/${user.sub}`)
+        .then(response=>{
+            if (response.status === 200) {
+                return response.json();
+            } else {
+                return Promise.reject(`Unexpected Status Code: ${response.status}`);
+            }
+        })
+        // .then(data=>console.log(data))
+
+    }
+
     const renderRoutines = ()=>{
-        
+
     }
    
     return (
