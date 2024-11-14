@@ -35,12 +35,14 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<Map<String, String>> authenticate(@RequestBody Map<String, String> credentials) {
+        System.out.println(credentials);
 
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(credentials.get("username"), credentials.get("password"));
 
         try {
             Authentication authentication = authenticationManager.authenticate(authToken);
+
             if (authentication.isAuthenticated()) {
                 String jwtToken = converter.getTokenFromUser((User) authentication.getPrincipal());
 
@@ -75,7 +77,7 @@ public class AuthController {
         }
 
         // happy path...
-        System.out.println("AuthController: User created: "+ appUser);
+        System.out.println(appUser);
 
         HashMap<String, Integer> map = new HashMap<>();
         map.put("appUserId", appUser.getAppUserId());

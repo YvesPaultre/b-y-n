@@ -18,7 +18,7 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder encoder;
 
     public UserService(UserRepository repository,
-                          PasswordEncoder encoder) {
+                       PasswordEncoder encoder) {
         this.repository = repository;
         this.encoder = encoder;
         ensureAdmin();
@@ -89,15 +89,13 @@ public class UserService implements UserDetailsService {
             System.out.println("Creating Admin");
 
             String randomPassword = UUID.randomUUID().toString();
-//            String randomPassword = "testing";
-            System.out.println("randomPassword: "+ randomPassword);
 
-            user = new AppUser(0, "admin", encoder.encode(randomPassword), false, List.of("ROLE_USER", "ROLE_ADMIN"));
+            user = new AppUser(0, "admin", randomPassword, false, List.of("USER", "ADMIN"));
             user.setEmail("test@example.com");
 
             try {
                 repository.add(user);
-//                System.out.printf("%n%nRandom admin password: %s%n%n", randomPassword);
+                System.out.printf("%n%nRandom admin password: %s%n%n", randomPassword);
             } catch (ValidationException ex) {
                 ex.printStackTrace();
             }

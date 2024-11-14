@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import User from "../context/UserContext";
 import { redirect, useNavigate } from "react-router-dom";
-import UserContext from '../context/UserContext'
+import UserContext from "../context/UserContext";
 
 const USER_DEFAULT = {
   username: "",
@@ -22,9 +22,9 @@ const Login = () => {
   const [errors, setErrors] = useState([]);
   const url = "http://localhost:8080/api/user/authenticate";
 
-  const {user, login} = useContext(UserContext)
+  const { user, login } = useContext(UserContext);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -46,12 +46,12 @@ const Login = () => {
           return Promise.reject(`Unexpected status code: ${response.status}`);
         }
       })
-      .then( (data) => {
+      .then((data) => {
         if (data.jwt_token) {
-          console.log(data)
-          login(data)
+          console.log(data);
+          login(data);
           // setTimeout(() => { navigate('/dashboard') }, 1000)
-          navigate('/dashboard')
+          navigate("/dashboard");
         } else {
           setErrors(data);
         }
@@ -88,7 +88,7 @@ const Login = () => {
           onChange={handleChange}
         >
           <Form.Label>Username</Form.Label>
-          <Form.Control type="text" name="username"/>
+          <Form.Control type="text" name="username" />
         </Form.Group>
         <Form.Group
           className="mb-3"
@@ -96,14 +96,14 @@ const Login = () => {
           onChange={handleChange}
         >
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" name='password'/>
+          <Form.Control type="password" name="password" />
         </Form.Group>
         <Button variant="primary" type="submit">
           Log In
         </Button>
-        <Button variant="secondary" href="/register">
+        {/* <Button variant="secondary" href="/register">
           Register
-        </Button>
+        </Button> */}
       </Form>
     </Container>
   );
