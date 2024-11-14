@@ -16,6 +16,7 @@ function RoutineForm() {
     const [routine, setRoutine] = useState(ROUTINE_DEFAULT);
     const [errors, setErrors] = useState([]);
     const [routineWorkouts, setRoutineWorkouts] = useState([]);
+    const [workouts, setWorkouts] = useState()
     const { id } = useParams;
     const navigate = useNavigate();
     const url = 'http://localhost:8080/api/routine';
