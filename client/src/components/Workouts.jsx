@@ -1,146 +1,157 @@
-import { useEffect, useState } from "react"
-import { Container, Row, Col, Form, Button, Nav } from "react-bootstrap"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { useEffect, useState } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Nav,
+  Table,
+  NavLink,
+} from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const Workouts = () => {
-    const [search, setSearch] = useState('')
-    const [filter, setFilter] = useState('')
-    const [workouts, setWorkouts] = useState([])
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("");
+  const [workouts, setWorkouts] = useState([]);
 
-    // TODO: configure api path to GET muscle groups, and dynamically create options
-    // const [muscleGroups, setMuscleGroups] = useState()
+  // TODO: configure api path to GET muscle groups, and dynamically create options
+  // const [muscleGroups, setMuscleGroups] = useState()
 
+  useEffect(() => {
+    getAllWorkouts();
+    // makeCards(workouts)
+  }, []);
 
-    useEffect(() => {
-        getAllWorkouts()
-        // makeCards(workouts)
-    }, [])
+  useEffect(() => {
+    filterWorkouts();
+  }, [filter]);
 
-    // useEffect(() => { filterWorkouts() }, [filter])
-
-    const getAllWorkouts = () => {
-        fetch("http://localhost:8080/api/workout")
-            .then(response => {
-                if (response.status === 200) {
-                    return response.json();
-                } else {
-                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
-                }
-            })
-            .then(data => setWorkouts(data))
-            .catch(console.log)
-        // makeCards(workouts)
-    }
-
-    const renderCards = ()=>{
-        if(workouts.length === 0){
-            return <h4>Loading...</h4>
-        } else{
-            return filterWorkouts().map((workout) => {
-                return (
-                    <Row key={workout.id}>
-                        <Col className="workout-name-col">
-                            <Nav.Link href={`/workouts/${workout.id}`}>
-                                <h4 className="workout-name">
-                                    {workout.name}
-                                </h4>
-                            </Nav.Link>
-                        </Col>
-                        <Col className="workout-mg-col">
-                            <p className="workout-mg">{workout.muscleGroup}</p>
-                        </Col>
-                        <Col className="workout-muscle-col">
-                            <p className="workout-muscle">{workout.muscle}</p>
-                        </Col>
-                        <Col className="workout-duration-col">
-                            <p className="workout-duration">{workout.duration}</p>
-                        </Col>
-                    </Row>
-                )
-            })
+  const getAllWorkouts = () => {
+    fetch("http://localhost:8080/api/workout")
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          return Promise.reject(`Unexpected Status Code: ${response.status}`);
         }
-    }
+      })
+      .then((data) => setWorkouts(data))
+      .catch(console.log);
+    // makeCards(workouts)
+  };
 
-    const handleChange = (event) => {
-        setSearch(event.target.value)
+  const renderCards = () => {
+    if (workouts.length === 0) {
+      return <h4>Loading...</h4>;
+    } else {
+      return filterWorkouts().map((workout) => {
+        return (
+          <tr key={workout.id}>
+            <td className="workout-name-col">
+              <NavLink href={`/workouts/${workout.id}`}>{workout.name}</NavLink>
+            </td>
+            <td className="workout-mg-col">{workout.muscleGroup}</td>
+            <td className="workout-muscle-col">{workout.muscle}</td>
+            <td className="workout-duration-col">{workout.duration}</td>
+          </tr>
+        );
+      });
     }
+  };
 
-    const handleFilterChange = (event) => {
-        setFilter(event.target.value)
-    }
+  const handleChange = (event) => {
+    setSearch(event.target.value);
+  };
 
-    const searchForWorkouts = () => {
-        fetch(`http://localhost:8080/api/workout/search/${search}`)
-            .then(response => {
-                if (response.status === 200) {
-                    return response.json();
-                } else {
-                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
-                }
-            })
-            .then(data => {
-                setWorkouts(data)
-                filterWorkouts()
-            }
-            )
-            .catch(console.log)
-    }
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
 
-    const filterWorkouts = () => {
-        if (filter != '') {
-            return workouts.filter(workout => workout.muscleGroup === filter)
+  const searchForWorkouts = () => {
+    fetch(`http://localhost:8080/api/workout/search/${search}`)
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          return Promise.reject(`Unexpected Status Code: ${response.status}`);
         }
-        else {
-            return workouts
-        }
+      })
+      .then((data) => {
+        setWorkouts(data);
+        filterWorkouts();
+      })
+      .catch(console.log);
+  };
+
+  const filterWorkouts = () => {
+    if (filter != "") {
+      return workouts.filter((workout) => workout.muscleGroup === filter);
+    } else {
+      return workouts;
     }
+  };
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        // console.log(search, filter)
-        searchForWorkouts()
-    }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // console.log(search, filter)
+    searchForWorkouts();
+  };
 
+  return (
+    <Container>
+      <div className="workout-search-container">
+        <div className="grid-item-1">
+          <h2 className="workout-title">Workouts</h2>
+        </div>
+        <div className="searchbar grid-item-2">
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="workoutName" onChange={handleChange}>
+              {/* <div className="search-input">
+                <Form.Control
+                  className="form-control"
+                  type="text"
+                  placeholder="Enter Workout Name..."
+                />
+                <Button variant="secondary" type="submit">
+                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                </Button>
+              </div> */}
+            </Form.Group>
+            <Form.Select
+              aria-label="workout muscle group"
+              onChange={handleFilterChange}
+            >
+              <option value="">Select Muscle Group</option>
+              <option value="arm">Arms</option>
+              <option value="buttock">Buttocks</option>
+              <option value="chest">Chest</option>
+              <option value="core">Core</option>
+              <option value="leg">Legs</option>
+              <option value="lower back">Lower Back</option>
+              <option value="shoulder">Shoulders</option>
+              <option value="upper back">Upper Back</option>
+            </Form.Select>
+          </Form>
+        </div>
+      </div>
 
-    return (
-        <Container>
-            <Row>
-                <Col>
-                    <h2 className="workout-title">Workouts</h2>
-                </Col>
-                <Col>
-                    <Container className="searchbar">
-                        <Form onSubmit={handleSubmit}>
-                            <Form.Group className="mb-3" controlId='workoutName' onChange={handleChange}>
-                                <Form.Control type="text" placeholder="Workout Name" />
-                                <Form.Text className="text-muted">Search by Workout Name</Form.Text>
-                            </Form.Group>
-                            <Form.Select aria-label="workout muscle group" onChange={handleFilterChange}>
-                                <option value="">Select Muscle Group</option>
-                                <option value="arm">Arms</option>
-                                <option value="buttock">Buttocks</option>
-                                <option value="chest">Chest</option>
-                                <option value="core">Core</option>
-                                <option value="leg">Legs</option>
-                                <option value="lower back">Lower Back</option>
-                                <option value="shoulder">Shoulders</option>
-                                <option value="upper back">Upper Back</option>
-                            </Form.Select>
-                            <Button variant="secondary" type="submit">
-                                <FontAwesomeIcon icon={faMagnifyingGlass} />
-                            </Button>
-                        </Form>
-                    </Container>
-                </Col>
-            </Row>
-            <Row>
-                {
-                renderCards()
-                }
-            </Row>
-        </Container>
-    )
-}
+      <table className="table table-striped">
+        <thead className="thead-dark">
+          <tr>
+            <th className="table-dark">Workout Name</th>
+            <th className="table-dark">Muscle Group</th>
+            <th className="table-dark">Muscle</th>
+            <th className="table-dark">Duration</th>
+          </tr>
+        </thead>
+        <tbody>{renderCards()}</tbody>
+      </table>
+    </Container>
+  );
+};
 
-export default Workouts
+export default Workouts;
