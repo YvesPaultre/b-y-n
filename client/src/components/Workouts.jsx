@@ -52,9 +52,7 @@ const Workouts = () => {
         return (
           <tr key={workout.id}>
             <td className="workout-name-col">
-              <NavLink href={`/workouts/${workout.id}`}>
-                <h4 className="workout-name">{workout.name}</h4>
-              </NavLink>
+              <NavLink href={`/workouts/${workout.id}`}>{workout.name}</NavLink>
             </td>
             <td className="workout-mg-col">{workout.muscleGroup}</td>
             <td className="workout-muscle-col">{workout.muscle}</td>

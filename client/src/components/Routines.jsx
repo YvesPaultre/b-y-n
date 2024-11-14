@@ -43,25 +43,18 @@ const Routines = () => {
     } else {
       return filterRoutines().map((routine) => {
         return (
-          <Row key={routine.routine_id}>
-            <Col className="routine-name-col">
+          <tr key={routine.routine_id}>
+            <td className="routine-name-col">
               <Nav.Link
                 className="routine-name"
                 href={`routines/${routine.routine_id}`}
               >
                 {routine.routine_name}
               </Nav.Link>
-            </Col>
-            <Col className="routine-author-col">
-              <p className="routine-author">{routine.routine_author}</p>
-            </Col>
-            <Col className="routine-diff-col">
-              <p className="routine-diff">{routine.difficulty}</p>
-            </Col>
-            <Col className="routine-duration-col">
-              <p className="routine-duration">{routine.routine_duration}</p>
-            </Col>
-          </Row>
+            </td>
+            <td className="routine-diff-col">{routine.difficulty}</td>
+            <td className="routine-duration-col">{routine.routine_duration}</td>
+          </tr>
         );
       });
     }
@@ -133,40 +126,46 @@ const Routines = () => {
 
   return (
     <Container>
-      <Row>
-        <Col>
-          <h2 className="routine-title">routines</h2>
-        </Col>
-        <Col>
-          <Container className="searchbar">
-            <Form onSubmit={handleSubmit}>
-              <Form.Group
-                className="mb-3"
-                controlId="routineName"
-                onChange={handleChange}
-              >
-                <Form.Control type="text" placeholder="routine Name" />
-                <Form.Text className="text-muted">
-                  Search by Routine Name
-                </Form.Text>
-              </Form.Group>
-              <Form.Select
-                aria-label="routine difficulty"
-                onChange={handleDiffFilterChange}
-              >
-                <option value="">Select Difficulty</option>
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
-              </Form.Select>
-              <Button variant="secondary" type="submit">
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-              </Button>
-            </Form>
-          </Container>
-        </Col>
-      </Row>
-      <Row>{renderRoutines()}</Row>
+      <div className="routine-search-container">
+        <div className="grid-item-1">
+          <h2 className="routine-title">Routines</h2>
+        </div>
+
+        <div className="searchbar grid-item-2">
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="routineName" onChange={handleChange}>
+              {/* <div className="search-input">
+                <Form.Control type="text" placeholder="Enter Routine Name..." />
+
+                <Button variant="secondary" type="submit">
+                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                </Button>
+              </div> */}
+            </Form.Group>
+
+            <Form.Select
+              aria-label="routine difficulty"
+              onChange={handleDiffFilterChange}
+            >
+              <option value="">Select Difficulty</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </Form.Select>
+          </Form>
+        </div>
+      </div>
+
+      <table className="table table-striped">
+        <thead className="thead-dark">
+          <tr>
+            <th className="table-dark">RoutineName</th>
+            <th className="table-dark">Difficulty</th>
+            <th className="table-dark">Duration</th>
+          </tr>
+        </thead>
+        <tbody>{renderRoutines()}</tbody>
+      </table>
       <Button onClick={() => console.log(routines)}>routines</Button>
     </Container>
   );

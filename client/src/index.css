@@ -48,7 +48,8 @@ div {
   color: #608bc1;
 }
 
-.workout-search-container {
+.workout-search-container,
+.routine-search-container {
   display: grid;
   flex-direction: row;
   grid-template-rows: 1;
