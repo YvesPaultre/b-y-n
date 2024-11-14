@@ -6,7 +6,7 @@ import UserContext from '../context/UserContext'
 import { jwtDecode } from "jwt-decode"
 
 const Dashboard = ()=>{
-    const [logs,setLogs] = useState([])
+    // const [logs,setLogs] = useState([])
     const [routines, setRoutines] = useState([])
 
     // const {user} = useContext(UserContext)
@@ -98,7 +98,7 @@ const Dashboard = ()=>{
                 {
                     renderRoutines()
                 }
-
+                <Button href="/routines/add" variant="success"> + </Button>
 
             </Container>
 
