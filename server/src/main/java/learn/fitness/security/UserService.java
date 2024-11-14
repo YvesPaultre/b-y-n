@@ -86,6 +86,7 @@ public class UserService implements UserDetailsService {
         AppUser user = repository.getUserByUsername("admin");
 
         if (user == null) {
+            System.out.println("Creating Admin");
 
             String randomPassword = UUID.randomUUID().toString();
 

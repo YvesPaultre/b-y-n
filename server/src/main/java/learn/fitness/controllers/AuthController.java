@@ -35,6 +35,7 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<Map<String, String>> authenticate(@RequestBody Map<String, String> credentials) {
+        System.out.println(credentials);
 
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(credentials.get("username"), credentials.get("password"));
@@ -76,6 +77,7 @@ public class AuthController {
         }
 
         // happy path...
+        System.out.println(appUser);
 
         HashMap<String, Integer> map = new HashMap<>();
         map.put("appUserId", appUser.getAppUserId());

@@ -47,6 +47,7 @@ const Register = () => {
       })
       .then((data) => {
         if (data.appUserId) {
+          
           console.log(data.appUserId);
         } else {
           setErrors(data);
