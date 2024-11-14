@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link, } from "react-router-dom";
-import User from "../context/UserContext";
 import { Alert, ListGroup, ListGroupItem, Dropdown, Container, Form } from "react-bootstrap";
+import { jwtDecode } from "jwt-decode"
 
 const ROUTINE_DEFAULT = {
     routine_name: '',
@@ -20,6 +20,7 @@ function RoutineForm() {
     const { id } = useParams();
     const navigate = useNavigate();
     const url = 'http://localhost:8080/api/routine';
+    const user = jwtDecode(localStorage.getItem('user'));
 
     useEffect(() => {
         fetch("http://localhost:8080/api/workout")
@@ -56,6 +57,8 @@ function RoutineForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        routine['routine_author_name'] = user.sub;
         if (id) {
             updateRoutine();
         } else {
@@ -64,7 +67,7 @@ function RoutineForm() {
     }
 
     const handleChange = (event) => {
-        const newRoutine = { ...routine };
+        let newRoutine = { ...routine };
         newRoutine[event.target.name] = event.target.value;
         setRoutine(newRoutine);
     }
@@ -74,7 +77,7 @@ function RoutineForm() {
             method: 'POST',
             headers: {
                 'content-Type': 'application/json',
-                Authorization: User
+                Authorization: localStorage.getItem('user')
             },
             body: JSON.stringify(routine)
         };
@@ -101,7 +104,7 @@ function RoutineForm() {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: User
+                Authorization: localStorage.getItem('user')
             },
             body: JSON.stringify(routine)
         };
@@ -172,10 +175,6 @@ function RoutineForm() {
                     <option value="Medium">Medium</option>
                     <option value="Hard">Hard</option>
                 </Form.Select>
-                <Form.Group className="mb-3" controlId="routine_author_name" onChange={handleChange}>
-                    <Form.Label>Your Name</Form.Label>
-                    <Form.Control type="text" name="routine_author_name" defaultValue={routine.routine_author_name}/>
-                </Form.Group>
                 <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">Select Workouts</Dropdown.Toggle>
                     <Dropdown.Menu>
