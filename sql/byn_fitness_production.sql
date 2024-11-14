@@ -98,3 +98,38 @@ CREATE TABLE `routine_workout` (
 );
 
 -- make seed data
+select * from user;
+select * from workout;
+
+insert into muscle_group(mg_id, mg_name) values
+	(1, 'upper back'), 
+    (2, 'lower back'), 
+    (3, 'arm'),
+    (4, 'core'),
+    (5, 'leg'),	
+    (6, 'chest'),
+    (7, 'shoulder'),
+    (8, 'buttock');	
+
+insert into muscle(muscle_id, muscle_name, mg_id ) values 
+		(1, 'bicep',3),				-- 1
+        (2, 'tricep',3),			-- 2
+        (3, 'deltoid',7),			-- 3
+        (4, 'pectoral',6),			-- 4
+        (5, 'calf',5),				-- 5
+        (6, 'glutes',8),			-- 6
+        (7, 'trapezius',1),			-- 7
+        (8, 'rhomboid',1),			-- 8
+        (9, 'abdominal',4);			-- 9
+        
+insert into workout(workout_id, workout_name, workout_description, workout_duration, muscle_id) values
+	(1, 'bicep curl','Hold dumbells in both hands while standing. Bring one of the dumbells to your shoulder, and then slowly back down. Repeat for the other dumbell. Keep your back straight to focus the effort on your biceps',10,1),
+    (2, 'tricep dip','Firmly grasp the handles on the dip machine and raise your body up to the starting position. Slowly lower your body downwards. You should lower yourself down so that your arms are in a 90 degree position. Slowly raise your body back up to the starting position.',10,2),
+    (3, 'dumbbell press','With your feet shoulder-width apart, take a dumbbell in each hand. Raise the dumbbells to eye level with your elbows bent to about 90 degrees. Brace your core and drive the dumbbells up and together, extending the elbows to 180 degrees. Pause, and slowly return the weight to the starting position.',15,3),
+    (4, 'bench press','Grasp the barbell using an overhand grip. Your arms are slightly wider than shoulder-width apart and the angle of your upper arms is about 45 degrees to the body. Remove the barbell from the rack, locking your elbows. Inhale while slowly lowering the bar just above your chest. Exhale as you press the bar above your chest. Lower the bar so it is just above your chest.',20,4),
+    (5, 'heel raise','Stand with your feet together, flat on the floor. Raise your heels, shifting your weight onto the balls of your feet. Hold for a second, then slowly bring your heels back to the ground.',5,5),
+    (6, 'glute kickback (cable)','Place a strap attached to the cable around the ankle. Keep your back in a neutral position with your abs engaged. Tilt your body forward and kick your leg behind you while maintaining a slight knee bend. Raise your leg until you fully contract your working glute while relaxing your non-working leg.',10,6),
+    (7, "farmer's carry",'Hold a weight in each hand at your sides. Stand upright. Take even, measured steps, controlling the weight and maintaining your posture for either a set time or distance.',6,7),
+    (8, 'side lying reverse dumbbell fly','Lying on your side with your elbow fixed and body still, raise the dumbbell from floor until vertical. Lower back down in a reverse motion while inhaling. Repeat on the opposite side.',5,8),
+    (9, 'leg lifts','Lie faceup on the floor with your legs together. Using only your core, lift your feet a few inches off the ground. Slowly, move your legs apart and back together. Hold your feet in the air for a few moments, and then slowly bring back them back down',2,9);
+   

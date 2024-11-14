@@ -3,6 +3,7 @@ package learn.fitness.controllers;
 import learn.fitness.models.AppUser;
 import learn.fitness.security.JwtConverter;
 import learn.fitness.security.UserService;
+import org.apache.coyote.Response;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ValidationException;
@@ -33,16 +35,25 @@ public class AuthController {
         this.appUserService = appUserService;
     }
 
+    @GetMapping("/username/{username}")
+    public ResponseEntity<?> getUserByUsername(@RequestBody Map<String, String> user) {
+        UserDetails userDetails = appUserService.loadUserByUsername(user.get("username"));
+        if (userDetails != null){
+            return new ResponseEntity<>(userDetails, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/authenticate")
     public ResponseEntity<Map<String, String>> authenticate(@RequestBody Map<String, String> credentials) {
-        System.out.println(credentials);
 
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(credentials.get("username"), credentials.get("password"));
 
         try {
             Authentication authentication = authenticationManager.authenticate(authToken);
-
             if (authentication.isAuthenticated()) {
                 String jwtToken = converter.getTokenFromUser((User) authentication.getPrincipal());
 
@@ -77,7 +88,7 @@ public class AuthController {
         }
 
         // happy path...
-        System.out.println(appUser);
+        System.out.println("AuthController: User created: "+ appUser);
 
         HashMap<String, Integer> map = new HashMap<>();
         map.put("appUserId", appUser.getAppUserId());

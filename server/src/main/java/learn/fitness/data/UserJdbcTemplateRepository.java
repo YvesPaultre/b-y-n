@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class UserJdbcTemplateRepository implements UserRepository{
@@ -49,6 +51,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
         if (rowsAffected <= 0){ return null; }
 
         appUser.setAppUserId(keyHolder.getKey().intValue());
+//        System.out.println("Repo: Created User " + appUser);
         return appUser;
     }
 
@@ -67,6 +70,10 @@ public class UserJdbcTemplateRepository implements UserRepository{
                 appUser.getEmail(),
                 appUser.isAdmin(),
                 appUser.getAppUserId()) > 0;
+    }
+
+    public List<AppUser> findAll(){
+        return jdbcTemplate.query("select * from user;", new UserMapper());
     }
 
     // Stretch Goal

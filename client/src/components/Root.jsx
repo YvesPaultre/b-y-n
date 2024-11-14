@@ -1,10 +1,29 @@
 import Navbar from "./Navbar"
-import { Outlet } from 'react-router-dom'
-import { useState } from "react"
+import { Outlet, useNavigate, useOutletContext } from 'react-router-dom'
+import { useState, useContext, createContext } from "react"
+import { UserProvider} from '../context/UserContext'
+
 
 import { Stack } from "react-bootstrap"
 
+// export const UserContext = createContext(null)
+
 const Root = () => {
+
+    const navigate = useNavigate()
+
+    const [user, setUser] = useState(null);
+
+    const login = (userData) => {
+        setUser(userData);
+    };
+
+    const logout = () => {
+        setUser(null);
+        navigate('/')
+    };
+
+
     const [isOpen, setIsOpen] = useState(false)
 
     const handleSidebarSet = () => {
@@ -12,12 +31,15 @@ const Root = () => {
     }
 
     return (
-        <Stack fluid>
-            <Navbar openSetter={handleSidebarSet} />
-            <div id='detail'>
-                <Outlet />
-            </div>
-        </Stack>
+        <UserProvider>
+            <Stack fluid='true'>
+                <Navbar openSetter={handleSidebarSet} />
+                <div id='detail'>
+                    <Outlet/>
+                    {/* <Outlet context={[user, login, logout]}/> */}
+                </div>
+            </Stack>
+        </UserProvider>
     )
 }
 

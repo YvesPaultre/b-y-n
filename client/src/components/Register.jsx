@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   Container,
   Form,
@@ -7,6 +7,9 @@ import {
   Alert,
   ListGroupItem,
 } from "react-bootstrap";
+
+import UserContext from "../context/UserContext";
+import { redirect, useNavigate } from "react-router-dom";
 
 const USER_DEFAULT = {
   username: "",
@@ -19,6 +22,11 @@ const Register = () => {
   const [credentials, setCredentials] = useState(USER_DEFAULT);
   const [errors, setErrors] = useState([]);
   const url = "http://localhost:8080/api/user/register";
+
+  const {user, login} = useContext(UserContext)
+
+  const navigate = useNavigate()
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -47,8 +55,11 @@ const Register = () => {
       })
       .then((data) => {
         if (data.appUserId) {
-          
           console.log(data.appUserId);
+          login(data)
+          //TODO: navigate to dashboard
+          navigate('/dashboard')
+
         } else {
           setErrors(data);
         }

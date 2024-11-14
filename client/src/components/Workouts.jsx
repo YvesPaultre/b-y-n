@@ -17,7 +17,7 @@ const Workouts = () => {
         // makeCards(workouts)
     }, [])
 
-    useEffect(() => { filterWorkouts() }, [filter])
+    // useEffect(() => { filterWorkouts() }, [filter])
 
     const getAllWorkouts = () => {
         fetch("http://localhost:8080/api/workout")
@@ -135,7 +135,7 @@ const Workouts = () => {
                 </Col>
             </Row>
             <Row>
-                { //TODO: Fix cards not rerendering when workouts is updated.
+                {
                 renderCards()
                 }
             </Row>

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
 import {
   Container,
   Form,
@@ -8,6 +8,8 @@ import {
   Alert,
 } from "react-bootstrap";
 import User from "../context/UserContext";
+import { redirect, useNavigate } from "react-router-dom";
+import UserContext from '../context/UserContext'
 
 const USER_DEFAULT = {
   username: "",
@@ -20,9 +22,13 @@ const Login = () => {
   const [errors, setErrors] = useState([]);
   const url = "http://localhost:8080/api/user/authenticate";
 
+  const {user, login} = useContext(UserContext)
+
+  const navigate = useNavigate()
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(credentials)
+    // console.log(credentials)
 
     const init = {
       method: "POST",
@@ -40,9 +46,12 @@ const Login = () => {
           return Promise.reject(`Unexpected status code: ${response.status}`);
         }
       })
-      .then((data) => {
+      .then( (data) => {
         if (data.jwt_token) {
-          User = data.jwt_token;
+          console.log(data)
+          login(data)
+          // setTimeout(() => { navigate('/dashboard') }, 1000)
+          navigate('/dashboard')
         } else {
           setErrors(data);
         }
@@ -51,7 +60,7 @@ const Login = () => {
   };
 
   const handleChange = (event) => {
-    console.log(event.target.name, event.target.value)
+    // console.log(event.target.name, event.target.value)
     const newCredentials = { ...credentials };
     newCredentials[event.target.name] = event.target.value;
     setCredentials(newCredentials);
@@ -92,9 +101,9 @@ const Login = () => {
         <Button variant="primary" type="submit">
           Log In
         </Button>
-        <Button variant="secondary" href="/register">
+        {/* <Button variant="secondary" href="/register">
           Register
-        </Button>
+        </Button> */}
       </Form>
     </Container>
   );

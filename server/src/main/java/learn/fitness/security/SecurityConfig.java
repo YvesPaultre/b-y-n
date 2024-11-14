@@ -12,6 +12,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.security.SecureRandom;
+
 //@EnableWebMvc
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -32,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // TODO add antMatchers here to configure access to specific API endpoints
                 .antMatchers("/api/user/authenticate").permitAll()
                 .antMatchers("/api/user/register").permitAll()
+                .antMatchers("/api/user/username/*").permitAll()
                 .antMatchers("/api/workout").permitAll()
                 .antMatchers("/api/workout/id/*").permitAll()
                 .antMatchers("/api/workout/search/*").permitAll()
@@ -54,7 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder getEncoder() {
-        return new BCryptPasswordEncoder();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        System.out.println("Encoder: " + encoder);
+        return encoder;
     }
 
 //    @Bean

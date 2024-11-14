@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Link} from "react-router-dom";
+import { useNavigate, useParams, Link, } from "react-router-dom";
 import User from "../context/UserContext";
 import { Alert, ListGroup, ListGroupItem, Dropdown, Container, Form } from "react-bootstrap";
 
@@ -12,12 +12,12 @@ const ROUTINE_DEFAULT = {
     workouts: []
 }
 
-function RoutineForm(){
+function RoutineForm() {
     const [routine, setRoutine] = useState(ROUTINE_DEFAULT);
     const [errors, setErrors] = useState([]);
     const [workouts, setWorkouts] = useState([]);
     const [routineWorkouts, setRoutineWorkouts] = useState([]);
-    const {id} = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const url = 'http://localhost:8080/api/routine';
 
@@ -32,27 +32,31 @@ function RoutineForm(){
             })
             .then(data => setWorkouts(data))
             .catch(console.log)
-    }, []);    
-    
+    }, []);
+
     useEffect(() => {
-        if(id){
+        console.log(id)
+        if (id) {
+            console.log('fetching routine')
             fetch(`${url}/id/${id}`)
-            .then(response => {
-                if(response.status === 200){
-                    return response.json();
-                } else {
-                    return Promise.reject(`Unexpected status code: ${response.status}`);
-                }
-            }).then(data => setRoutine(data))
-            .catch(console.log);
+                .then(response => {
+                    if (response.status === 200) {
+                        return response.json();
+                    } else {
+                        return Promise.reject(`Unexpected status code: ${response.status}`);
+                    }
+                })
+                .then(data => setRoutine(data))
+                .catch(console.log);
         } else {
             setRoutine(ROUTINE_DEFAULT);
         }
+        console.log(routine)
     }, [id]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if(id){
+        if (id) {
             updateRoutine();
         } else {
             addRoutine();
@@ -60,7 +64,7 @@ function RoutineForm(){
     }
 
     const handleChange = (event) => {
-        const newRoutine = {...routine};
+        const newRoutine = { ...routine };
         newRoutine[event.target.name] = event.target.value;
         setRoutine(newRoutine);
     }
@@ -76,19 +80,19 @@ function RoutineForm(){
         };
 
         fetch(url, init)
-        .then(response => {
-            if(response.status === 201 || response.status === 403 || response.status === 400){
-                return response.json();
-            } else {
-                return Promise.reject(`Unexpected status code: ${response.status}`);
-            }
-        }).then(data => {
-            if(data.routine_id){
-                navigate('/routines');
-            } else {
-                setErrors(data);
-            }
-        }).catch(console.log);
+            .then(response => {
+                if (response.status === 201 || response.status === 403 || response.status === 400) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected status code: ${response.status}`);
+                }
+            }).then(data => {
+                if (data.routine_id) {
+                    navigate('/routines');
+                } else {
+                    setErrors(data);
+                }
+            }).catch(console.log);
     }
 
     const updateRoutine = () => {
@@ -103,26 +107,26 @@ function RoutineForm(){
         };
 
         fetch(`${url}/${id}`, init)
-        .then(response => {
-            if(response.status === 204){
-                return null;
-            } else if(response.status === 403 || response.status === 400){
-                return response.json();
-            } else{
-                return Promise.reject(`Unexpected status code: ${response.status}`);
-            }
-        }).then(data => {
-            if(!data){
-                navigate('/routines');
-            } else {
-                setErrors(data);
-            }
-        }).catch(console.log);
+            .then(response => {
+                if (response.status === 204) {
+                    return null;
+                } else if (response.status === 403 || response.status === 400) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected status code: ${response.status}`);
+                }
+            }).then(data => {
+                if (!data) {
+                    navigate('/routines');
+                } else {
+                    setErrors(data);
+                }
+            }).catch(console.log);
     }
 
-    const toggleWorkout = (workout) =>{
+    const toggleWorkout = (workout) => {
         let newRoutineWorkouts = routineWorkouts;
-        if(newRoutineWorkouts.includes(workout)){
+        if (newRoutineWorkouts.includes(workout)) {
             newRoutineWorkouts.splice(newRoutineWorkouts.indexOf(workout), 1);
         } else {
             newRoutineWorkouts.push(workout);
@@ -130,12 +134,13 @@ function RoutineForm(){
 
         setRoutineWorkouts(newRoutineWorkouts);
 
-        const newRoutine = {...routine};
+        const newRoutine = { ...routine };
         newRoutine['workouts'] = newRoutineWorkouts;
         setRoutine(newRoutine);
     }
 
-    return (<>
+    return (
+    <>
         <Container>
             <h2 className="routine-form-title">{id > 0 ? 'Update Routine' : 'Add Routine'}</h2>
             {errors.length > 0 && (
@@ -151,15 +156,15 @@ function RoutineForm(){
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="routine_name" onChange={handleChange}>
                     <Form.Label>Routine Name</Form.Label>
-                    <Form.Control type="text" name="routine_name"/>
+                    <Form.Control type="text" name="routine_name" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="routine_description" onChange={handleChange}>
                     <Form.Label>Description</Form.Label>
-                    <Form.Control type="text" name="routine_description"/>
+                    <Form.Control type="text" name="routine_description" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="routine_duration" onChange={handleChange}>
                     <Form.Label>Duration (Min)</Form.Label>
-                    <Form.Control type="number" name="routine_duration"/>
+                    <Form.Control type="number" name="routine_duration" />
                 </Form.Group>
                 <Form.Select controlId="routine_difficulty" onChange={handleChange}>
                     <option value="">Select Difficulty</option>
@@ -169,15 +174,15 @@ function RoutineForm(){
                 </Form.Select>
                 <Form.Group className="mb-3" controlId="routine_author_name" onChange={handleChange}>
                     <Form.Label>Your Name</Form.Label>
-                    <Form.Control type="text" name="routine_author_name"/>
+                    <Form.Control type="text" name="routine_author_name" />
                 </Form.Group>
                 <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">Select Workouts</Dropdown.Toggle>
                     <Dropdown.Menu>
                         {workouts.map((workout) => (
                             <Dropdown.Item key={workout}
-                            onClick={() => toggleWorkout(workout)}
-                            active={routineWorkouts.includes(workout)}
+                                onClick={() => toggleWorkout(workout)}
+                                active={routineWorkouts.includes(workout)}
                             >{workout.name}</Dropdown.Item>
                         ))}
                     </Dropdown.Menu>
@@ -187,7 +192,7 @@ function RoutineForm(){
                 </Button>
             </Form>
         </Container>
-    </> )
+    </>)
 }
 
 export default RoutineForm;
