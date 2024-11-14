@@ -13,5 +13,37 @@ code {
 }
 
 .container{
-  border:2px black solid;
+  border:2px #133e87 solid;
+}
+
+/* CUSTOM STYLES */
+
+div {
+  background-color: #f3f3e0;
+}
+
+:root {
+  background-color: #f3f3e0;
+}
+
+.searchbar.container {
+  border:none;
+}
+
+.about{
+  border:none;
+}
+
+#narbar-container{
+  border:2px #133e87 solid;
+}
+
+.navBar{
+  border:none;
+  text-decoration: none;
+  color:black;
+  transition: 2s;
+}
+.navBar a:hover{
+  color:#608bc1;
 }
