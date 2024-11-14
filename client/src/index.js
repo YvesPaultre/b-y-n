@@ -38,7 +38,6 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 const router = createBrowserRouter(
   createRoutesFromElements(
-   
       <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />

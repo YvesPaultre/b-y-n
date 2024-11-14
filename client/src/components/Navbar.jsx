@@ -6,10 +6,13 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useContext } from "react";
 import UserContext from '../context/UserContext'
 
+import { useOutletContext } from "react-router-dom";
 
 const NavBar = () => {
     // TODO: Dynamically Render Signup or Log out
     const { user, logout } = useContext(UserContext)
+
+    // const [user, logout] = useOutletContext()
 
     const loggedOut = <>
         <Nav.Link href="/login">
