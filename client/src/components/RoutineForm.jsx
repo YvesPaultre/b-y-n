@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link, Form } from "react-router-dom";
 import User from "../context/UserContext";
-import workouts from "./Workouts";
 import { Alert, ListGroup, ListGroupItem, Dropdown } from "react-bootstrap";
 
 const ROUTINE_DEFAULT = {
@@ -16,10 +15,24 @@ const ROUTINE_DEFAULT = {
 function RoutineForm(){
     const [routine, setRoutine] = useState(ROUTINE_DEFAULT);
     const [errors, setErrors] = useState([]);
+    const [workouts, setWorkouts] = useState([]);
     const [routineWorkouts, setRoutineWorkouts] = useState([]);
     const {id} = useParams;
     const navigate = useNavigate();
     const url = 'http://localhost:8080/api/routine';
+
+    useEffect(() => {
+        fetch("http://localhost:8080/api/workout")
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .then(data => setWorkouts(data))
+            .catch(console.log)
+    }, []);    
     
     useEffect(() => {
         if(id){
