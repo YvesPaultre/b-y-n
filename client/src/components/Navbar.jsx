@@ -5,6 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useContext } from "react";
 import UserContext from '../context/UserContext'
+// import UserContext from './Root'
 
 import { useOutletContext } from "react-router-dom";
 
@@ -33,7 +34,7 @@ const NavBar = () => {
         <Container id="narbar-container">
             <Navbar expand='sm' className="mb-3">
                 <Container className="navBar">
-                    <Navbar.Brand href={user ? '/dashboard': '/'}>
+                    <Navbar.Brand href={user  ? '/dashboard': '/'}>
                         <h3 className="brand">BYN Fitness</h3>
                     </Navbar.Brand>
                     <Navbar.Toggle
@@ -58,7 +59,7 @@ const NavBar = () => {
                                     <h4 className='navLink'>Workouts</h4></Nav.Link>
                                 <Nav.Link href="/routines">
                                     <h4 className='navLink'>Routines</h4></Nav.Link>
-                                {user ? loggIn : loggedOut}
+                                {user  ? loggIn : loggedOut}
                             </Nav>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>

@@ -92,7 +92,7 @@ public class UserService implements UserDetailsService {
 //            String randomPassword = "testing";
             System.out.println("randomPassword: "+ randomPassword);
 
-            user = new AppUser(0, "admin", encoder.encode(randomPassword), false, List.of("USER", "ADMIN"));
+            user = new AppUser(0, "admin", encoder.encode(randomPassword), false, List.of("ROLE_USER", "ROLE_ADMIN"));
             user.setEmail("test@example.com");
 
             try {
