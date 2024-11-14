@@ -25,10 +25,14 @@ const Dashboard = ()=>{
             console.log('User is null')
         }
     },[])
+
+    const renderRoutines = ()=>{
+        
+    }
    
     return (
         <Container className="dashboard-container">
-            <Row className="goals">
+            {/* <Row className="goals">
                 <Goals />
 
             </Row>
@@ -37,7 +41,14 @@ const Dashboard = ()=>{
 
                 </Col>
 
-            </Row>
+            </Row> */}
+            <Container className="Routines">
+                <h3 className="dash-routines-title">
+                    Routines
+                </h3>
+
+
+            </Container>
 
         </Container>
     )

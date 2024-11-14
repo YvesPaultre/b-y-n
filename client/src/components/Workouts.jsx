@@ -135,7 +135,7 @@ const Workouts = () => {
                 </Col>
             </Row>
             <Row>
-                { //TODO: Fix cards not rerendering when workouts is updated.
+                {
                 renderCards()
                 }
             </Row>

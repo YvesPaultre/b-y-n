@@ -101,9 +101,9 @@ const Login = () => {
         <Button variant="primary" type="submit">
           Log In
         </Button>
-        <Button variant="secondary" href="/register">
+        {/* <Button variant="secondary" href="/register">
           Register
-        </Button>
+        </Button> */}
       </Form>
     </Container>
   );

@@ -10,8 +10,8 @@ const Routines = () => {
     // const [trainerFilter, setTrainerFilter] = useState('') 
     const [diffFilter, setDiffFilter] = useState('')
     const [routines, setRoutines] = useState([])
-    const [filteredRoutines, setFilteredRoutines] = useState([])
-    const [routineCards, setroutineCards] = useState([])
+    // const [filteredRoutines, setFilteredRoutines] = useState([])
+    // const [routineCards, setroutineCards] = useState([])
 
 
     useEffect(() => {
@@ -31,15 +31,18 @@ const Routines = () => {
             })
             .then(data => setRoutines(data))
             .catch(console.log)
-        makeCards(routines)
+        // makeCards(routines)
     }
 
 
     // copy implementation from workouts to fix cards not loading on page load
-    
-    const makeCards = (data) => {
-        setroutineCards(data.map((routine) => {
-            return (
+
+    const renderRoutines = () => {
+        if (routines.length === 0) {
+            return <h4>Loading...</h4>
+        } else {
+            return filterRoutines().map((routine) => {
+                return (
                 <Row key={routine.routine_id}>
                     <Col className="routine-name-col">
                         <Nav.Link className="routine-name" href={`routines/${routine.routine_id}`}>
@@ -56,9 +59,33 @@ const Routines = () => {
                         <p className="routine-duration">{routine.routine_duration}</p>
                     </Col>
                 </Row>
-            )
-        }))
+                )
+            })
+        }
     }
+
+    // const makeCards = (data) => {
+    //     setroutineCards(data.map((routine) => {
+    //         return (
+    //             <Row key={routine.routine_id}>
+    //                 <Col className="routine-name-col">
+    //                     <Nav.Link className="routine-name" href={`routines/${routine.routine_id}`}>
+    //                         {routine.routine_name}
+    //                     </Nav.Link>
+    //                 </Col>
+    //                 <Col className="routine-author-col">
+    //                     <p className="routine-author">{routine.routine_author}</p>
+    //                 </Col>
+    //                 <Col className="routine-diff-col">
+    //                     <p className="routine-diff">{routine.difficulty}</p>
+    //                 </Col>
+    //                 <Col className="routine-duration-col">
+    //                     <p className="routine-duration">{routine.routine_duration}</p>
+    //                 </Col>
+    //             </Row>
+    //         )
+    //     }))
+    // }
 
     const handleChange = (event) => {
         setSearch(event.target.value)
@@ -81,7 +108,7 @@ const Routines = () => {
                 setRoutines(data)
                 filterRoutines()
             }
-        )
+            )
             .catch(console.log)
     }
 
@@ -90,10 +117,10 @@ const Routines = () => {
 
         if (diffFilter != '') {
             // setFilteredRoutines(routines.filter(routine => routine.difficulty === diffFilter))
-            makeCards(routines.filter(routine => routine.difficulty === diffFilter))
+            return routines.filter(routine => routine.difficulty === diffFilter)
         }
         else {
-            makeCards(routines)
+           return routines
         }
     }
 
@@ -131,9 +158,9 @@ const Routines = () => {
                 </Col>
             </Row>
             <Row>
-                {routineCards}
+                {renderRoutines()}
             </Row>
-            <Button onClick={() => console.log(routines)}>routines</Button> 
+            <Button onClick={() => console.log(routines)}>routines</Button>
         </Container>
     )
 }

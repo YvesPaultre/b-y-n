@@ -15,14 +15,14 @@ const Home = ()=>{
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum accusantium suscipit, quidem ipsa, autem molestias tempore neque enim iusto molestiae iure animi modi, doloremque amet voluptatum qui pariatur aut alias!
                     </p>
                 </Container>
-                <Nav variant='pills'>
+                {/* <Nav variant='pills'>
                     <Nav.Item>
                         <Nav.Link href='/register'>Sign Up</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link href='/login'>Log In</Nav.Link>
                     </Nav.Item>
-                </Nav>
+                </Nav> */}
             </Stack>
 
 

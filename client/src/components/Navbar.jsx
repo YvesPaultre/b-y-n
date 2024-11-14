@@ -18,8 +18,8 @@ const NavBar = () => {
     const loggedOut = <>
         <Nav.Link href="/login">
             <h4 className='navLink'>Log In</h4></Nav.Link>
-        <Nav.Link href="/register">
-            <h4 className='navLink'>Sign Up</h4></Nav.Link>
+        {/* <Nav.Link href="/register">
+            <h4 className='navLink'>Sign Up</h4></Nav.Link> */}
     </>
 
     const loggIn = <>
