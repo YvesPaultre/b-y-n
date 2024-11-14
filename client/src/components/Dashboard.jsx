@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from "react"
-import { Container, Row, Col, Form, Nav, Button } from "react-bootstrap"
+import { Container, Row, Col, Form, Nav, Button, Table } from "react-bootstrap"
 import Goals from "./Goals"
 import UserContext from '../context/UserContext'
 // import UserContext from './Root'
 import { jwtDecode } from "jwt-decode"
 
-const Dashboard = ()=>{
+const Dashboard = () => {
     // const [logs,setLogs] = useState([])
     const [routines, setRoutines] = useState([])
 
@@ -13,17 +13,17 @@ const Dashboard = ()=>{
     const user = jwtDecode(localStorage.getItem('user'))
     let isAdmin
 
-    useEffect(()=>{
+    useEffect(() => {
         // console.log(localStorage.getItem('user'))
-        try{
-         getRoutines()   
+        try {
+            getRoutines()
         }
-        catch{
+        catch {
             console.log('User is null')
         }
-    },[])
+    }, [])
 
-    const getRoutines = () =>{
+    const getRoutines = () => {
         // console.log(user.sub)
         // fetch(`http://localhost:8080/api/user/username/${user.sub}`)
         // .then(response=>{
@@ -43,42 +43,43 @@ const Dashboard = ()=>{
                 }
             })
             .then(data => {
-                setRoutines(data.filter(routine=>routine.routine_author_name === user.sub))})
+                setRoutines(data.filter(routine => routine.routine_author_name === user.sub))
+            })
             .catch(console.log)
 
     }
 
-    const renderRoutines = ()=>{
-        if(routines.length===0){
+    const renderRoutines = () => {
+        if (routines.length === 0) {
             return <h4>You have created no Routines</h4>
-        } else{
+        } else {
             return routines.map((routine) => {
                 return (
-                    <Row key={routine.routine_id}>
-                        <Col className="routine-name-col">
+                    <tr key={routine.routine_id}>
+                        <td className="routine-name-col">
                             <Nav.Link className="routine-name" href={`routines/${routine.routine_id}`}>
                                 {routine.routine_name}
                             </Nav.Link>
-                        </Col>
-                        <Col className="routine-author-col">
+                        </td>
+                        <td className="routine-author-col">
                             <p className="routine-author">{routine.routine_author}</p>
-                        </Col>
-                        <Col className="routine-diff-col">
+                        </td>
+                        <td className="routine-diff-col">
                             <p className="routine-diff">{routine.difficulty}</p>
-                        </Col>
-                        <Col className="routine-duration-col">
+                        </td>
+                        <td className="routine-duration-col">
                             <p className="routine-duration">{routine.routine_duration}</p>
-                        </Col>
-                        <Col>
-                        <Button href={`/routines/edit/${routine.routine_id}`}>Edit</Button>
-                        </Col>
-                    </Row>
+                        </td>
+                        <td>
+                            <Button href={`/routines/edit/${routine.routine_id}`}>Edit</Button>
+                        </td>
+                    </tr>
                 )
             })
         }
 
     }
-   
+
     return (
         <Container className="dashboard-container">
             {/* <Row className="goals">
@@ -95,9 +96,22 @@ const Dashboard = ()=>{
                 <h3 className="dash-routines-title">
                     Routines
                 </h3>
-                {
-                    renderRoutines()
-                }
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>&nbsp;</th>
+                            <th>Difficulty</th>
+                            <th>Duration</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            renderRoutines()
+                        }
+                    </tbody>
+                </Table>
                 <Button href="/routines/add" variant="success"> + </Button>
 
             </Container>
