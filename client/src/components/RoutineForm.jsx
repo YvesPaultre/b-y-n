@@ -156,17 +156,17 @@ function RoutineForm() {
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="routine_name" onChange={handleChange}>
                     <Form.Label>Routine Name</Form.Label>
-                    <Form.Control type="text" name="routine_name" />
+                    <Form.Control type="text" name="routine_name" defaultValue={routine.routine_name}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="routine_description" onChange={handleChange}>
                     <Form.Label>Description</Form.Label>
-                    <Form.Control type="text" name="routine_description" />
+                    <Form.Control type="text" name="routine_description" defaultValue={routine.routine_description}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="routine_duration" onChange={handleChange}>
                     <Form.Label>Duration (Min)</Form.Label>
-                    <Form.Control type="number" name="routine_duration" />
+                    <Form.Control type="number" name="routine_duration" defaultValue={routine.routine_duration}/>
                 </Form.Group>
-                <Form.Select controlId="routine_difficulty" onChange={handleChange}>
+                <Form.Select controlId="routine_difficulty" onChange={handleChange} defaultValue={routine.routine_difficulty}>
                     <option value="">Select Difficulty</option>
                     <option value="Easy">Easy</option>
                     <option value="Medium">Medium</option>
@@ -174,7 +174,7 @@ function RoutineForm() {
                 </Form.Select>
                 <Form.Group className="mb-3" controlId="routine_author_name" onChange={handleChange}>
                     <Form.Label>Your Name</Form.Label>
-                    <Form.Control type="text" name="routine_author_name" />
+                    <Form.Control type="text" name="routine_author_name" defaultValue={routine.routine_author_name}/>
                 </Form.Group>
                 <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">Select Workouts</Dropdown.Toggle>
