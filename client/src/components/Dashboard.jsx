@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react"
-import { Container, Row, Col, Form, Nav } from "react-bootstrap"
+import { Container, Row, Col, Form, Nav, Button } from "react-bootstrap"
 import Goals from "./Goals"
 import UserContext from '../context/UserContext'
 // import UserContext from './Root'
@@ -68,6 +68,9 @@ const Dashboard = ()=>{
                         </Col>
                         <Col className="routine-duration-col">
                             <p className="routine-duration">{routine.routine_duration}</p>
+                        </Col>
+                        <Col>
+                        <Button href={`/routines/edit/${routine.routine_id}`}>Edit</Button>
                         </Col>
                     </Row>
                 )
