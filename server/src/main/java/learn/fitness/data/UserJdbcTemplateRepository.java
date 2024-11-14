@@ -51,7 +51,7 @@ public class UserJdbcTemplateRepository implements UserRepository{
         if (rowsAffected <= 0){ return null; }
 
         appUser.setAppUserId(keyHolder.getKey().intValue());
-        System.out.println("Repo: Created User " + appUser);
+//        System.out.println("Repo: Created User " + appUser);
         return appUser;
     }
 

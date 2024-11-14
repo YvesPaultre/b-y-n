@@ -35,14 +35,12 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<Map<String, String>> authenticate(@RequestBody Map<String, String> credentials) {
-        System.out.println(credentials);
 
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(credentials.get("username"), credentials.get("password"));
 
         try {
             Authentication authentication = authenticationManager.authenticate(authToken);
-
             if (authentication.isAuthenticated()) {
                 String jwtToken = converter.getTokenFromUser((User) authentication.getPrincipal());
 

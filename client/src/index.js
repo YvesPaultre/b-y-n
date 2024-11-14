@@ -12,6 +12,9 @@ import Routine from "./components/Routine";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
+import UserContext from './context/UserContext'
+
+import { useContext, useState } from "react";
 
 import {
   createBrowserRouter,
@@ -20,21 +23,34 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
-import "bootstrap/dist/css/bootstrap.min.css";
+// const [user, setUser] = useState(null);
 
+// const login = (userData) => {
+//   setUser(userData);
+// };
+
+// const logout = () => {
+//   setUser(null);
+// };
+
+
+
+import "bootstrap/dist/css/bootstrap.min.css";
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
-      <Route path="/" element={<Home />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/workouts" element={<Workouts />} />
-      <Route path="/workouts/:id" element={<Workout />} />
-      <Route path="/routines" element={<Routines />} />
-      <Route path="/routines/:id" element={<Routine />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-    </Route>
+   
+      <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/workouts" element={<Workouts />} />
+        <Route path="/workouts/:id" element={<Workout />} />
+        <Route path="/routines" element={<Routines />} />
+        <Route path="/routines/:id" element={<Routine />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Route>
+    
   )
 );
 
