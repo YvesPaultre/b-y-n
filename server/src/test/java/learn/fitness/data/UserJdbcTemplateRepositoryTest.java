@@ -28,6 +28,14 @@ class UserJdbcTemplateRepositoryTest {
 
 
     @Test
+    void findAll() {
+        List<AppUser> users = repository.findAll();
+
+        System.out.println(users);
+        assertFalse(users.isEmpty());
+    }
+
+    @Test
     void getUserByUsername() {
         AppUser user = repository.getUserByUsername("testMctestface");
         assertEquals(1, user.getAppUserId());

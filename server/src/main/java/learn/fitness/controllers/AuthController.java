@@ -77,7 +77,7 @@ public class AuthController {
         }
 
         // happy path...
-        System.out.println(appUser);
+        System.out.println("AuthController: User created: "+ appUser);
 
         HashMap<String, Integer> map = new HashMap<>();
         map.put("appUserId", appUser.getAppUserId());

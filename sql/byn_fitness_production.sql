@@ -98,3 +98,4 @@ CREATE TABLE `routine_workout` (
 );
 
 -- make seed data
+select * from user;
