@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "react"
 import { Container, Row, Col, Form } from "react-bootstrap"
 import Goals from "./Goals"
 import UserContext from '../context/UserContext'
+// import UserContext from './Root'
 import { jwtDecode } from "jwt-decode"
 
 const Dashboard = ()=>{
@@ -12,11 +13,13 @@ const Dashboard = ()=>{
     let isAdmin
 
     useEffect(()=>{
+        // console.log(localStorage.getItem('user'))
         try{
-            console.log(user)
-            console.log(jwtDecode(user.jwt_token))
+            console.log(jwtDecode(localStorage.getItem('user')))
+            // console.log(jwtDecode(user))
 
-            isAdmin = jwtDecode(user.jwt_token).authorities.includes("ADMIN")
+            isAdmin = jwtDecode(localStorage.getItem('user')).authorities.includes("ADMIN")
+            console.log(isAdmin)
         }
         catch{
             console.log('User is null')

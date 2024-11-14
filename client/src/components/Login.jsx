@@ -46,10 +46,11 @@ const Login = () => {
           return Promise.reject(`Unexpected status code: ${response.status}`);
         }
       })
-      .then((data) => {
+      .then( (data) => {
         if (data.jwt_token) {
           console.log(data)
           login(data)
+          // setTimeout(() => { navigate('/dashboard') }, 1000)
           navigate('/dashboard')
         } else {
           setErrors(data);
