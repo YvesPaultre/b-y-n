@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Link, Form } from "react-router-dom";
+import { useNavigate, useParams, Link} from "react-router-dom";
 import User from "../context/UserContext";
-import { Alert, ListGroup, ListGroupItem, Dropdown } from "react-bootstrap";
+import { Alert, ListGroup, ListGroupItem, Dropdown, Container, Form } from "react-bootstrap";
 
 const ROUTINE_DEFAULT = {
     routine_name: '',
@@ -17,7 +17,7 @@ function RoutineForm(){
     const [errors, setErrors] = useState([]);
     const [workouts, setWorkouts] = useState([]);
     const [routineWorkouts, setRoutineWorkouts] = useState([]);
-    const {id} = useParams;
+    const {id} = useParams();
     const navigate = useNavigate();
     const url = 'http://localhost:8080/api/routine';
 
@@ -182,6 +182,9 @@ function RoutineForm(){
                         ))}
                     </Dropdown.Menu>
                 </Dropdown>
+                <Button variant="success" type="submit">
+                    {id > 0 ? 'Update Routine' : 'Add Routine'}
+                </Button>
             </Form>
         </Container>
     </> )
