@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react"
-import { Container, Row, Col, Form } from "react-bootstrap"
+import { Container, Row, Col, Form, Nav } from "react-bootstrap"
 import Goals from "./Goals"
 import UserContext from '../context/UserContext'
 // import UserContext from './Root'
@@ -24,20 +24,55 @@ const Dashboard = ()=>{
     },[])
 
     const getRoutines = () =>{
-        console.log(user.sub)
-        fetch(`http://localhost:8080/api/user/username/${user.sub}`)
-        .then(response=>{
-            if (response.status === 200) {
-                return response.json();
-            } else {
-                return Promise.reject(`Unexpected Status Code: ${response.status}`);
-            }
-        })
+        // console.log(user.sub)
+        // fetch(`http://localhost:8080/api/user/username/${user.sub}`)
+        // .then(response=>{
+        //     if (response.status === 200) {
+        //         return response.json();
+        //     } else {
+        //         return Promise.reject(`Unexpected Status Code: ${response.status}`);
+        //     }
+        // })
         // .then(data=>console.log(data))
+        fetch("http://localhost:8080/api/routine")
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .then(data => {
+                setRoutines(data.filter(routine=>routine.routine_author_name === user.sub))})
+            .catch(console.log)
 
     }
 
     const renderRoutines = ()=>{
+        if(routines.length===0){
+            return <h4>You have created no Routines</h4>
+        } else{
+            return routines.map((routine) => {
+                return (
+                    <Row key={routine.routine_id}>
+                        <Col className="routine-name-col">
+                            <Nav.Link className="routine-name" href={`routines/${routine.routine_id}`}>
+                                {routine.routine_name}
+                            </Nav.Link>
+                        </Col>
+                        <Col className="routine-author-col">
+                            <p className="routine-author">{routine.routine_author}</p>
+                        </Col>
+                        <Col className="routine-diff-col">
+                            <p className="routine-diff">{routine.difficulty}</p>
+                        </Col>
+                        <Col className="routine-duration-col">
+                            <p className="routine-duration">{routine.routine_duration}</p>
+                        </Col>
+                    </Row>
+                )
+            })
+        }
 
     }
    
@@ -57,6 +92,9 @@ const Dashboard = ()=>{
                 <h3 className="dash-routines-title">
                     Routines
                 </h3>
+                {
+                    renderRoutines()
+                }
 
 
             </Container>

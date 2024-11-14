@@ -42,7 +42,7 @@ public class UserService implements UserDetailsService {
 
         password = encoder.encode(password);
 
-        AppUser appUser = new AppUser(0, username, password, false, List.of("User"));
+        AppUser appUser = new AppUser(0, username, password, false, List.of("USER"));
         appUser.setEmail(email);
 
         return repository.add(appUser);
@@ -92,7 +92,7 @@ public class UserService implements UserDetailsService {
 //            String randomPassword = "testing";
             System.out.println("randomPassword: "+ randomPassword);
 
-            user = new AppUser(0, "admin", encoder.encode(randomPassword), false, List.of("ROLE_USER", "ROLE_ADMIN"));
+            user = new AppUser(0, "admin", encoder.encode(randomPassword), false, List.of("USER", "ADMIN"));
             user.setEmail("test@example.com");
 
             try {
