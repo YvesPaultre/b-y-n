@@ -22,8 +22,9 @@ const Register = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(credentials);
 
-    if (credentials.password !== passwordVerify) {
+    if (credentials.password !== credentials.passwordVerify) {
       setErrors(["Passwords do not match."]);
       return;
     }
@@ -80,7 +81,11 @@ const Register = () => {
           onChange={handleChange}
         >
           <Form.Label>Username</Form.Label>
-          <Form.Control type="text" />
+          <Form.Control type="text" name="username" />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="email" onChange={handleChange}>
+          <Form.Label>Email</Form.Label>
+          <Form.Control type="text" name="email" />
         </Form.Group>
         <Form.Group
           className="mb-3"
@@ -88,11 +93,15 @@ const Register = () => {
           onChange={handleChange}
         >
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" />
+          <Form.Control type="password" name="password" />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="passwordVerify">
+        <Form.Group
+          className="mb-3"
+          controlId="passwordVerify"
+          onChange={handleChange}
+        >
           <Form.Label>Verify Password</Form.Label>
-          <Form.Control type="password" ref={this.passwordVerify} />
+          <Form.Control type="password" name="passwordVerify" />
         </Form.Group>
         <Button variant="primary" type="submit">
           Register

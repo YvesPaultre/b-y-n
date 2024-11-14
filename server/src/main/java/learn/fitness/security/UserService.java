@@ -35,13 +35,15 @@ public class UserService implements UserDetailsService {
         return appUser;
     }
 
-    public AppUser create(String username, String password) {
+    public AppUser create(String username, String email, String password) {
         validate(username);
         validatePassword(password);
+        // validateEmail(email);
 
         password = encoder.encode(password);
 
         AppUser appUser = new AppUser(0, username, password, false, List.of("User"));
+        appUser.setEmail(email);
 
         return repository.add(appUser);
     }
