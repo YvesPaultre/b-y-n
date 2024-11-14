@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Link, Form } from "react-router-dom";
-import User from "../context/UserContext";
-import workouts from "./Workouts";
-import {
-    Alert,
-    ListGroup,
-    ListGroupItem,
-    Dropdown,
-    Container,
-} from "react-bootstrap";
+import { useNavigate, useParams, Link, } from "react-router-dom";
+import { Alert, ListGroup, ListGroupItem, Dropdown, Container, Form } from "react-bootstrap";
+import { jwtDecode } from "jwt-decode"
 
 const ROUTINE_DEFAULT = {
     routine_name: "",
@@ -25,7 +18,21 @@ function RoutineForm() {
     const [routineWorkouts, setRoutineWorkouts] = useState([]);
     const { id } = useParams;
     const navigate = useNavigate();
-    const url = "http://localhost:8080/api/routine";
+    const url = 'http://localhost:8080/api/routine';
+    const user = jwtDecode(localStorage.getItem('user'));
+
+    useEffect(() => {
+        fetch("http://localhost:8080/api/workout")
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return Promise.reject(`Unexpected Status Code: ${response.status}`);
+                }
+            })
+            .then(data => setWorkouts(data))
+            .catch(console.log)
+    }, []);
 
     useEffect(() => {
         if (id) {
@@ -46,6 +53,8 @@ function RoutineForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        routine['routine_author_name'] = user.sub;
         if (id) {
             updateRoutine();
         } else {
@@ -54,7 +63,7 @@ function RoutineForm() {
     };
 
     const handleChange = (event) => {
-        const newRoutine = { ...routine };
+        let newRoutine = { ...routine };
         newRoutine[event.target.name] = event.target.value;
         setRoutine(newRoutine);
     };
@@ -63,8 +72,8 @@ function RoutineForm() {
         const init = {
             method: "POST",
             headers: {
-                "content-Type": "application/json",
-                Authorization: User,
+                'content-Type': 'application/json',
+                Authorization: localStorage.getItem('user')
             },
             body: JSON.stringify(routine),
         };
@@ -96,8 +105,8 @@ function RoutineForm() {
         const init = {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json",
-                Authorization: User,
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem('user')
             },
             body: JSON.stringify(routine),
         };
@@ -138,80 +147,55 @@ function RoutineForm() {
     };
 
     return (
-        <>
-            <Container>
-                <h2 className="routine-form-title">
-                    {id > 0 ? "Update Routine" : "Add Routine"}
-                </h2>
-                {errors.length > 0 && (
-                    <Alert className="alert-danger">
-                        <p>The following errors were found: </p>
-                        <ListGroup>
-                            {errors.map((error) => (
-                                <ListGroupItem key={error}>{error}</ListGroupItem>
-                            ))}
-                        </ListGroup>
-                    </Alert>
-                )}
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group
-                        className="mb-3"
-                        controlId="routine_name"
-                        onChange={handleChange}
-                    >
-                        <Form.Label>Routine Name</Form.Label>
-                        <Form.Control type="text" name="routine_name" />
-                    </Form.Group>
-                    <Form.Group
-                        className="mb-3"
-                        controlId="routine_description"
-                        onChange={handleChange}
-                    >
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control type="text" name="routine_description" />
-                    </Form.Group>
-                    <Form.Group
-                        className="mb-3"
-                        controlId="routine_duration"
-                        onChange={handleChange}
-                    >
-                        <Form.Label>Duration (Min)</Form.Label>
-                        <Form.Control type="number" name="routine_duration" />
-                    </Form.Group>
-                    <Form.Select controlId="routine_difficulty" onChange={handleChange}>
-                        <option value="">Select Difficulty</option>
-                        <option value="Easy">Easy</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Hard">Hard</option>
-                    </Form.Select>
-                    <Form.Group
-                        className="mb-3"
-                        controlId="routine_author_name"
-                        onChange={handleChange}
-                    >
-                        <Form.Label>Your Name</Form.Label>
-                        <Form.Control type="text" name="routine_author_name" />
-                    </Form.Group>
-                    <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            Select Workouts
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            {workouts.map((workout) => (
-                                <Dropdown.Item
-                                    key={workout}
-                                    onClick={() => toggleWorkout(workout)}
-                                    active={routineWorkouts.includes(workout)}
-                                >
-                                    {workout.name}
-                                </Dropdown.Item>
-                            ))}
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </Form>
-            </Container>
-        </>
-    );
+    <>
+        <Container>
+            <h2 className="routine-form-title">{id > 0 ? 'Update Routine' : 'Add Routine'}</h2>
+            {errors.length > 0 && (
+                <Alert className="alert-danger">
+                    <p>The following errors were found: </p>
+                    <ListGroup>
+                        {errors.map(error => (
+                            <ListGroupItem key={error}>{error}</ListGroupItem>
+                        ))}
+                    </ListGroup>
+                </Alert>
+            )}
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="routine_name" onChange={handleChange}>
+                    <Form.Label>Routine Name</Form.Label>
+                    <Form.Control type="text" name="routine_name" defaultValue={routine.routine_name}/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="routine_description" onChange={handleChange}>
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control type="text" name="routine_description" defaultValue={routine.routine_description}/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="routine_duration" onChange={handleChange}>
+                    <Form.Label>Duration (Min)</Form.Label>
+                    <Form.Control type="number" name="routine_duration" defaultValue={routine.routine_duration}/>
+                </Form.Group>
+                <Form.Select controlId="routine_difficulty" onChange={handleChange} defaultValue={routine.routine_difficulty}>
+                    <option value="">Select Difficulty</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </Form.Select>
+                <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">Select Workouts</Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {workouts.map((workout) => (
+                            <Dropdown.Item key={workout}
+                                onClick={() => toggleWorkout(workout)}
+                                active={routineWorkouts.includes(workout)}
+                            >{workout.name}</Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                </Dropdown>
+                <Button variant="success" type="submit">
+                    {id > 0 ? 'Update Routine' : 'Add Routine'}
+                </Button>
+            </Form>
+        </Container>
+    </>)
 }
 
 export default RoutineForm;
