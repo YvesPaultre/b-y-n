@@ -105,9 +105,9 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
             return null;
         }
 
+        routine.setRoutine_id(keyHolder.getKey().intValue());
         updateRoutineWorkouts(routine);
 
-        routine.setRoutine_id(keyHolder.getKey().intValue());
         return routine;
     }
 
