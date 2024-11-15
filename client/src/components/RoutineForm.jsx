@@ -7,7 +7,7 @@ const ROUTINE_DEFAULT = {
     routine_name: "",
     routine_description: "",
     routine_duration: 0,
-    routine_difficulty: "",
+    difficulty: "",
     routine_author_name: "",
     workouts: [],
 };
@@ -216,7 +216,7 @@ function RoutineForm() {
                         <Form.Label>Duration (Min)</Form.Label>
                         <Form.Control type="number" name="routine_duration" defaultValue={routine.routine_duration} />
                     </Form.Group>
-                    <Form.Select name="routine_difficulty" onChange={handleChange} defaultValue={routine.routine_difficulty}>
+                    <Form.Select name="difficulty" onChange={handleChange} defaultValue={routine.routine_difficulty}>
                         <option value="">Select Difficulty</option>
                         <option value="Easy">Easy</option>
                         <option value="Medium">Medium</option>

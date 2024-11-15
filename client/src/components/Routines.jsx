@@ -35,7 +35,6 @@ const Routines = () => {
     // makeCards(routines)
   };
 
-  // copy implementation from workouts to fix cards not loading on page load
 
   const renderRoutines = () => {
     if (routines.length === 0) {
