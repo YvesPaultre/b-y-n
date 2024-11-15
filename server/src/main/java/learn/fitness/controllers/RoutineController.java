@@ -78,7 +78,7 @@ public class RoutineController {
 
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Routine routine, @RequestHeader String Authorization) {
-        System.out.println(routine);
+//        System.out.println(routine);
         AppUser user = (AppUser) userService.loadUserByUsername(converter.getUserFromToken(Authorization).getUsername());
 //        if(!user.isAdmin()){
 //            return new ResponseEntity<>(HttpStatus.FORBIDDEN);

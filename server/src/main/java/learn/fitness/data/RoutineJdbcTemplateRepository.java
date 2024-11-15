@@ -145,6 +145,7 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
     }
 
     private void updateRoutineWorkouts(Routine routine){
+        System.out.println(routine);
         jdbcTemplate.update("set SQL_SAFE_UPDATES = 0; ");
         jdbcTemplate.update("delete from routine_workout rw where rw.routine_id = ?; ", routine.getRoutine_id());
         jdbcTemplate.update("set SQL_SAFE_UPDATES = 1");
@@ -155,6 +156,7 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
         }
 
         for(int w : workouts){
+            System.out.println(routine.getRoutine_id()+", "+ w);
             jdbcTemplate.update(
                     "insert into routine_workout(workout_id, routine_id) "
                     + "values(?,?);",
