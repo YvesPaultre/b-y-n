@@ -92,12 +92,12 @@ public class RoutineController {
     }
 
     @PutMapping("/{routineId}")
-    public ResponseEntity<Object> update(@PathVariable int routineId, @RequestBody Routine routine, @RequestBody String jwtToken) {
-        AppUser user = (AppUser) userService.loadUserByUsername(converter.getUserFromToken(jwtToken).getUsername());
+    public ResponseEntity<Object> update(@PathVariable int routineId, @RequestBody Routine routine, @RequestHeader String Authorization) {
+        AppUser user = (AppUser) userService.loadUserByUsername(converter.getUserFromToken(Authorization).getUsername());
 
-        if(!user.isAdmin()){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+//        if(!user.isAdmin()){
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
 
         if(routineId != routine.getRoutine_id()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
