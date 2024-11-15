@@ -10,6 +10,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(23, 89, 142, 1) 0%,
+    rgba(72, 222, 252, 1) 100%
+  );
 }
 
 code {
@@ -21,17 +28,14 @@ code {
   border: 2px black solid;
   margin-top: 20px;
   border-radius: 10px;
+  background-color: white;
+}
+
+.routines-list {
+  margin-bottom: 20px;
 }
 
 /* CUSTOM STYLES */
-
-div {
-  background-color: #f3f3e0;
-}
-
-:root {
-  background-color: #f3f3e0;
-}
 
 .searchbar.container {
   border: none;
@@ -41,14 +45,24 @@ div {
   border: none;
 }
 
+.navLink {
+  color: black;
+}
+
+.navLink:hover {
+  color: #48defc;
+}
+
 #narbar-container {
   border: 2px black solid;
+  background-color: #cbdceb;
 }
 
 .navBar {
   border: none;
   text-decoration: none;
   color: black;
+  background-color: #cbdceb;
   transition: 2s;
 }
 .navBar a:hover {
@@ -96,4 +110,11 @@ header {
   margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
+}
+
+.button-box{
+  padding: 1%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
