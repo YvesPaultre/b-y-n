@@ -20,10 +20,12 @@ function RoutineForm() {
     const { id } = useParams();
     const navigate = useNavigate();
     const url = 'http://localhost:8080/api/routine';
+    // const url = `${REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/routine
     const user = jwtDecode(localStorage.getItem('user'));
 
 
     useEffect(() => {
+        //fetch(`${REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/workout`)
         fetch("http://localhost:8080/api/workout")
             .then(response => {
                 if (response.status === 200) {

@@ -12,6 +12,7 @@ const Routines = () => {
   const [routines, setRoutines] = useState([]);
   // const [filteredRoutines, setFilteredRoutines] = useState([])
   // const [routineCards, setroutineCards] = useState([])
+    // const url = `${process.env.REACT_APP_AWS_HOST_BASE_URL}/api/routine
 
   useEffect(() => {
     getAllRoutines();

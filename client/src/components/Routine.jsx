@@ -6,6 +6,7 @@ const Routine = () => {
     const { id } = useParams()
     const [routine, setRoutine] = useState({})
     const [workouts, setWorkouts] = useState([])
+    const url = `${REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/routine`
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/routine/id/${id}`)
