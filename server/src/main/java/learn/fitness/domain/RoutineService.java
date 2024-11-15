@@ -1,6 +1,7 @@
 package learn.fitness.domain;
 
 import learn.fitness.data.RoutineRepository;
+import learn.fitness.data.UserRepository;
 import learn.fitness.models.Goal;
 import learn.fitness.models.Routine;
 import org.springframework.stereotype.Service;
@@ -10,10 +11,13 @@ import java.util.List;
 @Service
 public class RoutineService {
 
+    private final UserRepository userRepository;
+
     private final RoutineRepository repository;
 
-    public RoutineService(RoutineRepository repository) {
+    public RoutineService(RoutineRepository repository, UserRepository userRepository) {
         this.repository = repository;
+        this.userRepository = userRepository;
     }
 
     public List<Routine> findAll() {
@@ -64,6 +68,8 @@ public class RoutineService {
             result.addMessage("routineId cannot be set for `add` operation", ResultType.INVALID);
             return result;
         }
+
+        routine.setRoutine_author_id(userRepository.getUserByUsername(routine.getRoutine_author_name()).getAppUserId());
 
         routine = repository.add(routine);
         result.setPayload(routine);
