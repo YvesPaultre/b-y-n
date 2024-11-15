@@ -40,25 +40,28 @@ public class JwtConverter {
     }
 
     public User getUserFromToken(String token) {
+//        System.out.println("JWT Converter) Token: "+token);
 
         if (token == null || !token.startsWith("Bearer ")) {
             return null;
         }
 
         try {
+//            System.out.println("ParserBuilder");
             // 4. Use JJWT classes to read a token.
             Jws<Claims> jws = Jwts.parserBuilder()
                     .requireIssuer(ISSUER)
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token.substring(7));
-
+//            System.out.println("JWS: "+jws);
             String username = jws.getBody().getSubject();
             String authStr = (String) jws.getBody().get("authorities");
+//            System.out.println("authStr: "+authStr);
             List<GrantedAuthority> authorities = Arrays.stream(authStr.split(","))
                     .map(i -> new SimpleGrantedAuthority(i))
                     .collect(Collectors.toList());
-
+//            System.out.println(authorities);
             return new User(username, username, authorities);
 
         } catch (JwtException e) {

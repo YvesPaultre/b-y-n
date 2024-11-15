@@ -24,6 +24,10 @@ public class AppUser extends User {
                 true, true, true,
                 convertRolesToAuthorities(roles));
         this.appUserId = appUserId;
+        
+        if(roles.contains("ROLE_ADMIN")){
+            this.isAdmin = true;
+        }
     }
 
     private List<String> roles = new ArrayList<>();

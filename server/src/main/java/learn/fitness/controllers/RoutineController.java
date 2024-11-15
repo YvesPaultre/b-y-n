@@ -112,12 +112,15 @@ public class RoutineController {
     }
 
     @DeleteMapping("/{routineId}")
-    public ResponseEntity<Void> delete(@PathVariable int routineId, @RequestBody String jwtToken) {
-        AppUser user = (AppUser) userService.loadUserByUsername(converter.getUserFromToken(jwtToken).getUsername());
+    public ResponseEntity<Void> delete(@PathVariable int routineId, @RequestHeader String Authorization) {
 
-        if(!user.isAdmin()){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+        AppUser user = (AppUser) userService.loadUserByUsername(converter.getUserFromToken(Authorization).getUsername());
+//        System.out.println(user);
+//        System.out.println(user.isAdmin());
+
+//        if(!user.isAdmin()){
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
 
         if(service.delete(routineId)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
