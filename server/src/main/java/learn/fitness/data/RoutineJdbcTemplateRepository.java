@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -98,6 +99,8 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
             return ps;
         }, keyHolder);
 
+        updateRoutineWorkouts(routine);
+
         if(rowsAffected <= 0) {
             return null;
         }
@@ -128,7 +131,34 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
 
     @Override
     public boolean delete(int routineId) {
+        final String sql = "set SQL_SAFE_UPDATES = 0; "
+                + "delete from routine_workouts rw where rw.routine_id = ?; "
+                + "set SQL_SAFE_UPDATES = 1;";
+
+        jdbcTemplate.update(sql, routineId);
+
         return jdbcTemplate.update("delete from routine where routine_id = ?;", routineId) > 0;
+    }
+
+    private void updateRoutineWorkouts(Routine routine){
+        jdbcTemplate.update(
+                "set SQL_SAFE_UPDATES = 0; "
+                + "delete from routine_workouts rw where rw.routine_id = ?; "
+                + "set SQL_SAFE_UPDATES = 1;",
+                routine.getRoutine_id());
+
+        List<Integer> workouts = new ArrayList<>();
+        for(String s : routine.getWorkouts().split(",")){
+            workouts.add(Integer.parseInt(s.replaceAll("[^0-9]", "")));
+        }
+
+        for(int w : workouts){
+            jdbcTemplate.update(
+                    "insert into routine_workouts(workout_id, routine_id) "
+                    + "values(?,?);",
+                    w, routine.getRoutine_id()
+            );
+        }
     }
 
     private String serialize(Routine routine) {
