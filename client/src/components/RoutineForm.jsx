@@ -74,6 +74,11 @@ function RoutineForm() {
     const addRoutine = () => {
         console.log(routine)
         const token = JSON.parse(localStorage.getItem('user'))
+
+        routine.workouts = routine.workouts.join(',')
+        console.log(routine)
+
+
         const init = {
             method: "POST",
             headers: {
@@ -139,11 +144,12 @@ function RoutineForm() {
 
     const toggleWorkout = (workout) => {
         console.log(workout)
+        const workoutString = `${workout.id}:"${workout.name}"`
         let newRoutineWorkouts = routineWorkouts;
-        if (newRoutineWorkouts.includes(workout)) {
-            newRoutineWorkouts.splice(newRoutineWorkouts.indexOf(workout), 1);
+        if (newRoutineWorkouts.includes(workoutString)) {
+            newRoutineWorkouts.splice(newRoutineWorkouts.indexOf(workoutString), 1);
         } else {
-            newRoutineWorkouts.push(workout);
+            newRoutineWorkouts.push(workoutString);
         }
 
         setRoutineWorkouts(newRoutineWorkouts);
@@ -210,7 +216,7 @@ function RoutineForm() {
                         <Form.Label>Duration (Min)</Form.Label>
                         <Form.Control type="number" name="routine_duration" defaultValue={routine.routine_duration} />
                     </Form.Group>
-                    <Form.Select name="difficulty" onChange={handleChange} defaultValue={routine.routine_difficulty}>
+                    <Form.Select name="routine_difficulty" onChange={handleChange} defaultValue={routine.routine_difficulty}>
                         <option value="">Select Difficulty</option>
                         <option value="Easy">Easy</option>
                         <option value="Medium">Medium</option>
