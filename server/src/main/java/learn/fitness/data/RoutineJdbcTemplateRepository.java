@@ -101,11 +101,11 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
             return ps;
         }, keyHolder);
 
-        updateRoutineWorkouts(routine);
-
         if(rowsAffected <= 0) {
             return null;
         }
+
+        updateRoutineWorkouts(routine);
 
         routine.setRoutine_id(keyHolder.getKey().intValue());
         return routine;
@@ -138,7 +138,7 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
     @Transactional
     public boolean delete(int routineId) {
         jdbcTemplate.update("set SQL_SAFE_UPDATES = 0;");
-        jdbcTemplate.update("delete from routine_workouts rw where rw.routine_id = ?; ", routineId);
+        jdbcTemplate.update("delete from routine_workout rw where rw.routine_id = ?; ", routineId);
         jdbcTemplate.update("set SQL_SAFE_UPDATES = 1;");
 
         return jdbcTemplate.update("delete from routine where routine_id = ?;", routineId) > 0;
@@ -146,7 +146,7 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
 
     private void updateRoutineWorkouts(Routine routine){
         jdbcTemplate.update("set SQL_SAFE_UPDATES = 0; ");
-        jdbcTemplate.update("delete from routine_workouts rw where rw.routine_id = ?; ", routine.getRoutine_id());
+        jdbcTemplate.update("delete from routine_workout rw where rw.routine_id = ?; ", routine.getRoutine_id());
         jdbcTemplate.update("set SQL_SAFE_UPDATES = 1");
 
         List<Integer> workouts = new ArrayList<>();
@@ -156,7 +156,7 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
 
         for(int w : workouts){
             jdbcTemplate.update(
-                    "insert into routine_workouts(workout_id, routine_id) "
+                    "insert into routine_workout(workout_id, routine_id) "
                     + "values(?,?);",
                     w, routine.getRoutine_id()
             );
