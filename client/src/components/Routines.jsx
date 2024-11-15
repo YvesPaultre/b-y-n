@@ -12,7 +12,7 @@ const Routines = () => {
   const [routines, setRoutines] = useState([]);
   // const [filteredRoutines, setFilteredRoutines] = useState([])
   // const [routineCards, setroutineCards] = useState([])
-    // const url = `${process.env.REACT_APP_AWS_HOST_BASE_URL}/api/routine
+  const url = `${process.env.REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/routine`
 
   useEffect(() => {
     getAllRoutines();
@@ -23,7 +23,8 @@ const Routines = () => {
   }, [diffFilter]);
 
   const getAllRoutines = () => {
-    fetch("http://localhost:8080/api/routine")
+    // console.log(url)
+    fetch(url)
       .then((response) => {
         if (response.status === 200) {
           return response.json();
@@ -39,7 +40,13 @@ const Routines = () => {
 
   const renderRoutines = () => {
     if (routines.length === 0) {
-      return <h4>Loading...</h4>;
+      return (
+        <tr>
+          <td>
+            <h4>Loading...</h4>
+          </td>
+        </tr>
+      )
     } else {
       return filterRoutines().map((routine) => {
         return (
@@ -52,6 +59,7 @@ const Routines = () => {
                 {routine.routine_name}
               </Nav.Link>
             </td>
+            {/* <td className="routine-author-col">{routine.routine_author}</td> */}
             <td className="routine-diff-col">{routine.difficulty}</td>
             <td className="routine-duration-col">{routine.routine_duration}</td>
           </tr>
@@ -59,29 +67,6 @@ const Routines = () => {
       });
     }
   };
-
-  // const makeCards = (data) => {
-  //     setroutineCards(data.map((routine) => {
-  //         return (
-  //             <Row key={routine.routine_id}>
-  //                 <Col className="routine-name-col">
-  //                     <Nav.Link className="routine-name" href={`routines/${routine.routine_id}`}>
-  //                         {routine.routine_name}
-  //                     </Nav.Link>
-  //                 </Col>
-  //                 <Col className="routine-author-col">
-  //                     <p className="routine-author">{routine.routine_author}</p>
-  //                 </Col>
-  //                 <Col className="routine-diff-col">
-  //                     <p className="routine-diff">{routine.difficulty}</p>
-  //                 </Col>
-  //                 <Col className="routine-duration-col">
-  //                     <p className="routine-duration">{routine.routine_duration}</p>
-  //                 </Col>
-  //             </Row>
-  //         )
-  //     }))
-  // }
 
   const handleChange = (event) => {
     setSearch(event.target.value);
@@ -92,7 +77,7 @@ const Routines = () => {
   };
 
   const searchForRoutines = () => {
-    fetch(`http://localhost:8080/api/routine/search/${search}`)
+    fetch(`${url}/search/${search}`)
       .then((response) => {
         if (response.status === 200) {
           return response.json();
@@ -159,14 +144,14 @@ const Routines = () => {
       <table className="table table-striped">
         <thead className="thead-dark">
           <tr>
-            <th className="table-dark">RoutineName</th>
+            <th className="table-dark">Routine</th>
             <th className="table-dark">Difficulty</th>
             <th className="table-dark">Duration</th>
           </tr>
         </thead>
         <tbody>{renderRoutines()}</tbody>
       </table>
-      <Button onClick={() => console.log(routines)}>routines</Button>
+      {/* <Button onClick={() => console.log(routines)}>routines</Button> */}
     </Container>
   );
 };
