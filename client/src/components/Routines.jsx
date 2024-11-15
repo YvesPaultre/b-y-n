@@ -143,11 +143,7 @@ const Routines = () => {
       <table className="table table-striped">
         <thead className="thead-dark">
           <tr>
-<<<<<<< HEAD
             <th className="table-dark">Routine Name</th>
-=======
-            <th className="table-dark">Routine</th>
->>>>>>> nate
             <th className="table-dark">Difficulty</th>
             <th className="table-dark">Duration</th>
           </tr>
