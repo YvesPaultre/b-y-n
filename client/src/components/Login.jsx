@@ -99,7 +99,7 @@ const Login = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" name="password" />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" className="mb-3">
           Log In
         </Button>
         {/* <Button variant="secondary" href="/register">

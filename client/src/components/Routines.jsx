@@ -37,7 +37,6 @@ const Routines = () => {
     // makeCards(routines)
   };
 
-
   const renderRoutines = () => {
     if (routines.length === 0) {
       return (
@@ -110,7 +109,7 @@ const Routines = () => {
   };
 
   return (
-    <Container>
+    <Container className="routines-list">
       <div className="routine-search-container">
         <div className="grid-item-1">
           <h2 className="routine-title">Routines</h2>
@@ -151,7 +150,6 @@ const Routines = () => {
         </thead>
         <tbody>{renderRoutines()}</tbody>
       </table>
-      {/* <Button onClick={() => console.log(routines)}>routines</Button> */}
     </Container>
   );
 };
