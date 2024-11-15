@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -82,6 +83,7 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
     }
 
     @Override
+    @Transactional
     public Routine add(Routine routine) {
         if(routine == null) return  null;
 
@@ -110,6 +112,7 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
     }
 
     @Override
+    @Transactional
     public boolean update(Routine routine) {
         if(routine == null) return false;
         final String sql = "update routine set "
@@ -119,6 +122,8 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
                 + "difficulty = ?, "
                 + "routine_author_id = ? "
                 + "where routine_id = ?;";
+
+        updateRoutineWorkouts(routine);
 
         return jdbcTemplate.update(sql,
                 routine.getRoutine_name(),
@@ -130,22 +135,19 @@ public class RoutineJdbcTemplateRepository implements RoutineRepository {
     }
 
     @Override
+    @Transactional
     public boolean delete(int routineId) {
-        final String sql = "set SQL_SAFE_UPDATES = 0; "
-                + "delete from routine_workouts rw where rw.routine_id = ?; "
-                + "set SQL_SAFE_UPDATES = 1;";
-
-        jdbcTemplate.update(sql, routineId);
+        jdbcTemplate.update("set SQL_SAFE_UPDATES = 0;");
+        jdbcTemplate.update("delete from routine_workouts rw where rw.routine_id = ?; ", routineId);
+        jdbcTemplate.update("set SQL_SAFE_UPDATES = 1;");
 
         return jdbcTemplate.update("delete from routine where routine_id = ?;", routineId) > 0;
     }
 
     private void updateRoutineWorkouts(Routine routine){
-        jdbcTemplate.update(
-                "set SQL_SAFE_UPDATES = 0; "
-                + "delete from routine_workouts rw where rw.routine_id = ?; "
-                + "set SQL_SAFE_UPDATES = 1;",
-                routine.getRoutine_id());
+        jdbcTemplate.update("set SQL_SAFE_UPDATES = 0; ");
+        jdbcTemplate.update("delete from routine_workouts rw where rw.routine_id = ?; ", routine.getRoutine_id());
+        jdbcTemplate.update("set SQL_SAFE_UPDATES = 1");
 
         List<Integer> workouts = new ArrayList<>();
         for(String s : routine.getWorkouts().split(",")){
