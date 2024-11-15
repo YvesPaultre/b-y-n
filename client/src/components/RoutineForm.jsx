@@ -65,17 +65,20 @@ function RoutineForm() {
     };
 
     const handleChange = (event) => {
+        console.log(event.target.name, ':', event.target.value)
         let newRoutine = { ...routine };
         newRoutine[event.target.name] = event.target.value;
         setRoutine(newRoutine);
     };
 
     const addRoutine = () => {
+        console.log(routine)
+        const token = JSON.parse(localStorage.getItem('user'))
         const init = {
             method: "POST",
             headers: {
                 'content-Type': 'application/json',
-                Authorization: localStorage.getItem('user')
+                Authorization: `Bearer ${token.jwt_token}`
             },
             body: JSON.stringify(routine),
         };
@@ -103,12 +106,13 @@ function RoutineForm() {
     };
 
     const updateRoutine = () => {
+        const token = JSON.parse(localStorage.getItem('user'))
         routine.routine_id = id;
         const init = {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: localStorage.getItem('user')
+                Authorization: `Bearer ${token.jwt_token}`
             },
             body: JSON.stringify(routine),
         };
@@ -134,6 +138,7 @@ function RoutineForm() {
     };
 
     const toggleWorkout = (workout) => {
+        console.log(workout)
         let newRoutineWorkouts = routineWorkouts;
         if (newRoutineWorkouts.includes(workout)) {
             newRoutineWorkouts.splice(newRoutineWorkouts.indexOf(workout), 1);
@@ -152,7 +157,7 @@ function RoutineForm() {
         if (window.confirm(`Delete Routine: ${routine.routine_name}?`)) {
             const token = JSON.parse(localStorage.getItem('user'))
             
-            console.log(token)
+            // console.log(token)
             
             const init = {
                 method: 'DELETE',
@@ -205,17 +210,17 @@ function RoutineForm() {
                         <Form.Label>Duration (Min)</Form.Label>
                         <Form.Control type="number" name="routine_duration" defaultValue={routine.routine_duration} />
                     </Form.Group>
-                    <Form.Select onChange={handleChange} defaultValue={routine.routine_difficulty}>
+                    <Form.Select name="difficulty" onChange={handleChange} defaultValue={routine.routine_difficulty}>
                         <option value="">Select Difficulty</option>
                         <option value="Easy">Easy</option>
                         <option value="Medium">Medium</option>
                         <option value="Hard">Hard</option>
                     </Form.Select>
-                    <Dropdown>
+                    <Dropdown autoClose='outside'>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">Select Workouts</Dropdown.Toggle>
-                        <Dropdown.Menu>
+                        <Dropdown.Menu >
                             {workouts.map((workout) => (
-                                <Dropdown.Item key={workout}
+                                <Dropdown.Item key={workout.id}
                                     onClick={() => toggleWorkout(workout)}
                                     active={routineWorkouts.includes(workout)}
                                 >{workout.name}</Dropdown.Item>
@@ -233,6 +238,7 @@ function RoutineForm() {
                     </Container>
                 </Form>
             </Container>
+            <Button onClick={()=>console.log(routine)}>BUTTON</Button>
         </>)
 }
 

@@ -77,12 +77,12 @@ public class RoutineController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> add(@RequestBody Routine routine, @RequestBody String jwtToken) {
-        AppUser user = (AppUser) userService.loadUserByUsername(converter.getUserFromToken(jwtToken).getUsername());
-
-        if(!user.isAdmin()){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+    public ResponseEntity<Object> add(@RequestBody Routine routine, @RequestHeader String Authorization) {
+        System.out.println(routine);
+        AppUser user = (AppUser) userService.loadUserByUsername(converter.getUserFromToken(Authorization).getUsername());
+//        if(!user.isAdmin()){
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
 
         Result<Routine> result = service.add(routine);
         if(result.isSuccess()) {
