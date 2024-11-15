@@ -18,7 +18,9 @@ code {
 }
 
 .container {
-  border: 2px #133e87 solid;
+  border: 2px black solid;
+  margin-top: 20px;
+  border-radius: 10px;
 }
 
 /* CUSTOM STYLES */
@@ -40,7 +42,7 @@ div {
 }
 
 #narbar-container {
-  border: 2px #133e87 solid;
+  border: 2px black solid;
 }
 
 .navBar {
@@ -91,4 +93,6 @@ header {
   background-attachment: fixed;
   background-repeat: no-repeat;
   color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
