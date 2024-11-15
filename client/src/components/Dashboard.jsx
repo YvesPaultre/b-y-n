@@ -53,6 +53,10 @@ const Dashboard = () => {
             return (
                 <tr>
                     <td>You have created no Routines</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
                 </tr>)
         } else {
             return routines.map((routine) => {

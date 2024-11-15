@@ -97,3 +97,10 @@ header {
   margin-bottom: 10px;
   border-radius: 10px;
 }
+
+.button-box{
+  padding: 1%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
