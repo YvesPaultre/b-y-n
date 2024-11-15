@@ -20,6 +20,7 @@ const Workouts = () => {
 
   // TODO: configure api path to GET muscle groups, and dynamically create options
   // const [muscleGroups, setMuscleGroups] = useState()
+    const url = `${process.env.REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/workout`
 
   useEffect(() => {
     getAllWorkouts();

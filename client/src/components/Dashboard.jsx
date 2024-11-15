@@ -11,8 +11,7 @@ const Dashboard = () => {
 
     // const {user} = useContext(UserContext)
     const user = jwtDecode(localStorage.getItem('user'))
-    let isAdmin
-
+    // let isAdmin
     useEffect(() => {
         // console.log(localStorage.getItem('user'))
         try {
@@ -51,7 +50,10 @@ const Dashboard = () => {
 
     const renderRoutines = () => {
         if (routines.length === 0) {
-            return <h4>You have created no Routines</h4>
+            return (
+                <tr>
+                    <td>You have created no Routines</td>
+                </tr>)
         } else {
             return routines.map((routine) => {
                 return (
