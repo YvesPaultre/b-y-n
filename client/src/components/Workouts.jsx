@@ -32,7 +32,7 @@ const Workouts = () => {
   }, [filter]);
 
   const getAllWorkouts = () => {
-    console.log(url)
+    // console.log(url)
     fetch(url)
       .then((response) => {
         // console.log(response)

@@ -56,7 +56,7 @@ const Routine = () => {
                     <ListGroup>
                         {
                            workouts.map(workout=> 
-                            <ListGroup.Item>
+                            <ListGroup.Item key={workout.workoutId}>
                                 <Nav.Link href={`/workouts/${workout.workoutId}`}>
                                     {workout.workoutName}
                                 </Nav.Link>

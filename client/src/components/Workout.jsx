@@ -5,9 +5,10 @@ import { useParams } from "react-router-dom";
 const Workout = () => {
   const { id } = useParams();
   const [workout, setWorkout] = useState({});
+  const url = `${process.env.REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/workout`
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/workout/id/${id}`)
+    fetch(`${url}/id/${id}`)
       .then((response) => {
         if (response.status === 200) {
           return response.json();
@@ -22,7 +23,7 @@ const Workout = () => {
   }, []);
 
   return (
-    <>
+    <Container>
       <Row>
         <h3 className="workout-name">{workout.name}</h3>
       </Row>
@@ -42,7 +43,7 @@ const Workout = () => {
       <Row children="workout-description">
         <p>{workout.description}</p>
       </Row>
-    </>
+    </Container>
   );
 };
 

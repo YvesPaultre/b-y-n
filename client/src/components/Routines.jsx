@@ -23,7 +23,7 @@ const Routines = () => {
   }, [diffFilter]);
 
   const getAllRoutines = () => {
-    console.log(url)
+    // console.log(url)
     fetch(url)
       .then((response) => {
         if (response.status === 200) {
@@ -59,6 +59,7 @@ const Routines = () => {
                 {routine.routine_name}
               </Nav.Link>
             </td>
+            {/* <td className="routine-author-col">{routine.routine_author}</td> */}
             <td className="routine-diff-col">{routine.difficulty}</td>
             <td className="routine-duration-col">{routine.routine_duration}</td>
           </tr>
@@ -143,7 +144,7 @@ const Routines = () => {
       <table className="table table-striped">
         <thead className="thead-dark">
           <tr>
-            <th className="table-dark">RoutineName</th>
+            <th className="table-dark">Routine</th>
             <th className="table-dark">Difficulty</th>
             <th className="table-dark">Duration</th>
           </tr>
