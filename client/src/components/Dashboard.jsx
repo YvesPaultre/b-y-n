@@ -33,7 +33,7 @@ const Dashboard = () => {
         //     }
         // })
         // .then(data=>console.log(data))
-        fetch("http://localhost:8080/api/routine")
+        fetch(`${process.env.REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/routine`)
             .then(response => {
                 if (response.status === 200) {
                     return response.json();

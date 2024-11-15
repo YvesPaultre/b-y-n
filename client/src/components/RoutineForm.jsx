@@ -19,14 +19,14 @@ function RoutineForm() {
     const [workouts, setWorkouts] = useState([])
     const { id } = useParams();
     const navigate = useNavigate();
-    const url = 'http://localhost:8080/api/routine';
-    // const url = `${REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/routine
+    // const url = 'http://localhost:8080/api/routine';
+    const url = `${process.env.REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/routine`
     const user = jwtDecode(localStorage.getItem('user'));
 
 
     useEffect(() => {
-        //fetch(`${REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/workout`)
-        fetch("http://localhost:8080/api/workout")
+        // fetch("http://localhost:8080/api/workout")
+        fetch(`${process.env.REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/workout`)
             .then(response => {
                 if (response.status === 200) {
                     return response.json();
@@ -67,7 +67,7 @@ function RoutineForm() {
     };
 
     const handleChange = (event) => {
-        console.log(event.target.name, ':', event.target.value)
+        // console.log(event.target.name, ':', event.target.value)
         let newRoutine = { ...routine };
         newRoutine[event.target.name] = event.target.value;
         setRoutine(newRoutine);
@@ -115,6 +115,7 @@ function RoutineForm() {
     const updateRoutine = () => {
         const token = JSON.parse(localStorage.getItem('user'))
         routine.routine_id = id;
+        
         const init = {
             method: "PUT",
             headers: {
@@ -246,7 +247,7 @@ function RoutineForm() {
                     </Container>
                 </Form>
             </Container>
-            <Button onClick={()=>console.log(routine)}>BUTTON</Button>
+            {/* <Button onClick={()=>console.log(routine)}>BUTTON</Button> */}
         </>)
 }
 

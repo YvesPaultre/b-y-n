@@ -20,7 +20,7 @@ const Workouts = () => {
 
   // TODO: configure api path to GET muscle groups, and dynamically create options
   // const [muscleGroups, setMuscleGroups] = useState()
-    const url = `${process.env.REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/workout`
+  const url = `${process.env.REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/workout`
 
   useEffect(() => {
     getAllWorkouts();
@@ -32,8 +32,10 @@ const Workouts = () => {
   }, [filter]);
 
   const getAllWorkouts = () => {
-    fetch("http://localhost:8080/api/workout")
+    console.log(url)
+    fetch(url)
       .then((response) => {
+        // console.log(response)
         if (response.status === 200) {
           return response.json();
         } else {
@@ -47,7 +49,13 @@ const Workouts = () => {
 
   const renderCards = () => {
     if (workouts.length === 0) {
-      return <h4>Loading...</h4>;
+      return (
+        <tr>
+          <td>
+            <h4>Loading...</h4>
+          </td>
+        </tr>
+      )
     } else {
       return filterWorkouts().map((workout) => {
         return (
@@ -73,7 +81,7 @@ const Workouts = () => {
   };
 
   const searchForWorkouts = () => {
-    fetch(`http://localhost:8080/api/workout/search/${search}`)
+    fetch(`${url}/${search}`)
       .then((response) => {
         if (response.status === 200) {
           return response.json();

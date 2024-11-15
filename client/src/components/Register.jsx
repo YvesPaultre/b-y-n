@@ -21,8 +21,8 @@ let passwordVerify = "";
 const Register = () => {
   const [credentials, setCredentials] = useState(USER_DEFAULT);
   const [errors, setErrors] = useState([]);
-  const url = "http://localhost:8080/api/user/register";
-  // const url = `${process.env.REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/user/register`
+  // const url = "http://localhost:8080/api/user/register";
+  const url = `${process.env.REACT_APP_AWS_SERVER_HOST_BASE_URL}/api/user/register`
 
   const {user, login} = useContext(UserContext)
 
